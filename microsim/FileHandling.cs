@@ -18,6 +18,7 @@ namespace microsim
             openFileDialog.ShowDialog();
             string test = File.ReadAllText(openFileDialog.FileName);
             MessageBox.Show(test);
+
         }
     }
 }
