@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace microsim
 {
@@ -20,9 +22,25 @@ namespace microsim
     /// </summary>
     public partial class MainWindow : Window
     {
+        FileHandling FileHandlingLocal = new FileHandling();
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Buttonus_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "LST Dateien (*.lst) |*.lst";
+            openFileDialog.ShowDialog();
+            string test = File.ReadAllText(openFileDialog.FileName);
+            MessageBox.Show(test);
+        }
+
+        private void File_Open_Click(object sender, RoutedEventArgs e)
+        {
+            FileHandlingLocal.filehandlingfunc();
         }
     }
 }
