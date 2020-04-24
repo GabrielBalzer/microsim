@@ -29,15 +29,6 @@ namespace microsim
             InitializeComponent();
         }
 
-        private void Buttonus_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "LST Dateien (*.lst) |*.lst";
-            openFileDialog.ShowDialog();
-            string test = File.ReadAllText(openFileDialog.FileName);
-            MessageBox.Show(test);
-        }
-
         private void File_Open_Click(object sender, RoutedEventArgs e)
         {
             FileHandlingLocal.filehandlingfunc();
