@@ -31,7 +31,7 @@ namespace microsim
 
         private void File_Open_Click(object sender, RoutedEventArgs e)
         {
-            FileHandlingLocal.filehandlingfunc();
+            FileHandlingLocal.Filehandlingfunc();
         }
     }
 }

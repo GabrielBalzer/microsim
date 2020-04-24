@@ -12,24 +12,24 @@ namespace microsim
     class FileHandling
     {
         public string test;
-        OpenFileDialog openFileDialog = new OpenFileDialog();
-        char[] cBuffer = new char[4];
+        
 
-        public void filehandlingfunc()
+        public void Filehandlingfunc()
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "LST Dateien (*.lst) |*.LST";
             openFileDialog.ShowDialog();
             test = File.ReadAllText(openFileDialog.FileName);
-            StringReader strReader = new StringReader(test);
-            using (StringReader reader = new StringReader(test))
+            int linecounter = 0;
+            string[] filearray = new string[150];
+            foreach(string line in File.ReadAllLines(openFileDialog.FileName))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    // Do something with the line
-                    string test2 = line.Substring(0,4);
-                    MessageBox.Show(test2);
-                }
+                linecounter++;
+                filearray[linecounter] = line;
+            }
+            foreach(string item in filearray)
+            {
+                Console.WriteLine(item);
             }
         }
     }
