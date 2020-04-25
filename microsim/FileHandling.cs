@@ -46,7 +46,6 @@ namespace microsim
         public void CommandDecoder(List<Command> commandList)
         {
             uint hex;
-            uint result;
             uint schema1 = 0xFF00;
             uint bitSchema1 = 0x00FF;
             uint schema2 = 0xFC00;
