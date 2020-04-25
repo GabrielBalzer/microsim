@@ -20,14 +20,15 @@ namespace microsim
             openFileDialog.Filter = "LST Dateien (*.lst) |*.LST";
             openFileDialog.ShowDialog();
             test = File.ReadAllText(openFileDialog.FileName);
-            int linecounter = 0;
-            string[] filearray = new string[150];
+            List<string> file_list = new List<string>();
             foreach(string line in File.ReadAllLines(openFileDialog.FileName))
             {
-                linecounter++;
-                filearray[linecounter] = line;
+                if (!string.IsNullOrEmpty(line))
+                {
+                    file_list.Add(line);
+                }
             }
-            foreach(string item in filearray)
+            foreach(string item in file_list)
             {
                 Console.WriteLine(item);
             }
