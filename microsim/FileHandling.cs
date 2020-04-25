@@ -240,9 +240,11 @@ namespace microsim
                 {
                     case 0b0010000000000000:
                         item.command = "CALL";
+                        item.data = hex & bitSchema5;
                         break;
                     case 0b0010100000000000:
                         item.command = "GOTO";
+                        item.data = hex & bitSchema5;
                         break;
                     default:
                         break;
