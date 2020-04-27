@@ -36,6 +36,10 @@ namespace microsim
             FileHandlingLocal.Filehandlingfunc();
             CommandDecoder.decodeCommands();
             Initializer.initRegArray();
+            foreach(uint item in DataStorage.regArray)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }
