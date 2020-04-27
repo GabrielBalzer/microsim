@@ -10,6 +10,7 @@ namespace microsim
     {
         public static List<Command> commandList = new List<Command>();
         public static List<string> fileList = new List<string>();
+        public static uint[] regArray = new uint[256];
         public class Command
         {
             public string command { get; set; }
@@ -20,15 +21,7 @@ namespace microsim
         public static uint programCounter = 0;
 
         // register array
-        public static uint[] regArray = new uint[256];
-        
-        public static void resetArray()
-        {
-            foreach (uint bits in regArray)
-            {
-                regArray[bits] = 0xFF;
-            }
-        }
+
         
     }
 }

@@ -24,6 +24,7 @@ namespace microsim
     {
         FileHandling FileHandlingLocal = new FileHandling();
         CommandDecoder CommandDecoder = new CommandDecoder();
+        Initializer Initializer = new Initializer();
 
         public MainWindow()
         {
@@ -34,19 +35,7 @@ namespace microsim
         {
             FileHandlingLocal.Filehandlingfunc();
             CommandDecoder.decodeCommands();
-
-            // 
-            Console.WriteLine("Uninitialisiert");
-            foreach (uint j in DataStorage.regArray)
-            {
-                Console.WriteLine(j);
-            }
-            DataStorage.resetArray();
-            Console.WriteLine("Initialisiert");
-            foreach (uint j in DataStorage.regArray)
-            {
-                Console.WriteLine(j);
-            }
+            Initializer.initRegArray();
         }
     }
 }
