@@ -15,5 +15,20 @@ namespace microsim
             public string command { get; set; }
             public uint data { get; set; }
         }
+
+        // pcl
+        public static uint programCounter = 0;
+
+        // register array
+        public static uint[] regArray = new uint[256];
+        
+        public static void resetArray()
+        {
+            foreach (uint bits in regArray)
+            {
+                regArray[bits] = 0xFF;
+            }
+        }
+        
     }
 }

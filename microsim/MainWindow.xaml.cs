@@ -34,6 +34,19 @@ namespace microsim
         {
             FileHandlingLocal.Filehandlingfunc();
             CommandDecoder.decodeCommands();
+
+            // 
+            Console.WriteLine("Uninitialisiert");
+            foreach (uint j in DataStorage.regArray)
+            {
+                Console.WriteLine(j);
+            }
+            DataStorage.resetArray();
+            Console.WriteLine("Initialisiert");
+            foreach (uint j in DataStorage.regArray)
+            {
+                Console.WriteLine(j);
+            }
         }
     }
 }
