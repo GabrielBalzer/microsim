@@ -23,6 +23,7 @@ namespace microsim
     public partial class MainWindow : Window
     {
         FileHandling FileHandlingLocal = new FileHandling();
+        CommandDecoder CommandDecoder = new CommandDecoder();
 
         public MainWindow()
         {
@@ -32,6 +33,7 @@ namespace microsim
         private void File_Open_Click(object sender, RoutedEventArgs e)
         {
             FileHandlingLocal.Filehandlingfunc();
+            CommandDecoder.decodeCommands();
         }
     }
 }
