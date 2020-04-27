@@ -14,13 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using MahApps.Metro.Controls;
 
 namespace microsim
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         FileHandling FileHandlingLocal = new FileHandling();
         CommandDecoder CommandDecoder = new CommandDecoder();
