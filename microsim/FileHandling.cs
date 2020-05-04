@@ -11,7 +11,6 @@ namespace microsim
 {
     class FileHandling
     {
-
         public void Filehandlingfunc()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -40,7 +39,5 @@ namespace microsim
                 Console.WriteLine(item);
             }
         }
-
-        
     }
 }

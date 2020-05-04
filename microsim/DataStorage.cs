@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define MASK_PROGRAMCOUNTER (0xFF) // first 8 bits of programCounter
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,5 @@ namespace microsim
 
         // register array
 
-        
     }
 }
