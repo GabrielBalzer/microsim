@@ -24,7 +24,7 @@ namespace microsim
             {
                 Console.WriteLine(entryStk[i]);
             }
-            Console.WriteLine("Stackpointer0" + stckptr);
+            Console.WriteLine("Stackpointer0 " + stckptr);
 
             return;
 
@@ -43,7 +43,7 @@ namespace microsim
             {
                 Console.WriteLine(entryStk[i]);
             }
-            Console.WriteLine("Stackpointer1" + stckptr);
+            Console.WriteLine("Stackpointer1 " + stckptr);
 
             return;
         }
@@ -52,13 +52,17 @@ namespace microsim
         {
             // return value from actual stckptr
             uint returnVal = entryStk[stckptr];
+            if(stckptr > 0)
+            {
+                stckptr--;
+            }
             DeleteStckPlce();
 
             for (uint i = 0; i < entryStk.Length; i++)
             {
                 Console.WriteLine(entryStk[i]);
             }
-            Console.WriteLine("Stackpointer2" + stckptr);
+            Console.WriteLine("Stackpointer2 " + stckptr);
 
             return (returnVal);
         }
@@ -80,6 +84,7 @@ namespace microsim
             {
                 // last index -> jump to index 0
                 freePlce = 0;
+                passedonce = 0;
             }
             if (passedonce == 0)
             {
@@ -104,28 +109,28 @@ namespace microsim
             switch(stckptr)
             {
                 case 0x0:
-                    entryStk[0x00] = 0x0;
+                    entryStk[0x00] = 0x00;
                     break;
                 case 0x1:
-                    entryStk[0x01] = 0x0;
+                    entryStk[0x01] = 0x00;
                     break;
                 case 0x2:
-                    entryStk[0x02] = 0x0;
+                    entryStk[0x02] = 0x00;
                     break;
                 case 0x3:
-                    entryStk[0x03] = 0x0;
+                    entryStk[0x03] = 0x00;
                     break;
                 case 0x4:
-                    entryStk[0x04] = 0x0;
+                    entryStk[0x04] = 0x00;
                     break;
                 case 0x5:
-                    entryStk[0x05] = 0x0;
+                    entryStk[0x05] = 0x00;
                     break;
                 case 0x6:
-                    entryStk[0x06] = 0x0;
+                    entryStk[0x06] = 0x00;
                     break;
                 case 0x7:
-                    entryStk[0x07] = 0x0;
+                    entryStk[0x07] = 0x00;
                     break;
             }
             SetStckptrToStckPlce(stckptr);
@@ -137,29 +142,29 @@ namespace microsim
             // get last written index and set stckptr to new index
             switch(index)
             {
-                case 0x0:
+                case 0x00:
                     stckptr = 0x0;
                     break;
-                case 0x1:
-                    stckptr = 0x1;
+                case 0x01:
+                    stckptr = 0x01;
                     break;
-                case 0x2:
-                    stckptr = 0x2;
+                case 0x02:
+                    stckptr = 0x02;
                     break;
-                case 0x3:
-                    stckptr = 0x3;
+                case 0x03:
+                    stckptr = 0x03;
                     break;
-                case 0x4:
-                    stckptr = 0x4;
+                case 0x04:
+                    stckptr = 0x04;
                     break;
-                case 0x5:
-                    stckptr = 0x5;
+                case 0x05:
+                    stckptr = 0x05;
                     break;
-                case 0x6:
-                    stckptr = 0x6;
+                case 0x06:
+                    stckptr = 0x06;
                     break;
-                case 0x7:
-                    stckptr = 0x7;
+                case 0x07:
+                    stckptr = 0x07;
                     break;
             }
             return;
