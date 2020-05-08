@@ -41,6 +41,13 @@ namespace microsim
             {
                 Console.WriteLine(item);
             }
+
+            // to edit stack
+            //Stack stack1 = new Stack();
+            //stack1.SetValueToStck(2);
+            //stack1.SetValueToStck(3);
+            //stack1.SetValueToStck(4);
+            //Console.WriteLine(stack1.GetValueFromStck());
         }
     }
 }
