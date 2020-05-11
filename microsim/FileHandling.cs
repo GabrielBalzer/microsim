@@ -17,7 +17,7 @@ namespace microsim
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "LST Dateien (*.LST) |*.LST";
             openFileDialog.ShowDialog();
-            DataStorage.fileList = new List<DataStorage.FileList>();
+            DataStorage.fileList = new ObservableCollection<DataStorage.FileList>();
             DataStorage.commandList = new List<DataStorage.Command>();
             foreach(string line in File.ReadAllLines(openFileDialog.FileName))
             {
