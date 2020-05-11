@@ -34,10 +34,12 @@ namespace microsim
             InitializeComponent();
 
 
+
         }
 
         private void File_Open_Click(object sender, RoutedEventArgs e)
         {
+
             FileHandlingLocal.Filehandlingfunc();
             CommandDecoder.decodeCommands();
             Initializer.initRegArray();
@@ -45,7 +47,7 @@ namespace microsim
             {
                 Console.WriteLine(item);
             }
-
+            programdata.ItemsSource = DataStorage.fileList;
             // to edit stack
             //Stack stack1 = new Stack();
             //stack1.SetValueToStck(2);
@@ -63,7 +65,6 @@ namespace microsim
             //Console.WriteLine("Ret val: " + stack1.GetValueFromStck());
             //Console.WriteLine("Ret val: " + stack1.GetValueFromStck());
 
-            programdata.ItemsSource = DataStorage.fileList;
 
 
 

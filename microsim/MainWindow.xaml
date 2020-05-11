@@ -19,12 +19,49 @@
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-    <DataGrid Name="programdata" HorizontalAlignment="Left" Height="500" Margin="10,10,0,0" VerticalAlignment="Top" Width="800" AutoGenerateColumns="False" Style="{x:Null}" IsReadOnly="False" CanUserSortColumns="False">
-        <DataGrid.Columns>
-            <DataGridCheckBoxColumn Header="bp" ></DataGridCheckBoxColumn>
-            <DataGridTextColumn Header="counter" Binding="{Binding counter}" Width="*" IsReadOnly="True"/>
-            <DataGridTextColumn Header="command" Binding="{Binding command}" Width="*" IsReadOnly="True"/>
-            <DataGridTextColumn Header="program" Binding="{Binding program}" Width="8*" IsReadOnly="True"/>
-        </DataGrid.Columns>
-    </DataGrid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+
+        <DataGrid Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="6" Name="programdata" HorizontalAlignment="Left" AutoGenerateColumns="False" Style="{x:Null}" IsReadOnly="True" CanUserSortColumns="False" HeadersVisibility="None">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn  ></DataGridCheckBoxColumn>
+                <DataGridTextColumn Binding="{Binding counter}" Width="*"/>
+                <DataGridTextColumn Binding="{Binding command}" Width="*"/>
+                <DataGridTextColumn Binding="{Binding program}" Width="8*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content=".LST Datei" Grid.Row="0"/>
+
+
+
+
+
+
+
+    </Grid>
+
 </Controls:MetroWindow>
