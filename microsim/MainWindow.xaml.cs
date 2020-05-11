@@ -62,13 +62,7 @@ namespace microsim
             Console.WriteLine(stack1.GetValueFromStck());
             Console.WriteLine(stack1.GetValueFromStck());
 
-            DataStorage.fileList.Add(new DataStorage.FileList
-            {
-                counter = "0123",
-                command = "abcd",
-                program = "testprogramm123"
 
-            });
         }
 
     }

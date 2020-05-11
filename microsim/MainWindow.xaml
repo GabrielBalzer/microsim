@@ -19,11 +19,12 @@
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-    <DataGrid Name="programdata" HorizontalAlignment="Left" Height="545" Margin="10,10,0,0" VerticalAlignment="Top" Width="931" AutoGenerateColumns="False" Style="{x:Null}" IsReadOnly="True" CanUserSortColumns="False">
+    <DataGrid Name="programdata" HorizontalAlignment="Left" Height="500" Margin="10,10,0,0" VerticalAlignment="Top" Width="800" AutoGenerateColumns="False" Style="{x:Null}" IsReadOnly="False" CanUserSortColumns="False">
         <DataGrid.Columns>
-            <DataGridTextColumn Header="counter" Binding="{Binding counter}" Width="*"/>
-            <DataGridTextColumn Header="command" Binding="{Binding command}" Width="*"/>
-            <DataGridTextColumn Header="program" Binding="{Binding program}" Width="12*"/>
+            <DataGridCheckBoxColumn Header="bp" ></DataGridCheckBoxColumn>
+            <DataGridTextColumn Header="counter" Binding="{Binding counter}" Width="*" IsReadOnly="True"/>
+            <DataGridTextColumn Header="command" Binding="{Binding command}" Width="*" IsReadOnly="True"/>
+            <DataGridTextColumn Header="program" Binding="{Binding program}" Width="8*" IsReadOnly="True"/>
         </DataGrid.Columns>
     </DataGrid>
 </Controls:MetroWindow>
