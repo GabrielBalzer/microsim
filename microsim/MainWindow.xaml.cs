@@ -29,7 +29,11 @@ namespace microsim
 
         public MainWindow()
         {
+
+            
             InitializeComponent();
+            programdata.ItemsSource = DataStorage.fileList;
+
         }
 
         private void File_Open_Click(object sender, RoutedEventArgs e)
@@ -41,6 +45,13 @@ namespace microsim
             {
                 Console.WriteLine(item);
             }
+            DataStorage.commandList.Add(new DataStorage.Command
+            {
+                command = "teststring",
+                data = 0
+            });
+
+
         }
     }
 }
