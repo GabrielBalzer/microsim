@@ -20,26 +20,11 @@ namespace microsim
             public uint data { get; set; }
         }
 
-        public class FileList : INotifyPropertyChanged
+        public class FileList
         {
-            public event PropertyChangedEventHandler PropertyChanged;
-            public string counter
-            {
-                get { return counter; }
-                set
-                {
-                    counter = value;
-                    OnPropertyChanged("counter");
-                }
-            }
+            public string counter { get; set; }
             public string command { get; set; }
             public string program { get; set; }
-            private void OnPropertyChanged(string propertyName)
-            {
-                var handler = PropertyChanged;
-                if (handler != null)
-                    handler(this, new PropertyChangedEventArgs(propertyName));
-            }
 
         }
 

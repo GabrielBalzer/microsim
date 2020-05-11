@@ -32,20 +32,19 @@ namespace microsim
 
             
             InitializeComponent();
-            programdata.ItemsSource = DataStorage.fileList;
 
         }
 
         private void File_Open_Click(object sender, RoutedEventArgs e)
         {
-            //FileHandlingLocal.Filehandlingfunc();
-            //CommandDecoder.decodeCommands();
-            //Initializer.initRegArray();
-            //foreach(uint item in DataStorage.regArray)
-            //{
-            //    Console.WriteLine(item);
-            //}
-
+            FileHandlingLocal.Filehandlingfunc();
+            CommandDecoder.decodeCommands();
+            Initializer.initRegArray();
+            foreach(uint item in DataStorage.regArray)
+            {
+                Console.WriteLine(item);
+            }
+            programdata.ItemsSource = DataStorage.fileList;
             // to edit stack
             Stack stack1 = new Stack();
             stack1.SetValueToStck(2);
@@ -62,6 +61,15 @@ namespace microsim
             Console.WriteLine(stack1.GetValueFromStck());
             Console.WriteLine(stack1.GetValueFromStck());
             Console.WriteLine(stack1.GetValueFromStck());
+
+            DataStorage.fileList.Add(new DataStorage.FileList
+            {
+                counter = "0123",
+                command = "abcd",
+                program = "testprogramm123"
+
+            });
         }
+
     }
 }

@@ -8,27 +8,22 @@
         mc:Ignorable="d"
         BorderThickness="0" 
         GlowBrush="Black"
-        ResizeMode="CanResizeWithGrip"
+        ResizeMode="CanMinimize"
         SaveWindowPosition="True"
         ShowTitleBar="True"
         ShowIconOnTitleBar="True"
-        Title="MicroSim" Height="450" Width="800">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New" />
-                <MenuItem Header="_Open"  Click="File_Open_Click"/>
-                <MenuItem Header="_Save" />
-                <Separator />
-                <MenuItem Header="_Exit" />
-            </MenuItem>
-        </Menu>
-
-        <Button x:Name="Buttons" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Button" Height="27" VerticalAlignment="Top" Width="76" Margin="0,45,0,0" Style="{StaticResource AccentedSquareButtonStyle}"/>
-
-    </DockPanel>
+        Title="MicroSim" Height="720" Width="1280">
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            <Button Click="File_Open_Click" ToolTip="Open up an .LST File" Content="Open File">
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+    <DataGrid Name="programdata" HorizontalAlignment="Left" Height="545" Margin="10,10,0,0" VerticalAlignment="Top" Width="931" AutoGenerateColumns="False" Style="{x:Null}" IsReadOnly="True" CanUserSortColumns="False">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="counter" Binding="{Binding counter}" Width="*"/>
+            <DataGridTextColumn Header="command" Binding="{Binding command}" Width="*"/>
+            <DataGridTextColumn Header="program" Binding="{Binding program}" Width="12*"/>
+        </DataGrid.Columns>
+    </DataGrid>
 </Controls:MetroWindow>
