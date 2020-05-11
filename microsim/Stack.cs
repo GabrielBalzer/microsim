@@ -52,11 +52,17 @@ namespace microsim
         {
             // return value from actual stckptr
             uint returnVal = entryStk[stckptr];
-            if(stckptr > 0)
+            
+            DeleteStckPlce();
+            
+            if(stckptr == 0)
+            {
+                stckptr = 7;
+            }
+            else if(stckptr > 0)
             {
                 stckptr--;
             }
-            DeleteStckPlce();
 
             for (uint i = 0; i < entryStk.Length; i++)
             {
