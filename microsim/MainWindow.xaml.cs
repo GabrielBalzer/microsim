@@ -32,7 +32,7 @@ namespace microsim
 
             
             InitializeComponent();
-            //programdata.ItemsSource = DataStorage.fileList;
+
 
         }
 
@@ -62,6 +62,18 @@ namespace microsim
             //Console.WriteLine("Ret val: " + stack1.GetValueFromStck());
             //Console.WriteLine("Ret val: " + stack1.GetValueFromStck());
             //Console.WriteLine("Ret val: " + stack1.GetValueFromStck());
+
+            programdata.ItemsSource = DataStorage.fileList;
+
+
+            DataStorage.fileList.Add(new DataStorage.FileList
+            {
+                counter = "0123",
+                command = "abcd",
+                program = "testprogramm123"
+
+            });
         }
+
     }
 }
