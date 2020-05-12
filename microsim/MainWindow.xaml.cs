@@ -27,14 +27,17 @@ namespace microsim
         CommandDecoder CommandDecoder = new CommandDecoder();
         Initializer Initializer = new Initializer();
         PCL Pcl = new PCL();
+        MainWindowViewModel View = new MainWindowViewModel();
 
         public MainWindow()
         {
 
-            
+
+            DataContext = View;
             InitializeComponent();
             Initializer.initRegArray();
             Initializer.initPCL();
+            UpdateFileRegisterUI();
 
 
         }
@@ -92,6 +95,54 @@ namespace microsim
             if (start_stop_button.Content.ToString() == "STOP")
             {
                 start_stop_button.Content = "START";
+            }
+        }
+
+        private void UpdateFileRegisterUI()
+        {
+            string[,] data = new string[32, 8];
+
+            int index = 0;
+            for (int i = 0; i < 32; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    data[i, j] = DataStorage.regArray[index++].ToString("X2");
+                }
+            }
+            View.FileRegisterData = data;
+        }
+
+        private void FileRegister_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
+        {
+            var editingTextBox = e.EditingElement as TextBox;
+            string newValue = editingTextBox.Text;
+
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                if (newValue.Length <= 2)
+                {
+                    try
+                    {
+                        byte b = (byte)int.Parse(newValue, System.Globalization.NumberStyles.HexNumber);
+                        editingTextBox.Text = b.ToString("X2");
+                        DataStorage.regArray[e.Row.GetIndex() * 8 + e.Column.DisplayIndex] = b;
+                        UpdateFileRegisterUI();
+                        MessageBox.Show(DataStorage.regArray[0].ToString());
+                    }
+                    catch
+                    {
+                        e.Cancel = true;
+                        (sender as DataGrid).CancelEdit(DataGridEditingUnit.Cell);
+                        MessageBox.Show("Invalid hexadecimal value", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    e.Cancel = true;
+                    (sender as DataGrid).CancelEdit(DataGridEditingUnit.Cell);
+                    MessageBox.Show("Only one hexadecimal byte allowed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }

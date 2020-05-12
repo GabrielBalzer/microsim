@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:dataGrid2D="http://gu.se/DataGrid2D"
         xmlns:local="clr-namespace:microsim"
         mc:Ignorable="d"
         BorderThickness="0" 
@@ -150,8 +151,18 @@
         </GroupBox>
 
         <GroupBox Header="Port A" Grid.Row="14" Grid.RowSpan="6" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
-            
-            
+            <StackPanel x:Name="porta_panel" Orientation="Horizontal">
+                <Label Content="Tris" />
+                <CheckBox Content="7" />
+                <CheckBox Content="7"/>
+                <CheckBox Content="7"/>
+                <CheckBox Content="7"/>
+                <CheckBox Content="7"/>
+                <CheckBox Content="7"/>
+                <CheckBox Content="7"/>
+                <CheckBox Content="7"/>
+            </StackPanel>
+
         </GroupBox>
         <GroupBox Header="Port B" Grid.Row="20" Grid.RowSpan="6" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
 
@@ -167,7 +178,26 @@
         </GroupBox>
 
         <GroupBox Header="Fileregister (SFR + GPR)" Grid.Row="27" Grid.RowSpan="21" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
-
+            <DataGrid x:Name="FileRegister"  
+                                dataGrid2D:ItemsSource.Array2D="{Binding FileRegisterData}"
+                                dataGrid2D:ItemsSource.ColumnHeadersSource="{Binding FileRegisterColumns}"
+                                dataGrid2D:ItemsSource.RowHeadersSource="{Binding FileRegisterRows}" 
+                                AutoGenerateColumns="False"
+                                Style="{x:Null}"
+                                FontStyle="Normal" FontFamily="Courier New" FontWeight="Normal" FontSize="15"
+                                CanUserResizeColumns="False" CanUserResizeRows="False"  SelectionUnit="Cell" CanUserSortColumns="False" GridLinesVisibility="All" HorizontalGridLinesBrush="#FFCBCBCB" VerticalGridLinesBrush="#FFCBCBCB" CanUserReorderColumns="False" SelectionMode="Single" Foreground="Black" CanUserAddRows="False" CanUserDeleteRows="False"
+                                CellEditEnding="FileRegister_CellEditEnding">
+                <DataGrid.Columns>
+                    <DataGridTextColumn  Binding="{Binding C0}" Width="*"/>
+                    <DataGridTextColumn  Binding="{Binding C1}" Width="*"/>
+                    <DataGridTextColumn  Binding="{Binding C2}" Width="*"/>
+                    <DataGridTextColumn  Binding="{Binding C3}" Width="*"/>
+                    <DataGridTextColumn  Binding="{Binding C4}" Width="*"/>
+                    <DataGridTextColumn  Binding="{Binding C5}" Width="*"/>
+                    <DataGridTextColumn  Binding="{Binding C6}" Width="*"/>
+                    <DataGridTextColumn  Binding="{Binding C7}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
         </GroupBox>
 
