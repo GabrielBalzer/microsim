@@ -92,6 +92,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommandHandler.cs" />
+    <Compile Include="PCL.cs" />
     <Compile Include="Register.cs" />
     <Compile Include="Stack.cs" />
     <Page Include="MainWindow.xaml">

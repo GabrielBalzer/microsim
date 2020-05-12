@@ -8,11 +8,11 @@
         mc:Ignorable="d"
         BorderThickness="0" 
         GlowBrush="Black"
-        ResizeMode="CanMinimize"
+        ResizeMode="CanResizeWithGrip"
         SaveWindowPosition="True"
         ShowTitleBar="True"
         ShowIconOnTitleBar="True"
-        Title="MicroSim" Height="720" Width="1280">
+        Title="MicroSim" Height="720" Width="1280" MinHeight="720" MinWidth="1280">
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <Button Click="File_Open_Click" ToolTip="Open up an .LST File" Content="Open File">
@@ -21,6 +21,46 @@
     </Controls:MetroWindow.LeftWindowCommands>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
@@ -43,18 +83,94 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
+        <GroupBox Header=".LST Datei" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="32" Grid.RowSpan="31" Style="{x:Null}">
+            <DataGrid Name="programdata" HorizontalAlignment="Left" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False" HeadersVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" BorderThickness="0">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn  ></DataGridCheckBoxColumn>
+                    <DataGridTextColumn Binding="{Binding counter}" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding command}" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding program}" Width="8*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <GroupBox Header="Bedienung" Grid.Row="1" Grid.Column="34" Grid.RowSpan="12" Grid.ColumnSpan="3" Style="{x:Null}">
+            <StackPanel>
+                <Button Name="step_button" Content="Schritt" Click="step_button_Click"/>
+                <ToggleButton Name="start_stop_button" Content="START" Checked="start_stop_button_Checked" Unchecked="start_stop_button_Unchecked"/>
+                <Button Content="Reset"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Timing" Grid.Row="1" Grid.Column="38" Grid.RowSpan="12" Grid.ColumnSpan="5" Style="{x:Null}">
+            
+        </GroupBox>
+        <GroupBox Header="Stack" Grid.Row="1" Grid.Column="44" Grid.RowSpan="12" Grid.ColumnSpan="5" Style="{x:Null}">
 
-        <DataGrid Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="6" Name="programdata" HorizontalAlignment="Left" AutoGenerateColumns="False" Style="{x:Null}" IsReadOnly="True" CanUserSortColumns="False" HeadersVisibility="None">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn  ></DataGridCheckBoxColumn>
-                <DataGridTextColumn Binding="{Binding counter}" Width="*"/>
-                <DataGridTextColumn Binding="{Binding command}" Width="*"/>
-                <DataGridTextColumn Binding="{Binding program}" Width="8*"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Label Content=".LST Datei" Grid.Row="0"/>
+        </GroupBox>
+
+        <GroupBox Header="Port A" Grid.Row="14" Grid.RowSpan="6" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
+            
+            
+        </GroupBox>
+        <GroupBox Header="Port B" Grid.Row="20" Grid.RowSpan="6" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
+
+
+        </GroupBox>
+        <GroupBox Header="SFR + W-Register" Grid.Row="33" Grid.RowSpan="15" Grid.Column="1" Grid.ColumnSpan="16" Style="{x:Null}">
+            
+        </GroupBox>
+
+        <GroupBox Header="SFR (Bit)" Grid.Row="33" Grid.RowSpan="15" Grid.Column="17" Grid.ColumnSpan="16" Style="{x:Null}">
+            
+            
+        </GroupBox>
+
+        <GroupBox Header="Fileregister (SFR + GPR)" Grid.Row="27" Grid.RowSpan="21" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
+
+
+        </GroupBox>
+
 
 
 

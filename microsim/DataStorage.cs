@@ -18,6 +18,7 @@ namespace microsim
         {
             public string command { get; set; }
             public uint data { get; set; }
+            public int linenumber { get; set; }
         }
 
         public class FileList
@@ -25,6 +26,7 @@ namespace microsim
             public string counter { get; set; }
             public string command { get; set; }
             public string program { get; set; }
+            public int linenumber { get; set; }
 
         }
 

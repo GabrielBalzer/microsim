@@ -39,5 +39,9 @@ namespace microsim
             DataStorage.regArray[0x0B] = 0b00000001;
             DataStorage.regArray[0x8B] = 0b00000001;
         }
+        public static void initPCL()
+        {
+            DataStorage.programCounter = 0;
+        }
     }
 }

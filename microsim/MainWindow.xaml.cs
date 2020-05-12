@@ -26,13 +26,15 @@ namespace microsim
         FileHandling FileHandlingLocal = new FileHandling();
         CommandDecoder CommandDecoder = new CommandDecoder();
         Initializer Initializer = new Initializer();
+        PCL Pcl = new PCL();
 
         public MainWindow()
         {
 
             
             InitializeComponent();
-
+            Initializer.initRegArray();
+            Initializer.initPCL();
 
 
         }
@@ -42,7 +44,6 @@ namespace microsim
 
             FileHandlingLocal.Filehandlingfunc();
             CommandDecoder.decodeCommands();
-            Initializer.initRegArray();
             foreach(uint item in DataStorage.regArray)
             {
                 Console.WriteLine(item);
@@ -70,5 +71,28 @@ namespace microsim
 
         }
 
+        private void step_button_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Ein Schritt weiter!");
+            Pcl.nextCommand();
+            Pcl.addtoPCL();
+            
+        }
+
+        private void start_stop_button_Checked(object sender, RoutedEventArgs e)
+        {
+            if(start_stop_button.Content.ToString() == "START")
+            {
+                start_stop_button.Content = "STOP";
+            }
+        }
+
+        private void start_stop_button_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (start_stop_button.Content.ToString() == "STOP")
+            {
+                start_stop_button.Content = "START";
+            }
+        }
     }
 }

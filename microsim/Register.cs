@@ -8,7 +8,7 @@ namespace microsim
 {
     class Register
     {
-        Register();
+        //Register();
 
         /* Status Register */
         public void StatusRegisterSet(uint bitTiChange, uint value) 
