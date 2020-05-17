@@ -273,6 +273,7 @@ namespace microsim
                 pclath = pclath | command_element.data;
                 Console.WriteLine("PCLTEST CALL : " + pclath);
                 DataStorage.programCounter = pclath;
+                Console.WriteLine("W-reg : " + DataStorage.w_register);
             }
         }
 
@@ -286,6 +287,7 @@ namespace microsim
         {
             Console.WriteLine("RETURN gefunden");
             DataStorage.programCounter = DataStorage.stack1.GetValueFromStck();
+            Console.WriteLine("W-reg : " + DataStorage.w_register);
         }
 
         private void RETLW()
@@ -295,6 +297,7 @@ namespace microsim
             {
                 DataStorage.w_register = command_element.data;
                 DataStorage.programCounter = DataStorage.stack1.GetValueFromStck();
+                Console.WriteLine("W-reg : " + DataStorage.w_register);
             }
         }
     }
