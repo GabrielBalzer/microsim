@@ -20,8 +20,8 @@ namespace microsim
             DataStorage.regArray[0x81] = 0b11111111;
 
             //STATUS
-            DataStorage.regArray[0x03] = 0b00011111;
-            DataStorage.regArray[0x83] = 0b00011111;
+            DataStorage.regArray[0x03] = 0b00011000;
+            DataStorage.regArray[0x83] = 0b00011000;
 
             //PORTA
             DataStorage.regArray[0x05] = 0b00011111;
@@ -42,6 +42,11 @@ namespace microsim
         public static void initPCL()
         {
             DataStorage.programCounter = 0;
+        }
+
+        public static void initWReg()
+        {
+            DataStorage.w_register = 0;
         }
     }
 }

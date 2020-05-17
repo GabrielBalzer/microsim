@@ -140,7 +140,7 @@
             <StackPanel>
                 <Button Name="step_button" Content="Schritt" Click="step_button_Click"/>
                 <ToggleButton Name="start_stop_button" Content="START" Checked="start_stop_button_Checked" Unchecked="start_stop_button_Unchecked"/>
-                <Button Content="Reset"/>
+                <Button Content="Reset" Click="reset_button_clicked"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Timing" Grid.Row="1" Grid.Column="38" Grid.RowSpan="12" Grid.ColumnSpan="5" Style="{x:Null}">
@@ -169,6 +169,7 @@
 
         </GroupBox>
         <GroupBox Header="SFR + W-Register" Grid.Row="33" Grid.RowSpan="15" Grid.Column="1" Grid.ColumnSpan="16" Style="{x:Null}">
+            <Label Name = "WReg" Content="{Binding WReg}"></Label>
             
         </GroupBox>
 

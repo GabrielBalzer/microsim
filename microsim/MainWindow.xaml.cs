@@ -79,6 +79,8 @@ namespace microsim
             Console.WriteLine("Ein Schritt weiter!");
             Pcl.nextCommand();
             Pcl.addtoPCL();
+            UpdateWregUI();
+            UpdateFileRegisterUI();
             
         }
 
@@ -113,6 +115,13 @@ namespace microsim
             View.FileRegisterData = data;
         }
 
+        private void UpdateWregUI()
+        {
+            string wreg;
+            wreg = DataStorage.w_register.ToString("X2");
+            View.WReg = wreg;
+        }
+
         private void FileRegister_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
         {
             var editingTextBox = e.EditingElement as TextBox;
@@ -144,6 +153,15 @@ namespace microsim
                     MessageBox.Show("Only one hexadecimal byte allowed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        private void reset_button_clicked(object sender, RoutedEventArgs e)
+        {
+            Initializer.initPCL();
+            Initializer.initRegArray();
+            Initializer.initWReg();
+            UpdateFileRegisterUI();
+            UpdateWregUI();
         }
     }
 }

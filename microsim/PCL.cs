@@ -8,6 +8,7 @@ namespace microsim
 {
     class PCL
     {
+        CommandHandler handler = new CommandHandler();
         private uint schema = 0xFF;
         public void addtoPCL()
         {
@@ -26,6 +27,7 @@ namespace microsim
             if (DataStorage.programCounter < DataStorage.commandList.Count)
             {
                 Console.WriteLine(DataStorage.commandList.ElementAt((int)DataStorage.programCounter).command);
+                handler.handleCommand();
             }
         }
     }

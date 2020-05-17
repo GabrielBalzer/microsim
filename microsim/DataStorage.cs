@@ -11,6 +11,7 @@ namespace microsim
 {
     public static class DataStorage
     {
+        public static uint w_register;
         public static List<Command> commandList = new List<Command>();
         public static ObservableCollection<FileList> fileList = new ObservableCollection<FileList>();
         public static uint[] regArray = new uint[256];
