@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace microsim
 {
@@ -36,6 +37,18 @@ namespace microsim
                     break;
                 case "GOTO":
                     GOTO();
+                    break;
+                case "CALL":
+                    CALL();
+                    break;
+                case "NOP":
+                    NOP();
+                    break;
+                case "RETURN":
+                    RETURN();
+                    break;
+                case "RETLW":
+                    RETLW();
                     break;
                 default:
                     Console.WriteLine("Unbekannter Befehl");
@@ -236,7 +249,52 @@ namespace microsim
                 pclath = pclath | command_element.data;
                 Console.WriteLine("PCLTEST : " + pclath);
                 DataStorage.programCounter = pclath - 1;
+            }
+        }
 
+        private void CALL()
+        {
+            uint pclath;
+            uint pclath3;
+            uint pclath4;
+            Console.WriteLine("CALL gefunden");
+            if (command_element.data <= 2047)
+            {
+                // save pc to stack
+                DataStorage.stack1.SetValueToStck(DataStorage.programCounter);
+
+                pclath3 = DataStorage.regArray[0x0A] & 0b00000100;
+                pclath4 = DataStorage.regArray[0x0A] & 0b00001000;
+
+                pclath = pclath4;
+                pclath = pclath << 1;
+                pclath = pclath | pclath3;
+                pclath = pclath << 11;
+                pclath = pclath | command_element.data;
+                Console.WriteLine("PCLTEST CALL : " + pclath);
+                DataStorage.programCounter = pclath;
+            }
+        }
+
+        private void NOP()
+        {
+            Console.WriteLine("NOP gefunden");
+            DataStorage.programCounter++;
+        }
+
+        private void RETURN()
+        {
+            Console.WriteLine("RETURN gefunden");
+            DataStorage.programCounter = DataStorage.stack1.GetValueFromStck();
+        }
+
+        private void RETLW()
+        {
+            Console.WriteLine("RETLW gefunden");
+            if (command_element.data <= 255)
+            {
+                DataStorage.w_register = command_element.data;
+                DataStorage.programCounter = DataStorage.stack1.GetValueFromStck();
             }
         }
     }

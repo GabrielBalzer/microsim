@@ -48,5 +48,10 @@ namespace microsim
         {
             DataStorage.w_register = 0;
         }
+
+        public static void initStack()
+        {
+            Stack stack1 = new Stack();
+        }
     }
 }
