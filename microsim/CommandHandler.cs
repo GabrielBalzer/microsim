@@ -10,9 +10,27 @@ namespace microsim
     class CommandHandler
     {
         private DataStorage.Command command_element;
+        private PCL PCL = new PCL();
 
-        public void handleCommand()
+        public void nextCommand()
         {
+            if (DataStorage.programCounter < DataStorage.commandList.Count)
+            {
+                Console.WriteLine(DataStorage.commandList.ElementAt((int)DataStorage.programCounter).command);
+                handleCommand();
+            }
+        }
+    
+        private void handleCommand()
+        {
+            if (DataStorage.startCounter != 0)
+            {
+                PCL.addtoPCL();
+            }
+            else
+            {
+                DataStorage.startCounter = 1;
+            }
             command_element = DataStorage.commandList.ElementAt((int)DataStorage.programCounter);
             Console.WriteLine("Handler :" + command_element.command);
             switch (command_element.command)
@@ -248,7 +266,14 @@ namespace microsim
                 pclath = pclath << 11;
                 pclath = pclath | command_element.data;
                 Console.WriteLine("PCLTEST : " + pclath);
-                DataStorage.programCounter = pclath - 1;
+                if (pclath < 1)
+                {
+                    PCL.setPCL(0);
+                }
+                else
+                {
+                    PCL.setPCL(pclath - 1);
+                }
             }
         }
 
@@ -261,7 +286,7 @@ namespace microsim
             if (command_element.data <= 2047)
             {
                 // save pc to stack
-                DataStorage.stack1.SetValueToStck(DataStorage.programCounter);
+                DataStorage.stack1.SetValueToStck(DataStorage.programCounter + 1);
 
                 pclath3 = DataStorage.regArray[0x0A] & 0b00000100;
                 pclath4 = DataStorage.regArray[0x0A] & 0b00001000;
@@ -272,7 +297,7 @@ namespace microsim
                 pclath = pclath << 11;
                 pclath = pclath | command_element.data;
                 Console.WriteLine("PCLTEST CALL : " + pclath);
-                DataStorage.programCounter = pclath;
+                PCL.setPCL(pclath - 1);
                 Console.WriteLine("W-reg : " + DataStorage.w_register);
             }
         }
@@ -280,13 +305,13 @@ namespace microsim
         private void NOP()
         {
             Console.WriteLine("NOP gefunden");
-            DataStorage.programCounter++;
         }
 
         private void RETURN()
         {
             Console.WriteLine("RETURN gefunden");
-            DataStorage.programCounter = DataStorage.stack1.GetValueFromStck();
+            PCL.setPCL(DataStorage.stack1.GetValueFromStck() - 1);
+            Console.WriteLine("Stack WERT : " + (DataStorage.programCounter));
             Console.WriteLine("W-reg : " + DataStorage.w_register);
         }
 
@@ -296,7 +321,7 @@ namespace microsim
             if (command_element.data <= 255)
             {
                 DataStorage.w_register = command_element.data;
-                DataStorage.programCounter = DataStorage.stack1.GetValueFromStck();
+                PCL.setPCL(DataStorage.stack1.GetValueFromStck() - 1);
                 Console.WriteLine("W-reg : " + DataStorage.w_register);
             }
         }

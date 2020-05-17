@@ -35,6 +35,8 @@ namespace microsim
         public static uint programCounter = 0;
         public static uint maskProgramCounter = 0xFF; // first 8 bits of programCounter
 
+        public static int startCounter = 0;
+
         // stack
         public static Stack stack1 = new Stack();
 

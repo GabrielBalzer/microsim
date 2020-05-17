@@ -25,8 +25,8 @@ namespace microsim
     {
         FileHandling FileHandlingLocal = new FileHandling();
         CommandDecoder CommandDecoder = new CommandDecoder();
+        CommandHandler CommandHandler = new CommandHandler();
         Initializer Initializer = new Initializer();
-        PCL Pcl = new PCL();
         MainWindowViewModel View = new MainWindowViewModel();
 
         public MainWindow()
@@ -35,8 +35,7 @@ namespace microsim
 
             DataContext = View;
             InitializeComponent();
-            Initializer.initRegArray();
-            Initializer.initPCL();
+            Initializer.fullReset();
             UpdateFileRegisterUI();
 
 
@@ -77,8 +76,7 @@ namespace microsim
         private void step_button_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Ein Schritt weiter!");
-            Pcl.nextCommand();
-            Pcl.addtoPCL();
+            CommandHandler.nextCommand();
             UpdateWregUI();
             UpdateFileRegisterUI();
             
@@ -157,9 +155,7 @@ namespace microsim
 
         private void reset_button_clicked(object sender, RoutedEventArgs e)
         {
-            Initializer.initPCL();
-            Initializer.initRegArray();
-            Initializer.initWReg();
+            Initializer.fullReset();
             UpdateFileRegisterUI();
             UpdateWregUI();
         }

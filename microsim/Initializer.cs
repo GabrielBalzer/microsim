@@ -8,7 +8,7 @@ namespace microsim
 {
     class Initializer
     {
-        public static void initRegArray()
+        private static void initRegArray()
         {
             for (int i = 0; i < DataStorage.regArray.Length; i++)
             {
@@ -39,19 +39,33 @@ namespace microsim
             DataStorage.regArray[0x0B] = 0b00000001;
             DataStorage.regArray[0x8B] = 0b00000001;
         }
-        public static void initPCL()
+        private static void initPCL()
         {
             DataStorage.programCounter = 0;
         }
 
-        public static void initWReg()
+        private static void initStartCounter()
+        {
+            DataStorage.startCounter = 0;
+        }
+
+        private static void initWReg()
         {
             DataStorage.w_register = 0;
         }
 
-        public static void initStack()
+        private static void initStack()
         {
             Stack stack1 = new Stack();
+        }
+
+        public static void fullReset()
+        {
+            initRegArray();
+            initPCL();
+            initStartCounter();
+            initWReg();
+            initStack();
         }
     }
 }
