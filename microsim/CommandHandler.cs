@@ -1,8 +1,10 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 
 namespace microsim
@@ -68,6 +70,48 @@ namespace microsim
                 case "RETLW":
                     RETLW();
                     break;
+                case "MOVWF":
+                    MOVWF();
+                    break;
+                case "ADDWF":
+                    ADDWF();
+                    break;
+                case "ANDWF":
+                    ANDWF();
+                    break;
+                case "CLRF":
+                    CLRF();
+                    break;
+                case "COMF":
+                    COMF();
+                    break;
+                case "DECF":
+                    DECF();
+                    break;
+                case "INCF":
+                    INCF();
+                    break;
+                case "MOVF":
+                    MOVF();
+                    break;
+                case "IORWF":
+                    IORWF();
+                    break;
+                case "SUBWF":
+                    SUBWF();
+                    break;
+                case "SWAPF":
+                    SWAPF();
+                    break;
+                case "XORWF":
+                    XORWF();
+                    break;
+                case "CLRW":
+                    CLRW();
+                    break;
+                case "RLF":
+                    RLF();
+                    break;
                 default:
                     Console.WriteLine("Unbekannter Befehl");
                     break;
@@ -131,12 +175,28 @@ namespace microsim
 
         private void SUBLW()
         {
+            int lowbitf;
+            int lowbitw;
             Console.WriteLine("SUBLW gefunden");
             int result;
+            lowbitf = (int)(command_element.data & 0b00001111);
+            lowbitw = (int)(DataStorage.w_register & 0b00001111);
             if (command_element.data <= 255)
-            { 
-                //DC-Flag missing
-                result = (int)command_element.data - (int)DataStorage.w_register;
+            {
+                if ((lowbitw - lowbitf) < 0)
+                {
+                    //DC-Flag = 1
+                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000010;
+                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000010;
+                }
+                else
+                {
+                    //DC-Flag = 0
+                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111101;
+                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111101;
+                }
+                    //DC-Flag missing
+                    result = (int)command_element.data - (int)DataStorage.w_register;
                 if (result > 0)
                 {
                     DataStorage.w_register = (uint)result;
@@ -324,6 +384,484 @@ namespace microsim
                 PCL.setPCL(DataStorage.stack1.GetValueFromStck() - 1);
                 Console.WriteLine("W-reg : " + DataStorage.w_register);
             }
+        }
+
+        private void MOVWF()
+        {
+            Console.WriteLine("MOVWF gefunden");
+            if (command_element.data <= 127)
+            {
+                DataStorage.regArray[command_element.data] = DataStorage.w_register;
+            }
+        }
+
+        private void ADDWF()
+        {
+            uint f;
+            uint d;
+            uint result;
+            Console.WriteLine("ADDWF gefunden");
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            Console.WriteLine("F Wert: " + f);
+            Console.WriteLine("D Wert: " + d);
+            if (f <= 127)
+            { 
+            result = DataStorage.w_register + DataStorage.regArray[f];
+
+            //DC-Flag
+            if (((DataStorage.w_register & 0b00001111) + (DataStorage.regArray[f] & 0b00001111) > 15))
+            {
+                //DC-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000010;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000010;
+            }
+            else
+            {
+                //DC-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111101;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111101;
+            }
+
+            if (result <= 255)
+            {
+
+                // C-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+            }
+            else
+            {
+                // C-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+
+                result = result - 256;
+            }
+
+            if (result == 0)
+            {
+                // Z-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+            }
+            else
+            {
+                // Z-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+            }
+
+            if (d == 0)
+            {
+                DataStorage.w_register = result;
+            }
+            else
+            {
+                DataStorage.regArray[f] = result;
+            }
+            }
+        }
+
+        private void ANDWF()
+        {
+            Console.WriteLine("ANDWF gefunden");
+            uint f;
+            uint d;
+            uint result;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+
+            if(f <= 127)
+            {
+                result = DataStorage.w_register & DataStorage.regArray[f];
+                if (d == 0)
+                {
+                    DataStorage.w_register = result;
+                }
+                else
+                {
+                    DataStorage.regArray[f] = result;
+                }
+
+                if (result == 0)
+                {
+                    // Z-Flag = 1
+                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+                }
+                else
+                {
+                    // Z-Flag = 0
+                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                }
+            }
+
+        }
+
+        private void CLRF()
+        {
+            Console.WriteLine("CLRF gefunden");
+            if (command_element.data <= 127)
+            {
+                DataStorage.regArray[command_element.data] = 0;
+                // Z-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+            }
+        }
+
+        private void COMF()
+        {
+            Console.WriteLine("COMF gefunden");
+            uint f;
+            uint d;
+            uint result;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            if (f <= 127)
+            {
+                result = ~DataStorage.regArray[f];
+                result = result & 0xFF;
+                if (result == 0)
+                {
+                    // Z-Flag = 1
+                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+                }
+                else
+                {
+                    // Z-Flag = 0
+                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                }
+                if (d == 0)
+                {
+                    DataStorage.w_register = result;
+                }
+                else
+                {
+                    DataStorage.regArray[f] = result;
+                }
+            }
+        }
+
+        private void DECF()
+        {
+            Console.WriteLine("DECF gefunden");
+            uint f;
+            uint d;
+            int result;
+            int regValue;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            if (f <= 127)
+            {
+                regValue = (int)DataStorage.regArray[f];
+                result = regValue -1;
+                if (result == 0)
+                {
+                    // Z-Flag = 1
+                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+                }
+                else
+                {
+                    // Z-Flag = 0
+                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                }
+                if (result == -1)
+                {
+                    result = 0xFF;
+                }
+                if (d == 0)
+                {
+                    DataStorage.w_register = (uint)result;
+                }
+                else
+                {
+                    DataStorage.regArray[f] = (uint)result;
+                }
+            }
+        }
+
+        private void INCF()
+        {
+            Console.WriteLine("INCF gefunden");
+            uint f;
+            uint d;
+            uint result;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            result = DataStorage.regArray[f] + 1;
+            if (result == 256)
+            {
+                result = 0;
+            }
+
+            if (result == 0)
+            {
+                // Z-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+            }
+            else
+            {
+                // Z-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+            }
+
+            if (d == 0)
+            {
+                DataStorage.w_register = result;
+            }
+            else
+            {
+                DataStorage.regArray[f] = result;
+            }
+        }
+
+        private void MOVF()
+        {
+            Console.WriteLine("MOVF gefunden");
+            uint f;
+            uint d;
+            uint result;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            result = DataStorage.regArray[f];
+            if (result == 0)
+            {
+                // Z-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+            }
+            else
+            {
+                // Z-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+            }
+
+            if (d == 0)
+            {
+                DataStorage.w_register = result;
+            }
+            else
+            {
+                DataStorage.regArray[f] = result;
+            }
+        }
+
+        private void IORWF()
+        {
+            Console.WriteLine("IORWF gefunden");
+            uint f;
+            uint d;
+            uint result;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            result = DataStorage.w_register | DataStorage.regArray[f];
+            if (result == 0)
+            {
+                // Z-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+            }
+            else
+            {
+                // Z-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+            }
+
+            if (d == 0)
+            {
+                DataStorage.w_register = result;
+            }
+            else
+            {
+                DataStorage.regArray[f] = result;
+            }
+        }
+
+        private void SUBWF()
+        {
+            Console.WriteLine("SUBWF gefunden");
+            uint f;
+            uint d;
+            int result;
+            int lowbitf;
+            int lowbitw;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            lowbitf = (int)(DataStorage.regArray[f] & 0b00001111);
+            lowbitw = (int)(DataStorage.w_register & 0b00001111);
+            if ((lowbitf - lowbitw) < 0)
+            {
+                //DC-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000010;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000010;
+            }
+            else
+            {
+                //DC-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111101;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111101;
+            }
+            //DC-Flag missing
+            result = ((int)DataStorage.regArray[f] - (int)DataStorage.w_register);
+            if (result > 0)
+            {
+                DataStorage.w_register = (uint)result;
+                // C-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+
+                // Z-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+
+            }
+            else if (result == 0)
+            {
+                DataStorage.w_register = (uint)result;
+
+                // C-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+
+                // Z-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+            }
+            else
+            {
+                DataStorage.w_register = (uint)(256 - Math.Abs(result));
+                // Z-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+
+                // C-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+            }
+        }
+
+        private void SWAPF()
+        {
+            Console.WriteLine("SWAPF gefunden");
+            uint f;
+            uint d;
+            uint result;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            result = ((DataStorage.regArray[f] & 0x0F) << 4 | (DataStorage.regArray[f] & 0xF0) >> 4 );
+            if (d == 0)
+            {
+                DataStorage.w_register = result;
+            }
+            else
+            {
+                DataStorage.regArray[f] = result;
+            }
+        }
+
+        private void XORWF()
+        {
+            Console.WriteLine("XORWF gefunden");
+            uint f;
+            uint d;
+            uint result;
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            result = DataStorage.w_register ^ DataStorage.regArray[f];
+            if (result == 0)
+            {
+                // Z-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+            }
+            else
+            {
+                // Z-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+            }
+
+            if (d == 0)
+            {
+                DataStorage.w_register = result;
+            }
+            else
+            {
+                DataStorage.regArray[f] = result;
+            }
+        }
+
+        private void CLRW()
+        {
+            Console.WriteLine("CLRW gefunden");
+            // Z-Flag = 1
+            DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+            DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+            DataStorage.w_register = 0;
+        }
+
+        private void RLF()
+        {
+            
+            Console.WriteLine("SWAPF gefunden");
+            uint f;
+            byte regValue;
+            uint d;
+            byte statusbyte;
+            byte checker;
+            statusbyte = (byte)(DataStorage.regArray[0x03] & 0b000000001);
+            f = command_element.data & 0b01111111;
+            d = command_element.data & 0b10000000;
+            checker = (byte)(DataStorage.regArray[f] & 0b10000000);
+            if (checker == 0)
+            {
+                // C-Flag = 0
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+            }
+            else
+            {
+                // C-Flag = 1
+                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
+                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+            }
+            regValue = (byte)(DataStorage.regArray[f]);
+            Console.WriteLine("RegValue " + regValue);
+            regValue = (byte)(regValue << 1);
+            Console.WriteLine("RegValue " + regValue);
+            regValue = (byte)(regValue | statusbyte);
+            Console.WriteLine("RegValue " + regValue);
+
+            if (d == 0)
+            {
+                DataStorage.w_register = regValue;
+            }
+            else
+            {
+                DataStorage.regArray[f] = regValue;
+            }
+
         }
     }
 }
