@@ -34,23 +34,16 @@ namespace microsim
                         var itemVarName = line.Substring(36, indexVar);
                         var itemVarValue = item.Substring(item.IndexOf(variableEqu) + variableEqu.Length);
 
-                        // enter values to list of variables
-                        //DataStorage.variableList.Add(new DataStorage.Variable()
-                        //{
-                        //    variableName = itemVarName,
-                        //    variableValue = int.Parse(itemVarValue)
-                        //});
-
                         string itemVarValueStringHex = itemVarValue.Substring(1, itemVarValue.Length - 2);
                         var itemVarValueInt = Convert.ToInt32(itemVarValueStringHex, 16);
 
                         DataStorage.variableList.Add(new DataStorage.Variable(){variableName = itemVarName, variableValue = itemVarValueInt});
 
-                        foreach (var i in DataStorage.variableList)
-                        {
-                            Console.WriteLine("Var Name: " + i.variableName);
-                            Console.WriteLine("Var Value: " + i.variableValue);
-                        }
+                        //foreach (var i in DataStorage.variableList)
+                        //{
+                        //    Console.WriteLine("Var Name: " + i.variableName);
+                        //    Console.WriteLine("Var Value: " + i.variableValue);
+                        //}
                     }
 
                     DataStorage.fileList.Add(new DataStorage.FileList
