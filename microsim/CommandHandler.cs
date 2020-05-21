@@ -881,11 +881,8 @@ namespace microsim
             }
 
             regValue = (byte) (DataStorage.regArray[f]);
-            Console.WriteLine("RegValue " + regValue);
             regValue = (byte) (regValue << 1);
-            Console.WriteLine("RegValue " + regValue);
             regValue = (byte) (regValue | statusbyte);
-            Console.WriteLine("RegValue " + regValue);
 
             if (d == 0)
             {
@@ -924,11 +921,8 @@ namespace microsim
             }
 
             regValue = (byte) (DataStorage.regArray[f]);
-            Console.WriteLine("RegValue " + regValue);
             regValue = (byte) (regValue >> 1);
-            Console.WriteLine("RegValue " + regValue);
             regValue = (byte) (regValue | statusbyte);
-            Console.WriteLine("RegValue " + regValue);
 
             if (d == 0)
             {
@@ -951,13 +945,10 @@ namespace microsim
             result = DataStorage.regArray[f];
             if ((result - 1) == 0)
             {
-                //PCL.addtoPCL();
-                //d = 0;
                 d = 1;
             }
             else
             {
-                //d = 1;
                 PCL.addtoPCL();
                 d = 0;
             }
@@ -983,13 +974,10 @@ namespace microsim
             result = DataStorage.regArray[f];
             if ((result + 1) == 0)
             {
-                //PCL.addtoPCL();
-                //d = 0;
                 d = 1;
             }
             else
             {
-                //d = 1;
                 PCL.addtoPCL();
                 d = 0;
             }
@@ -1015,12 +1003,6 @@ namespace microsim
             b = b >> 7;
 
             DataStorage.regArray[f] = DataStorage.regArray[f] | (uint)(Math.Pow((double)2, (double)b));
-
-            //Console.WriteLine("Result: " + DataStorage.regArray[f]);
-            //Console.WriteLine("b: " + b);
-            //Console.WriteLine("f: " + f);
-            //Console.WriteLine("berechnung: " + (uint)(Math.Pow(2, b)));
-            //Console.WriteLine("Eingangswerte: " + command_element.data);
         }
 
         private void BCF()
@@ -1034,12 +1016,6 @@ namespace microsim
             b = b >> 7;
 
             DataStorage.regArray[f] = DataStorage.regArray[f] ^ (uint)(Math.Pow((double)2, (double)b));
-
-            Console.WriteLine("Result: " + DataStorage.regArray[f]);
-            Console.WriteLine("b: " + b);
-            Console.WriteLine("f: " + f);
-            Console.WriteLine("berechnung: " + (uint)(Math.Pow(2, b)));
-            Console.WriteLine("Eingangswerte: " + command_element.data);
         }
 
         private void BTFSC()
@@ -1055,8 +1031,6 @@ namespace microsim
             result = DataStorage.regArray[f];
             bCalc = (uint) (Math.Pow((double) 2, (double) b));
 
-            //result = result | (uint)(Math.Pow((double)2, (double)b));
-
             if ((result & bCalc) == bCalc)
             {
                 // result[b] = 1
@@ -1067,9 +1041,6 @@ namespace microsim
                 // result[b] = 0
                 PCL.addtoPCL();
             }
-
-            Console.WriteLine("result: " + result);
-            Console.WriteLine("bCalc: " + bCalc);
         }
 
         private void BTFSS()
@@ -1085,8 +1056,6 @@ namespace microsim
             result = DataStorage.regArray[f];
             bCalc = (uint)(Math.Pow((double)2, (double)b));
 
-            //result = result | (uint)(Math.Pow((double)2, (double)b));
-
             if ((result & bCalc) == 0)
             {
                 // result[b] = 1
@@ -1097,9 +1066,6 @@ namespace microsim
                 // result[b] = 0
                 PCL.addtoPCL();
             }
-
-            Console.WriteLine("result: " + result);
-            Console.WriteLine("bCalc: " + bCalc);
         }
     }
 }

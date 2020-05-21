@@ -39,11 +39,11 @@ namespace microsim
             // increment stckptr
             SetStckptrToStckPlce(freePlce);
 
-            for (uint i = 0; i < entryStk.Length; i++)
-            {
-                Console.WriteLine(entryStk[i]);
-            }
-            Console.WriteLine("Stackpointer1 " + stckptr);
+            //for (uint i = 0; i < entryStk.Length; i++)
+            //{
+            //    Console.WriteLine(entryStk[i]);
+            //}
+            //Console.WriteLine("Stackpointer1 " + stckptr);
 
             return;
         }
@@ -64,11 +64,11 @@ namespace microsim
                 stckptr--;
             }
 
-            for (uint i = 0; i < entryStk.Length; i++)
-            {
-                Console.WriteLine(entryStk[i]);
-            }
-            Console.WriteLine("Stackpointer2 " + stckptr);
+            //for (uint i = 0; i < entryStk.Length; i++)
+            //{
+            //    Console.WriteLine(entryStk[i]);
+            //}
+            //Console.WriteLine("Stackpointer2 " + stckptr);
 
             return (returnVal);
         }

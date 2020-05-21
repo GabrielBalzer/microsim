@@ -20,10 +20,39 @@ namespace microsim
             int linenumber = 0;
             DataStorage.fileList = new ObservableCollection<DataStorage.FileList>();
             DataStorage.commandList = new List<DataStorage.Command>();
+            //List<DataStorage.Variable> variableList = new List<DataStorage.Variable>();
+
             foreach(string line in File.ReadAllLines(openFileDialog.FileName))
             {
                 if (!string.IsNullOrEmpty(line))
                 {
+                    string variableEqu = "equ";
+                    if (line.Contains(variableEqu))
+                    {
+                        var item = line.Substring(36, 16);
+                        var indexVar = item.IndexOf(variableEqu);
+                        var itemVarName = line.Substring(36, indexVar);
+                        var itemVarValue = item.Substring(item.IndexOf(variableEqu) + variableEqu.Length);
+
+                        // enter values to list of variables
+                        //DataStorage.variableList.Add(new DataStorage.Variable()
+                        //{
+                        //    variableName = itemVarName,
+                        //    variableValue = int.Parse(itemVarValue)
+                        //});
+
+                        string itemVarValueStringHex = itemVarValue.Substring(1, itemVarValue.Length - 2);
+                        var itemVarValueInt = Convert.ToInt32(itemVarValueStringHex, 16);
+
+                        DataStorage.variableList.Add(new DataStorage.Variable(){variableName = itemVarName, variableValue = itemVarValueInt});
+
+                        foreach (var i in DataStorage.variableList)
+                        {
+                            Console.WriteLine("Var Name: " + i.variableName);
+                            Console.WriteLine("Var Value: " + i.variableValue);
+                        }
+                    }
+
                     DataStorage.fileList.Add(new DataStorage.FileList
                     {
                         counter = line.Substring(0, 4),

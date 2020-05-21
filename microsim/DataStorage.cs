@@ -15,6 +15,7 @@ namespace microsim
         public static List<Command> commandList = new List<Command>();
         public static ObservableCollection<FileList> fileList = new ObservableCollection<FileList>();
         public static uint[] regArray = new uint[256];
+        public static List<Variable> variableList = new List<Variable>();
         public class Command
         {
             public string command { get; set; }
@@ -29,6 +30,12 @@ namespace microsim
             public string program { get; set; }
             public int linenumber { get; set; }
 
+        }
+
+        public class Variable
+        {
+            public string variableName { get; set; }
+            public int variableValue { get; set; }
         }
 
         // pcl
