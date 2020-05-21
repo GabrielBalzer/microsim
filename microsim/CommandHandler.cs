@@ -131,6 +131,12 @@ namespace microsim
                 case "BCF":
                     BCF();
                     break;
+                case "BTFSC":
+                    BTFSC();
+                    break;
+                case "BTFSS":
+                    BTFSS();
+                    break;
                 default:
                     Console.WriteLine("Unbekannter Befehl");
                     break;
@@ -1007,10 +1013,27 @@ namespace microsim
             f = command_element.data & 0b01111111;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
-            //result = DataStorage.regArray[f];
 
             DataStorage.regArray[f] = DataStorage.regArray[f] | (uint)(Math.Pow((double)2, (double)b));
-            //DataStorage.regArray[f] = DataStorage.regArray[f] | b;
+
+            //Console.WriteLine("Result: " + DataStorage.regArray[f]);
+            //Console.WriteLine("b: " + b);
+            //Console.WriteLine("f: " + f);
+            //Console.WriteLine("berechnung: " + (uint)(Math.Pow(2, b)));
+            //Console.WriteLine("Eingangswerte: " + command_element.data);
+        }
+
+        private void BCF()
+        {
+            Console.WriteLine("BCF gefunden");
+            uint f;
+            uint b;
+            uint result;
+            f = command_element.data & 0b01111111;
+            b = command_element.data & 0b1110000000;
+            b = b >> 7;
+
+            DataStorage.regArray[f] = DataStorage.regArray[f] ^ (uint)(Math.Pow((double)2, (double)b));
 
             Console.WriteLine("Result: " + DataStorage.regArray[f]);
             Console.WriteLine("b: " + b);
@@ -1019,9 +1042,64 @@ namespace microsim
             Console.WriteLine("Eingangswerte: " + command_element.data);
         }
 
-        private void BCF()
+        private void BTFSC()
         {
-            Console.WriteLine("BCF gefunden");
+            Console.WriteLine("BTFSC gefunden");
+            uint f;
+            uint b;
+            uint result;
+            uint bCalc;
+            f = command_element.data & 0b01111111;
+            b = command_element.data & 0b1110000000;
+            b = b >> 7;
+            result = DataStorage.regArray[f];
+            bCalc = (uint) (Math.Pow((double) 2, (double) b));
+
+            //result = result | (uint)(Math.Pow((double)2, (double)b));
+
+            if ((result & bCalc) == bCalc)
+            {
+                // result[b] = 1
+                // do nothing
+            }
+            else
+            {
+                // result[b] = 0
+                PCL.addtoPCL();
+            }
+
+            Console.WriteLine("result: " + result);
+            Console.WriteLine("bCalc: " + bCalc);
+        }
+
+        private void BTFSS()
+        {
+            Console.WriteLine("BTFSS gefunden");
+            uint f;
+            uint b;
+            uint result;
+            uint bCalc;
+            f = command_element.data & 0b01111111;
+            b = command_element.data & 0b1110000000;
+            b = b >> 7;
+            result = DataStorage.regArray[f];
+            bCalc = (uint)(Math.Pow((double)2, (double)b));
+
+            //result = result | (uint)(Math.Pow((double)2, (double)b));
+
+            if ((result & bCalc) == 0)
+            {
+                // result[b] = 1
+                // do nothing
+            }
+            else
+            {
+                // result[b] = 0
+                PCL.addtoPCL();
+            }
+
+            Console.WriteLine("result: " + result);
+            Console.WriteLine("bCalc: " + bCalc);
         }
     }
 }
