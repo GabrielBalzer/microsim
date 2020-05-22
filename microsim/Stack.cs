@@ -20,11 +20,11 @@ namespace microsim
             // set stckptr to 0xFF
             stckptr = 0;
 
-            for (uint i = 0; i < entryStk.Length; i++)
-            {
-                Console.WriteLine(entryStk[i]);
-            }
-            Console.WriteLine("Stackpointer0 " + stckptr);
+            //for (uint i = 0; i < entryStk.Length; i++)
+            //{
+            //    Console.WriteLine(entryStk[i]);
+            //}
+            //Console.WriteLine("Stackpointer0 " + stckptr);
 
             return;
 

@@ -44,6 +44,8 @@ namespace microsim
 
         public static int startCounter = 0;
 
+        public static int VarCounter = 0;
+
         // stack
         public static Stack stack1 = new Stack();
 

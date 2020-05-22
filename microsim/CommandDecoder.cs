@@ -215,10 +215,14 @@ namespace microsim
                         break;
                 }
                 Console.WriteLine(item.command + " Daten: " + item.data);
-
             }
 
-
+            for (int counter = 0; counter < DataStorage.VarCounter; counter++)
+            {
+                DataStorage.Variable ausgabe = DataStorage.variableList.ElementAt(counter);
+                Console.WriteLine("Variable Name: " + ausgabe.variableName);
+                Console.WriteLine("Variable Wert: " + ausgabe.variableValue);
+            }
         }
     }
 }

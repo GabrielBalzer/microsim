@@ -59,6 +59,11 @@ namespace microsim
             Stack stack1 = new Stack();
         }
 
+        private static void initVariables()
+        {
+            DataStorage.VarCounter = 0;
+        }
+
         public static void fullReset()
         {
             initRegArray();
@@ -66,6 +71,7 @@ namespace microsim
             initStartCounter();
             initWReg();
             initStack();
+            initVariables();
         }
     }
 }

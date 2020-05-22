@@ -38,6 +38,7 @@ namespace microsim
             }
 
             command_element = DataStorage.commandList.ElementAt((int) DataStorage.programCounter);
+
             Console.WriteLine("Handler :" + command_element.command);
             switch (command_element.command)
             {
