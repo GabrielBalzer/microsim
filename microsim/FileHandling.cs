@@ -20,7 +20,6 @@ namespace microsim
             int linenumber = 0;
             DataStorage.fileList = new ObservableCollection<DataStorage.FileList>();
             DataStorage.commandList = new List<DataStorage.Command>();
-            //List<DataStorage.Variable> variableList = new List<DataStorage.Variable>();
 
             foreach(string line in File.ReadAllLines(openFileDialog.FileName))
             {
@@ -38,7 +37,7 @@ namespace microsim
                         var itemVarValueInt = Convert.ToInt32(itemVarValueStringHex, 16);
 
                         DataStorage.variableList.Add(new DataStorage.Variable()
-                            {variableName = itemVarName, variableValue = itemVarValueInt});
+                            {variableName = itemVarName, variableStorageAddress = itemVarValueInt, variableValue = 0});
 
                         DataStorage.VarCounter++;
                     }

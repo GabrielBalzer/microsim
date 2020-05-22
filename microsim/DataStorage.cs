@@ -35,7 +35,8 @@ namespace microsim
         public class Variable
         {
             public string variableName { get; set; }
-            public int variableValue { get; set; }
+            public int variableStorageAddress { get; set; }
+            public uint variableValue { get; set; }
         }
 
         // pcl

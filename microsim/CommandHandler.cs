@@ -420,9 +420,27 @@ namespace microsim
         private void MOVWF()
         {
             Console.WriteLine("MOVWF gefunden");
-            if (command_element.data <= 127)
+
+            for (int counter = 0; counter < DataStorage.VarCounter; counter++)
             {
-                DataStorage.regArray[command_element.data] = DataStorage.w_register;
+                DataStorage.Variable ausgabe = DataStorage.variableList.ElementAt(counter);
+
+                if (command_element.data <= 127)
+                {
+                    if(ausgabe.variableName.Equals(DataStorage.variableList[counter].variableName))
+                    {
+                        // variable pre-declared & write into it
+                        Console.WriteLine("GEFUNDEN: " + ausgabe.variableName);
+                        DataStorage.variableList[counter].variableValue = DataStorage.w_register;
+                        break;
+                    }
+                    else
+                    {
+                        // no variable pre-declared
+                        DataStorage.regArray[command_element.data] = DataStorage.w_register;
+                        Console.WriteLine("NICHT GEFUNDEN " + ausgabe.variableName);
+                    }
+                }
             }
         }
 
@@ -998,7 +1016,7 @@ namespace microsim
             Console.WriteLine("BSF gefunden");
             uint f;
             uint b;
-            uint result;
+            //uint result;
             f = command_element.data & 0b01111111;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
@@ -1011,7 +1029,7 @@ namespace microsim
             Console.WriteLine("BCF gefunden");
             uint f;
             uint b;
-            uint result;
+            //uint result;
             f = command_element.data & 0b01111111;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
