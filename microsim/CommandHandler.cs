@@ -421,7 +421,7 @@ namespace microsim
         {
             Console.WriteLine("MOVWF gefunden");
 
-            for (int counter = 0; counter < DataStorage.VarCounter; counter++)
+            /*for (int counter = 0; counter < DataStorage.VarCounter; counter++)
             {
                 DataStorage.Variable ausgabe = DataStorage.variableList.ElementAt(counter);
 
@@ -441,7 +441,14 @@ namespace microsim
                         Console.WriteLine("NICHT GEFUNDEN " + ausgabe.variableName);
                     }
                 }
-            }
+            }*/
+
+            //if (command_element.data <= 127)
+            //{
+              //  DataStorage.regArray[command_element.data] = DataStorage.w_register;
+            //}
+            uint f = getFAddr(command_element.data);
+            DataStorage.regArray[f] = DataStorage.w_register;
         }
 
         private void ADDWF()
@@ -923,9 +930,13 @@ namespace microsim
             byte statusbyte;
             byte checker;
             statusbyte = (byte) (DataStorage.regArray[0x03] & 0b000000001);
+            if (statusbyte == 1)
+            {
+                statusbyte = 0b10000000;
+            }
             f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
-            checker = (byte) (DataStorage.regArray[f] & 0b10000000);
+            checker = (byte) (DataStorage.regArray[f] & 0b00000001);
             if (checker == 0)
             {
                 // C-Flag = 0
@@ -958,27 +969,32 @@ namespace microsim
             Console.WriteLine("DECFSZ gefunden");
             uint f;
             uint d;
-            uint result;
+            int result;
             f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
-            result = DataStorage.regArray[f];
+            result = (int)DataStorage.regArray[f];
+
             if ((result - 1) == 0)
             {
-                d = 1;
+                PCL.addtoPCL();
+            }
+
+            if ((result - 1) < 0)
+            {
+                result = 255;
             }
             else
             {
-                PCL.addtoPCL();
-                d = 0;
+                result = result - 1;
             }
 
             if (d == 0)
             {
-                DataStorage.w_register = (result--);
+                DataStorage.w_register = (uint)result;
             }
             else
             {
-                DataStorage.regArray[f] = (result--);
+                DataStorage.regArray[f] = (uint)result;
             }
         }
 
@@ -991,23 +1007,27 @@ namespace microsim
             f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             result = DataStorage.regArray[f];
-            if ((result + 1) == 0)
+            if ((result + 1) == 256)
             {
-                d = 1;
+                result = 0;
             }
             else
             {
+                result += 1;
+            }
+
+            if (result == 0)
+            {
                 PCL.addtoPCL();
-                d = 0;
             }
 
             if (d == 0)
             {
-                DataStorage.w_register = (result++);
+                DataStorage.w_register = result;
             }
             else
             {
-                DataStorage.regArray[f] = (result++);
+                DataStorage.regArray[f] = result;
             }
         }
 
@@ -1085,6 +1105,17 @@ namespace microsim
                 // result[b] = 0
                 PCL.addtoPCL();
             }
+        }
+
+        private uint getFAddr(uint data)
+        {
+            uint f = data & 0b01111111;
+            if (f == 0)
+            {
+                f = DataStorage.regArray[0x04];
+            }
+
+            return f;
         }
     }
 }
