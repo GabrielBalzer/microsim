@@ -20,7 +20,7 @@
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
-    <Grid>
+    <Grid Name="MasterGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*" />
@@ -147,21 +147,46 @@
             
         </GroupBox>
         <GroupBox Header="Stack" Grid.Row="1" Grid.Column="44" Grid.RowSpan="12" Grid.ColumnSpan="5" Style="{x:Null}">
+            <StackPanel Width="Auto" Height="Auto" CanVerticallyScroll="True"  Orientation="Vertical">
 
+                <TextBlock Name ="Stack0" Text="{Binding Path=StackUI[0]}" Width="Auto" Height="Auto"></TextBlock>
+
+
+                <TextBlock Name ="Stack1" Text="{Binding Path=StackUI[1]}" Width="Auto" Height="Auto"></TextBlock>
+
+
+                <TextBlock Name ="Stack2" Text="{Binding Path=StackUI[2]}" Width="Auto" Height="Auto"></TextBlock>
+
+
+                <TextBlock Name ="Stack3" Text="{Binding Path=StackUI[3]}" Width="Auto" Height="Auto"></TextBlock>
+
+
+                <TextBlock Name ="Stack4" Text="{Binding Path=StackUI[4]}" Width="Auto" Height="Auto"></TextBlock>
+
+
+                <TextBlock Name ="Stack5" Text="{Binding Path=StackUI[5]}" Width="Auto" Height="Auto"></TextBlock>
+
+
+                <TextBlock Name ="Stack6" Text="{Binding Path=StackUI[6]}" Width="Auto" Height="Auto"></TextBlock>
+
+ 
+                <TextBlock Name ="Stack7" Text="{Binding Path=StackUI[7]}" Width="Auto" Height="Auto"></TextBlock>
+
+            </StackPanel>
         </GroupBox>
 
         <GroupBox Header="Port A" Grid.Row="14" Grid.RowSpan="6" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
-            <StackPanel x:Name="porta_panel" Orientation="Horizontal">
+            <WrapPanel>
                 <Label Content="Tris" />
                 <CheckBox Content="7" />
-                <CheckBox Content="7"/>
-                <CheckBox Content="7"/>
-                <CheckBox Content="7"/>
-                <CheckBox Content="7"/>
-                <CheckBox Content="7"/>
-                <CheckBox Content="7"/>
-                <CheckBox Content="7"/>
-            </StackPanel>
+                <CheckBox Content="6"/>
+                <CheckBox Content="5"/>
+                <CheckBox Content="4"/>
+                <CheckBox Content="3"/>
+                <CheckBox Content="2"/>
+                <CheckBox Content="1"/>
+                <CheckBox Content="0"/>
+            </WrapPanel>
 
         </GroupBox>
         <GroupBox Header="Port B" Grid.Row="20" Grid.RowSpan="6" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">

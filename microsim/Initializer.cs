@@ -56,7 +56,7 @@ namespace microsim
 
         private static void initStack()
         {
-            Stack stack1 = new Stack();
+            DataStorage.stack1 = new Stack();
         }
 
         private static void initCycle()

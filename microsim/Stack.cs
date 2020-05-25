@@ -175,5 +175,10 @@ namespace microsim
             }
             return;
         }
+
+        public string StackElementatIndex(int index)
+        {
+            return Convert.ToString(entryStk[index], 2).PadLeft(8, '0');
+        }
     }
 }

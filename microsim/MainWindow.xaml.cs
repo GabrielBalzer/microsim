@@ -57,6 +57,7 @@ namespace microsim
             CommandHandler.nextCommand();
             UpdateWregUI();
             UpdateFileRegisterUI();
+            UpdateStackUI();
         }
 
         private async void start_stop_button_Checked(object sender, RoutedEventArgs e)
@@ -74,6 +75,7 @@ namespace microsim
                     CommandHandler.nextCommand();
                     UpdateWregUI();
                     UpdateFileRegisterUI();
+                    UpdateStackUI();
 
                     Thread.Sleep(1000);
 
@@ -115,6 +117,17 @@ namespace microsim
             View.WReg = wreg;
         }
 
+        private void UpdateStackUI()
+        {
+            string[] data = new string[8];
+            for (int i = 0; i < 8; i++)
+            {
+                data[i] = DataStorage.stack1.StackElementatIndex(i);
+            }
+
+            View.StackUI = data;
+        }
+
         private void FileRegister_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
         {
             var editingTextBox = e.EditingElement as TextBox;
@@ -153,6 +166,7 @@ namespace microsim
             Initializer.fullReset();
             UpdateFileRegisterUI();
             UpdateWregUI();
+            UpdateStackUI();
         }
     }
 }
