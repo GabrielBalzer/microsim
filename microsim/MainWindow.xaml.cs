@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +29,7 @@ namespace microsim
         CommandHandler CommandHandler = new CommandHandler();
         Initializer Initializer = new Initializer();
         MainWindowViewModel View = new MainWindowViewModel();
+        private CancellationTokenSource _canceller;
 
         public MainWindow()
         {
@@ -55,15 +57,31 @@ namespace microsim
             CommandHandler.nextCommand();
             UpdateWregUI();
             UpdateFileRegisterUI();
-            
         }
 
-        private void start_stop_button_Checked(object sender, RoutedEventArgs e)
+        private async void start_stop_button_Checked(object sender, RoutedEventArgs e)
         {
             if(start_stop_button.Content.ToString() == "START")
             {
                 start_stop_button.Content = "STOP";
             }
+            _canceller = new CancellationTokenSource();
+            await Task.Run(() =>
+            {
+                do
+                {
+                    Console.WriteLine("Ein Schritt weiter!");
+                    CommandHandler.nextCommand();
+                    UpdateWregUI();
+                    UpdateFileRegisterUI();
+
+                    Thread.Sleep(1000);
+
+                    if (_canceller.Token.IsCancellationRequested)
+                        break;
+
+                } while (true);
+            });
         }
 
         private void start_stop_button_Unchecked(object sender, RoutedEventArgs e)
@@ -72,6 +90,7 @@ namespace microsim
             {
                 start_stop_button.Content = "START";
             }
+            _canceller.Cancel();
         }
 
         private void UpdateFileRegisterUI()

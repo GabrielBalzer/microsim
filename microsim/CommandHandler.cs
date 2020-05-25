@@ -153,15 +153,14 @@ namespace microsim
             {
                 DataStorage.w_register = command_element.data;
                 Console.WriteLine("w-register: " + DataStorage.w_register);
+                DataStorage.addCycle(1);
             }
         }
 
         private void ANDLW()
         {
             Console.WriteLine("ANDLW gefunden");
-            if (command_element.data <= 255)
-            {
-                DataStorage.w_register = DataStorage.w_register & command_element.data;
+            DataStorage.w_register = DataStorage.w_register & command_element.data;
                 if (DataStorage.w_register == 0)
                 {
                     DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
@@ -175,7 +174,8 @@ namespace microsim
                 }
 
                 Console.WriteLine("w-register: " + DataStorage.w_register);
-            }
+                DataStorage.addCycle(1);
+
         }
 
         private void IORLW()
@@ -197,6 +197,7 @@ namespace microsim
                 }
 
                 Console.WriteLine("w-register: " + DataStorage.w_register);
+                DataStorage.addCycle(1);
             }
 
         }
@@ -262,6 +263,7 @@ namespace microsim
                     DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
                     DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
                 }
+                DataStorage.addCycle(1);
             }
         }
 
@@ -284,6 +286,7 @@ namespace microsim
                 }
 
                 Console.WriteLine("w-register: " + DataStorage.w_register);
+                DataStorage.addCycle(1);
             }
         }
 
@@ -337,6 +340,7 @@ namespace microsim
                     DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
                     DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
                 }
+                DataStorage.addCycle(1);
             }
         }
 
@@ -365,6 +369,7 @@ namespace microsim
                 {
                     PCL.setPCL(pclath - 1);
                 }
+                DataStorage.addCycle(2);
             }
         }
 
@@ -390,12 +395,14 @@ namespace microsim
                 Console.WriteLine("PCLTEST CALL : " + pclath);
                 PCL.setPCL(pclath - 1);
                 Console.WriteLine("W-reg : " + DataStorage.w_register);
+                DataStorage.addCycle(2);
             }
         }
 
         private void NOP()
         {
             Console.WriteLine("NOP gefunden");
+            DataStorage.addCycle(1);
         }
 
         private void RETURN()
@@ -404,6 +411,7 @@ namespace microsim
             PCL.setPCL(DataStorage.stack1.GetValueFromStck() - 1);
             Console.WriteLine("Stack WERT : " + (DataStorage.programCounter));
             Console.WriteLine("W-reg : " + DataStorage.w_register);
+            DataStorage.addCycle(2);
         }
 
         private void RETLW()
@@ -414,6 +422,7 @@ namespace microsim
                 DataStorage.w_register = command_element.data;
                 PCL.setPCL(DataStorage.stack1.GetValueFromStck() - 1);
                 Console.WriteLine("W-reg : " + DataStorage.w_register);
+                DataStorage.addCycle(2);
             }
         }
 
@@ -421,43 +430,17 @@ namespace microsim
         {
             Console.WriteLine("MOVWF gefunden");
 
-            /*for (int counter = 0; counter < DataStorage.VarCounter; counter++)
-            {
-                DataStorage.Variable ausgabe = DataStorage.variableList.ElementAt(counter);
-
-                if (command_element.data <= 127)
-                {
-                    if(ausgabe.variableName.Equals(DataStorage.variableList[counter].variableName))
-                    {
-                        // variable pre-declared & write into it
-                        Console.WriteLine("GEFUNDEN: " + ausgabe.variableName);
-                        DataStorage.variableList[counter].variableValue = DataStorage.w_register;
-                        break;
-                    }
-                    else
-                    {
-                        // no variable pre-declared
-                        DataStorage.regArray[command_element.data] = DataStorage.w_register;
-                        Console.WriteLine("NICHT GEFUNDEN " + ausgabe.variableName);
-                    }
-                }
-            }*/
-
-            //if (command_element.data <= 127)
-            //{
-              //  DataStorage.regArray[command_element.data] = DataStorage.w_register;
-            //}
             uint f = getFAddr(command_element.data);
             DataStorage.regArray[f] = DataStorage.w_register;
+            DataStorage.addCycle(1);
         }
 
         private void ADDWF()
         {
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             uint result;
             Console.WriteLine("ADDWF gefunden");
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             Console.WriteLine("F Wert: " + f);
             Console.WriteLine("D Wert: " + d);
@@ -517,16 +500,16 @@ namespace microsim
                 {
                     DataStorage.regArray[f] = result;
                 }
+                DataStorage.addCycle(1);
             }
         }
 
         private void ANDWF()
         {
             Console.WriteLine("ANDWF gefunden");
-            uint f;
             uint d;
             uint result;
-            f = command_element.data & 0b01111111;
+            uint f = getFAddr(command_element.data);
             d = command_element.data & 0b10000000;
 
             if (f <= 127)
@@ -554,6 +537,7 @@ namespace microsim
                     DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
                     DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
                 }
+                DataStorage.addCycle(1);
             }
 
         }
@@ -561,22 +545,23 @@ namespace microsim
         private void CLRF()
         {
             Console.WriteLine("CLRF gefunden");
-            if (command_element.data <= 127)
-            {
-                DataStorage.regArray[command_element.data] = 0;
-                // Z-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-            }
+            uint f = getFAddr(command_element.data);
+
+            DataStorage.regArray[f] = 0;
+
+            // Z-Flag = 1
+            DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
+            DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+
+            DataStorage.addCycle(1);
         }
 
         private void COMF()
         {
             Console.WriteLine("COMF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             uint result;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             if (f <= 127)
             {
@@ -604,17 +589,17 @@ namespace microsim
                 {
                     DataStorage.regArray[f] = result;
                 }
+                DataStorage.addCycle(1);
             }
         }
 
         private void DECF()
         {
             Console.WriteLine("DECF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             int result;
             int regValue;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             if (f <= 127)
             {
@@ -647,16 +632,16 @@ namespace microsim
                 {
                     DataStorage.regArray[f] = (uint) result;
                 }
+                DataStorage.addCycle(1);
             }
         }
 
         private void INCF()
         {
             Console.WriteLine("INCF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             uint result;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             result = DataStorage.regArray[f] + 1;
             if (result == 256)
@@ -686,15 +671,15 @@ namespace microsim
             {
                 DataStorage.regArray[f] = result;
             }
+            DataStorage.addCycle(1);
         }
 
         private void MOVF()
         {
             Console.WriteLine("MOVF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             uint result;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             result = DataStorage.regArray[f];
             if (result == 0)
@@ -719,15 +704,15 @@ namespace microsim
             {
                 DataStorage.regArray[f] = result;
             }
+            DataStorage.addCycle(1);
         }
 
         private void IORWF()
         {
             Console.WriteLine("IORWF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             uint result;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             result = DataStorage.w_register | DataStorage.regArray[f];
             if (result == 0)
@@ -752,17 +737,17 @@ namespace microsim
             {
                 DataStorage.regArray[f] = result;
             }
+            DataStorage.addCycle(1);
         }
 
         private void SUBWF()
         {
             Console.WriteLine("SUBWF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             int result;
             int lowbitf;
             int lowbitw;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             lowbitf = (int) (DataStorage.regArray[f] & 0b00001111);
             lowbitw = (int) (DataStorage.w_register & 0b00001111);
@@ -817,15 +802,15 @@ namespace microsim
                 DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
                 DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
             }
+            DataStorage.addCycle(1);
         }
 
         private void SWAPF()
         {
             Console.WriteLine("SWAPF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             uint result;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             result = ((DataStorage.regArray[f] & 0x0F) << 4 | (DataStorage.regArray[f] & 0xF0) >> 4);
             if (d == 0)
@@ -836,15 +821,15 @@ namespace microsim
             {
                 DataStorage.regArray[f] = result;
             }
+            DataStorage.addCycle(1);
         }
 
         private void XORWF()
         {
             Console.WriteLine("XORWF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             uint result;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             result = DataStorage.w_register ^ DataStorage.regArray[f];
             if (result == 0)
@@ -868,6 +853,7 @@ namespace microsim
             {
                 DataStorage.regArray[f] = result;
             }
+            DataStorage.addCycle(1);
         }
 
         private void CLRW()
@@ -878,19 +864,19 @@ namespace microsim
             DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
 
             DataStorage.w_register = 0;
+            DataStorage.addCycle(1);
         }
 
         private void RLF()
         {
 
             Console.WriteLine("RLF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             byte regValue;
             uint d;
             byte statusbyte;
             byte checker;
             statusbyte = (byte) (DataStorage.regArray[0x03] & 0b000000001);
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             checker = (byte) (DataStorage.regArray[f] & 0b10000000);
             if (checker == 0)
@@ -918,13 +904,13 @@ namespace microsim
             {
                 DataStorage.regArray[f] = regValue;
             }
-
+            DataStorage.addCycle(1);
         }
 
         private void RRF()
         {
             Console.WriteLine("RRF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             byte regValue;
             uint d;
             byte statusbyte;
@@ -934,7 +920,6 @@ namespace microsim
             {
                 statusbyte = 0b10000000;
             }
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             checker = (byte) (DataStorage.regArray[f] & 0b00000001);
             if (checker == 0)
@@ -962,22 +947,24 @@ namespace microsim
             {
                 DataStorage.regArray[f] = regValue;
             }
+            DataStorage.addCycle(1);
         }
 
         private void DECFSZ()
         {
             Console.WriteLine("DECFSZ gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             int result;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             result = (int)DataStorage.regArray[f];
 
             if ((result - 1) == 0)
             {
                 PCL.addtoPCL();
+                NOP();
             }
+ 
 
             if ((result - 1) < 0)
             {
@@ -996,15 +983,15 @@ namespace microsim
             {
                 DataStorage.regArray[f] = (uint)result;
             }
+            DataStorage.addCycle(1);
         }
 
         private void INCFSZ()
         {
             Console.WriteLine("INCFSZ gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint d;
             uint result;
-            f = command_element.data & 0b01111111;
             d = command_element.data & 0b10000000;
             result = DataStorage.regArray[f];
             if ((result + 1) == 256)
@@ -1019,6 +1006,7 @@ namespace microsim
             if (result == 0)
             {
                 PCL.addtoPCL();
+                NOP();
             }
 
             if (d == 0)
@@ -1034,37 +1022,36 @@ namespace microsim
         private void BSF()
         {
             Console.WriteLine("BSF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint b;
             //uint result;
-            f = command_element.data & 0b01111111;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
 
             DataStorage.regArray[f] = DataStorage.regArray[f] | (uint)(Math.Pow((double)2, (double)b));
+            DataStorage.addCycle(1);
         }
 
         private void BCF()
         {
             Console.WriteLine("BCF gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint b;
             //uint result;
-            f = command_element.data & 0b01111111;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
 
             DataStorage.regArray[f] = DataStorage.regArray[f] ^ (uint)(Math.Pow((double)2, (double)b));
+            DataStorage.addCycle(1);
         }
 
         private void BTFSC()
         {
             Console.WriteLine("BTFSC gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint b;
             uint result;
             uint bCalc;
-            f = command_element.data & 0b01111111;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
             result = DataStorage.regArray[f];
@@ -1079,17 +1066,18 @@ namespace microsim
             {
                 // result[b] = 0
                 PCL.addtoPCL();
+                NOP();
             }
+            DataStorage.addCycle(1);
         }
 
         private void BTFSS()
         {
             Console.WriteLine("BTFSS gefunden");
-            uint f;
+            uint f = getFAddr(command_element.data);
             uint b;
             uint result;
             uint bCalc;
-            f = command_element.data & 0b01111111;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
             result = DataStorage.regArray[f];
@@ -1104,6 +1092,7 @@ namespace microsim
             {
                 // result[b] = 0
                 PCL.addtoPCL();
+                NOP();
             }
         }
 

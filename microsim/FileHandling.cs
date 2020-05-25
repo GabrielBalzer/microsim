@@ -25,22 +25,6 @@ namespace microsim
             {
                 if (!string.IsNullOrEmpty(line))
                 {
-                    string variableEqu = "equ";
-                    if (line.Contains(variableEqu))
-                    {
-                        var item = line.Substring(36, 16);
-                        var indexVar = item.IndexOf(variableEqu);
-                        var itemVarName = line.Substring(36, indexVar);
-                        var itemVarValue = item.Substring(item.IndexOf(variableEqu) + variableEqu.Length);
-
-                        string itemVarValueStringHex = itemVarValue.Substring(1, itemVarValue.Length - 2);
-                        var itemVarValueInt = Convert.ToInt32(itemVarValueStringHex, 16);
-
-                        DataStorage.variableList.Add(new DataStorage.Variable()
-                            {variableName = itemVarName, variableStorageAddress = itemVarValueInt, variableValue = 0});
-
-                        DataStorage.VarCounter++;
-                    }
 
                     DataStorage.fileList.Add(new DataStorage.FileList
                     {

@@ -15,7 +15,7 @@ namespace microsim
         public static List<Command> commandList = new List<Command>();
         public static ObservableCollection<FileList> fileList = new ObservableCollection<FileList>();
         public static uint[] regArray = new uint[256];
-        public static List<Variable> variableList = new List<Variable>();
+        public static uint cycleCount;
         public class Command
         {
             public string command { get; set; }
@@ -32,12 +32,7 @@ namespace microsim
 
         }
 
-        public class Variable
-        {
-            public string variableName { get; set; }
-            public int variableStorageAddress { get; set; }
-            public uint variableValue { get; set; }
-        }
+ 
 
         // pcl
         public static uint programCounter = 0;
@@ -45,10 +40,14 @@ namespace microsim
 
         public static int startCounter = 0;
 
-        public static int VarCounter = 0;
 
         // stack
         public static Stack stack1 = new Stack();
+
+        public static void addCycle(int cycle)
+        {
+            DataStorage.cycleCount = DataStorage.cycleCount + (uint)cycle;
+        }
 
     }
 }

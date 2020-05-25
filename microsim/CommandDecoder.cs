@@ -216,31 +216,6 @@ namespace microsim
                 }
                 Console.WriteLine(item.command + " Daten: " + item.data);
             }
-
-
-            // check, format and print predefined variables
-            for (int counter = 0; counter < DataStorage.VarCounter; counter++)
-            {
-                DataStorage.Variable ausgabe = DataStorage.variableList.ElementAt(counter);
-                DataStorage.variableList[counter].variableName = DataStorage.variableList[counter].variableName.TrimEnd(' ');
-
-                Console.WriteLine("Variable Name: " + ausgabe.variableName);
-                Console.WriteLine("Variable Wert: " + ausgabe.variableStorageAddress);
-            }
-
-            //string variable = "status";
-            //
-            //Console.WriteLine("in list: " + DataStorage.variableList[0].variableName);
-            //Console.WriteLine("string: " + variable);
-            //
-            //if (DataStorage.variableList[0].variableName.Equals(variable))
-            //{
-            //    Console.WriteLine("GEFUNDEN: " + variable);
-            //}
-            //else
-            //{
-            //    Console.WriteLine("NICHT GEFUNDEN");
-            //}
         }
     }
 }
