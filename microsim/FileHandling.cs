@@ -49,7 +49,7 @@ namespace microsim
                 linenumber++;
             }
 
-            Timer0 tim0 = new Timer0(); // init timer
+
             //tim0.SelectClockSource(0); // set psa for timer0
             Console.WriteLine("OPTION_REG: " + DataStorage.regArray[0x81]);
             Console.WriteLine("INTERRUPTS 1: " + DataStorage.regArray[0x0B]);
