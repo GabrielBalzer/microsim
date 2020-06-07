@@ -20,9 +20,9 @@ namespace microsim
 
         public void nextCommand()
         {
-            if (DataStorage.programCounter < DataStorage.commandList.Count)
+            if (PCL.getPCL() < DataStorage.commandList.Count)
             {
-                Console.WriteLine(DataStorage.commandList.ElementAt((int) DataStorage.programCounter).command);
+                Console.WriteLine(DataStorage.commandList.ElementAt((int) PCL.getPCL()).command);
                 handleCommand();
             }
         }

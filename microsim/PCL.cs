@@ -29,5 +29,12 @@ namespace microsim
             DataStorage.programCounter = cache | value;
 
         }
+
+        public uint getPCL()
+        {
+
+        uint value = DataStorage.programCounter &0b0000011111111;
+        return value;
+        }
     }
 }
