@@ -99,6 +99,7 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PCL.cs" />
+    <Compile Include="RegArrayHandler.cs" />
     <Compile Include="Register.cs" />
     <Compile Include="Stack.cs" />
     <Compile Include="Timer0.cs" />

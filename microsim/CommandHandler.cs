@@ -16,6 +16,7 @@ namespace microsim
     {
         private DataStorage.Command command_element;
         private PCL PCL = new PCL();
+        private RegArrayHandler regArrayHandler = new RegArrayHandler();
 
         public void nextCommand()
         {
@@ -169,14 +170,11 @@ namespace microsim
             DataStorage.w_register = DataStorage.w_register & command_element.data;
                 if (DataStorage.w_register == 0)
                 {
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                    regArrayHandler.setZeroFlag(true);
                 }
                 else
                 {
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
                 }
 
                 Console.WriteLine("w-register: " + DataStorage.w_register);
@@ -192,14 +190,11 @@ namespace microsim
                 DataStorage.w_register = DataStorage.w_register | command_element.data;
                 if (DataStorage.w_register == 0)
                 {
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                    regArrayHandler.setZeroFlag(true);
                 }
                 else
                 {
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
                 }
 
                 Console.WriteLine("w-register: " + DataStorage.w_register);
@@ -220,15 +215,11 @@ namespace microsim
             {
                 if ((lowbitw - lowbitf) < 0)
                 {
-                    //DC-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000010;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000010;
+                    regArrayHandler.setDigitCarryFlag(true);
                 }
                 else
                 {
-                    //DC-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111101;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111101;
+                    regArrayHandler.setDigitCarryFlag(false);
                 }
 
                 //DC-Flag missing
@@ -236,38 +227,23 @@ namespace microsim
                 if (result > 0)
                 {
                     DataStorage.w_register = (uint) result;
-                    // C-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+                    regArrayHandler.setCarryFlag(true);
 
-                    // Z-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
 
                 }
                 else if (result == 0)
                 {
                     DataStorage.w_register = (uint) result;
-
-                    // C-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
-
-                    // Z-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                    regArrayHandler.setCarryFlag(true);
+                    regArrayHandler.setZeroFlag(true);
                 }
                 else
                 {
                     DataStorage.w_register = (uint) (256 - Math.Abs(result));
-                    // Z-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
 
-                    // C-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+                    regArrayHandler.setZeroFlag(false);
+                    regArrayHandler.setCarryFlag(false);
                 }
                 DataStorage.addCycle(1);
             }
@@ -281,14 +257,11 @@ namespace microsim
                 DataStorage.w_register = DataStorage.w_register ^ command_element.data;
                 if (DataStorage.w_register == 0)
                 {
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                    regArrayHandler.setZeroFlag(true);
                 }
                 else
                 {
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
                 }
 
                 Console.WriteLine("w-register: " + DataStorage.w_register);
@@ -307,44 +280,33 @@ namespace microsim
                 //DC-Flag
                 if (((DataStorage.w_register & 0b00001111) + (command_element.data & 0b00001111)) > 15)
                 {
-                    //DC-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000010;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000010;
+                    regArrayHandler.setDigitCarryFlag(true);
                 }
                 else
                 {
-                    //DC-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111101;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111101;
+                    regArrayHandler.setDigitCarryFlag(false);
                 }
 
                 if (result <= 255)
                 {
                     DataStorage.w_register = result;
 
-                    // C-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+                    regArrayHandler.setCarryFlag(false);
                 }
                 else
                 {
-                    // C-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+                    regArrayHandler.setCarryFlag(true);
 
                     DataStorage.w_register = result - 256;
                 }
 
                 if (DataStorage.w_register == 0)
                 {
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                    regArrayHandler.setZeroFlag(true);
                 }
                 else
                 {
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
                 }
                 DataStorage.addCycle(1);
             }
@@ -358,8 +320,8 @@ namespace microsim
             Console.WriteLine("GOTO gefunden");
             if (command_element.data <= 2047)
             {
-                pclath3 = DataStorage.regArray[0x0A] & 0b00000100;
-                pclath4 = DataStorage.regArray[0x0A] & 0b00001000;
+                pclath3 = regArrayHandler.getRegArray(0x0A) & 0b00000100;
+                pclath4 = regArrayHandler.getRegArray(0x0A) & 0b00001000;
 
                 pclath = pclath4;
                 pclath = pclath << 1;
@@ -390,8 +352,8 @@ namespace microsim
                 // save pc to stack
                 DataStorage.stack1.SetValueToStck(DataStorage.programCounter + 1);
 
-                pclath3 = DataStorage.regArray[0x0A] & 0b00000100;
-                pclath4 = DataStorage.regArray[0x0A] & 0b00001000;
+                pclath3 = regArrayHandler.getRegArray(0x0A) & 0b00000100;
+                pclath4 = regArrayHandler.getRegArray(0x0A) & 0b00001000;
 
                 pclath = pclath4;
                 pclath = pclath << 1;
@@ -437,7 +399,7 @@ namespace microsim
             Console.WriteLine("MOVWF gefunden");
 
             uint f = getFAddr(command_element.data);
-            DataStorage.regArray[f] = DataStorage.w_register;
+            regArrayHandler.setRegArray(f, DataStorage.w_register);
             DataStorage.addCycle(1);
         }
 
@@ -452,50 +414,35 @@ namespace microsim
             Console.WriteLine("D Wert: " + d);
             if (f <= 127)
             {
-                result = DataStorage.w_register + DataStorage.regArray[f];
+                result = DataStorage.w_register + regArrayHandler.getRegArray(f);
 
                 //DC-Flag
-                if (((DataStorage.w_register & 0b00001111) + (DataStorage.regArray[f] & 0b00001111) > 15))
+                if (((DataStorage.w_register & 0b00001111) + (regArrayHandler.getRegArray(f) & 0b00001111) > 15))
                 {
-                    //DC-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000010;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000010;
+                    regArrayHandler.setDigitCarryFlag(true);
                 }
                 else
                 {
-                    //DC-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111101;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111101;
+                    regArrayHandler.setDigitCarryFlag(false);
                 }
 
                 if (result <= 255)
                 {
-
-                    // C-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+                    regArrayHandler.setCarryFlag(false);
                 }
                 else
                 {
-                    // C-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
-
+                    regArrayHandler.setCarryFlag(true);
                     result = result - 256;
                 }
 
                 if (result == 0)
                 {
-                    // Z-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                    regArrayHandler.setZeroFlag(true);
                 }
                 else
                 {
-                    // Z-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
                 }
 
                 if (d == 0)
@@ -504,7 +451,7 @@ namespace microsim
                 }
                 else
                 {
-                    DataStorage.regArray[f] = result;
+                    regArrayHandler.setRegArray(f, result);
                 }
                 DataStorage.addCycle(1);
             }
@@ -520,28 +467,23 @@ namespace microsim
 
             if (f <= 127)
             {
-                result = DataStorage.w_register & DataStorage.regArray[f];
+                result = DataStorage.w_register & regArrayHandler.getRegArray(f);
                 if (d == 0)
                 {
                     DataStorage.w_register = result;
                 }
                 else
                 {
-                    DataStorage.regArray[f] = result;
+                    regArrayHandler.setRegArray(f, result);
                 }
 
                 if (result == 0)
                 {
-                    // Z-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                    regArrayHandler.setZeroFlag(true);
                 }
                 else
                 {
-                    // Z-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
                 }
                 DataStorage.addCycle(1);
             }
@@ -553,11 +495,8 @@ namespace microsim
             Console.WriteLine("CLRF gefunden");
             uint f = getFAddr(command_element.data);
 
-            DataStorage.regArray[f] = 0;
-
-            // Z-Flag = 1
-            DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-            DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+            regArrayHandler.setRegArray(f, 0);
+            regArrayHandler.setZeroFlag(true);
 
             DataStorage.addCycle(1);
         }
@@ -571,20 +510,16 @@ namespace microsim
             d = command_element.data & 0b10000000;
             if (f <= 127)
             {
-                result = ~DataStorage.regArray[f];
+                result = ~regArrayHandler.getRegArray(f);
                 result = result & 0xFF;
                 if (result == 0)
                 {
-                    // Z-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+                    regArrayHandler.setZeroFlag(true);
 
                 }
                 else
                 {
-                    // Z-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
                 }
 
                 if (d == 0)
@@ -593,7 +528,7 @@ namespace microsim
                 }
                 else
                 {
-                    DataStorage.regArray[f] = result;
+                    regArrayHandler.setRegArray(f,result);
                 }
                 DataStorage.addCycle(1);
             }
@@ -609,20 +544,16 @@ namespace microsim
             d = command_element.data & 0b10000000;
             if (f <= 127)
             {
-                regValue = (int) DataStorage.regArray[f];
+                regValue = (int) regArrayHandler.getRegArray(f);
                 result = regValue - 1;
                 if (result == 0)
                 {
-                    // Z-Flag = 1
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+                    regArrayHandler.setZeroFlag(true);
 
                 }
                 else
                 {
-                    // Z-Flag = 0
-                    DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                    DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                    regArrayHandler.setZeroFlag(false);
                 }
 
                 if (result == -1)
@@ -636,7 +567,7 @@ namespace microsim
                 }
                 else
                 {
-                    DataStorage.regArray[f] = (uint) result;
+                    regArrayHandler.setRegArray(f, (uint)result);
                 }
                 DataStorage.addCycle(1);
             }
@@ -649,7 +580,7 @@ namespace microsim
             uint d;
             uint result;
             d = command_element.data & 0b10000000;
-            result = DataStorage.regArray[f] + 1;
+            result = regArrayHandler.getRegArray(f) + 1;
             if (result == 256)
             {
                 result = 0;
@@ -657,16 +588,11 @@ namespace microsim
 
             if (result == 0)
             {
-                // Z-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                regArrayHandler.setZeroFlag(true);
             }
             else
             {
-                // Z-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                regArrayHandler.setZeroFlag(false);
             }
 
             if (d == 0)
@@ -675,7 +601,7 @@ namespace microsim
             }
             else
             {
-                DataStorage.regArray[f] = result;
+                regArrayHandler.setRegArray(f, result);
             }
             DataStorage.addCycle(1);
         }
@@ -687,19 +613,14 @@ namespace microsim
             uint d;
             uint result;
             d = command_element.data & 0b10000000;
-            result = DataStorage.regArray[f];
+            result = regArrayHandler.getRegArray(f);
             if (result == 0)
             {
-                // Z-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                regArrayHandler.setZeroFlag(true);
             }
             else
             {
-                // Z-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                regArrayHandler.setZeroFlag(false);
             }
 
             if (d == 0)
@@ -708,7 +629,7 @@ namespace microsim
             }
             else
             {
-                DataStorage.regArray[f] = result;
+                regArrayHandler.setRegArray(f,result);
             }
             DataStorage.addCycle(1);
         }
@@ -720,19 +641,14 @@ namespace microsim
             uint d;
             uint result;
             d = command_element.data & 0b10000000;
-            result = DataStorage.w_register | DataStorage.regArray[f];
+            result = DataStorage.w_register | regArrayHandler.getRegArray(f);
             if (result == 0)
             {
-                // Z-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
-
+                regArrayHandler.setZeroFlag(true);
             }
             else
             {
-                // Z-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                regArrayHandler.setZeroFlag(false);
             }
 
             if (d == 0)
@@ -741,7 +657,7 @@ namespace microsim
             }
             else
             {
-                DataStorage.regArray[f] = result;
+                regArrayHandler.setRegArray(f,result);
             }
             DataStorage.addCycle(1);
         }
@@ -755,58 +671,40 @@ namespace microsim
             int lowbitf;
             int lowbitw;
             d = command_element.data & 0b10000000;
-            lowbitf = (int) (DataStorage.regArray[f] & 0b00001111);
+            lowbitf = (int) (regArrayHandler.getRegArray(f) & 0b00001111);
             lowbitw = (int) (DataStorage.w_register & 0b00001111);
             if ((lowbitf - lowbitw) < 0)
             {
-                //DC-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000010;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000010;
+                regArrayHandler.setDigitCarryFlag(true);
             }
             else
             {
-                //DC-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111101;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111101;
+                regArrayHandler.setDigitCarryFlag(false);
             }
 
-            //DC-Flag missing
-            result = ((int) DataStorage.regArray[f] - (int) DataStorage.w_register);
+            result = ((int) regArrayHandler.getRegArray(f) - (int) DataStorage.w_register);
             if (result > 0)
             {
                 DataStorage.w_register = (uint) result;
-                // C-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+                regArrayHandler.setCarryFlag(true);
 
-                // Z-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                regArrayHandler.setZeroFlag(false);
 
             }
             else if (result == 0)
             {
                 DataStorage.w_register = (uint) result;
+                regArrayHandler.setCarryFlag(true);
 
-                // C-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
-
-                // Z-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+                regArrayHandler.setZeroFlag(true);
 
             }
             else
             {
                 DataStorage.w_register = (uint) (256 - Math.Abs(result));
-                // Z-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                regArrayHandler.setZeroFlag(false);
 
-                // C-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+                regArrayHandler.setCarryFlag(false);
             }
             DataStorage.addCycle(1);
         }
@@ -818,14 +716,14 @@ namespace microsim
             uint d;
             uint result;
             d = command_element.data & 0b10000000;
-            result = ((DataStorage.regArray[f] & 0x0F) << 4 | (DataStorage.regArray[f] & 0xF0) >> 4);
+            result = ((regArrayHandler.getRegArray(f) & 0x0F) << 4 | (regArrayHandler.getRegArray(f) & 0xF0) >> 4);
             if (d == 0)
             {
                 DataStorage.w_register = result;
             }
             else
             {
-                DataStorage.regArray[f] = result;
+                regArrayHandler.setRegArray(f,result);
             }
             DataStorage.addCycle(1);
         }
@@ -837,18 +735,14 @@ namespace microsim
             uint d;
             uint result;
             d = command_element.data & 0b10000000;
-            result = DataStorage.w_register ^ DataStorage.regArray[f];
+            result = DataStorage.w_register ^ regArrayHandler.getRegArray(f);
             if (result == 0)
             {
-                // Z-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+                regArrayHandler.setZeroFlag(true);
             }
             else
             {
-                // Z-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111011;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111011;
+                regArrayHandler.setZeroFlag(false);
             }
 
             if (d == 0)
@@ -857,7 +751,7 @@ namespace microsim
             }
             else
             {
-                DataStorage.regArray[f] = result;
+                regArrayHandler.setRegArray(f, result);
             }
             DataStorage.addCycle(1);
         }
@@ -865,9 +759,7 @@ namespace microsim
         private void CLRW()
         {
             Console.WriteLine("CLRW gefunden");
-            // Z-Flag = 1
-            DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000100;
-            DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000100;
+            regArrayHandler.setZeroFlag(true);
 
             DataStorage.w_register = 0;
             DataStorage.addCycle(1);
@@ -882,23 +774,19 @@ namespace microsim
             uint d;
             byte statusbyte;
             byte checker;
-            statusbyte = (byte) (DataStorage.regArray[0x03] & 0b000000001);
+            statusbyte = (byte) (regArrayHandler.getRegArray(0x03) & 0b000000001);
             d = command_element.data & 0b10000000;
-            checker = (byte) (DataStorage.regArray[f] & 0b10000000);
+            checker = (byte) (regArrayHandler.getRegArray(f) & 0b10000000);
             if (checker == 0)
             {
-                // C-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+                regArrayHandler.setCarryFlag(false);
             }
             else
             {
-                // C-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+                regArrayHandler.setCarryFlag(true);
             }
 
-            regValue = (byte) (DataStorage.regArray[f]);
+            regValue = (byte) (regArrayHandler.getRegArray(f));
             regValue = (byte) (regValue << 1);
             regValue = (byte) (regValue | statusbyte);
 
@@ -908,7 +796,7 @@ namespace microsim
             }
             else
             {
-                DataStorage.regArray[f] = regValue;
+                regArrayHandler.setRegArray(f,regValue);
             }
             DataStorage.addCycle(1);
         }
@@ -921,27 +809,23 @@ namespace microsim
             uint d;
             byte statusbyte;
             byte checker;
-            statusbyte = (byte) (DataStorage.regArray[0x03] & 0b000000001);
+            statusbyte = (byte) (regArrayHandler.getRegArray(0x03) & 0b000000001);
             if (statusbyte == 1)
             {
                 statusbyte = 0b10000000;
             }
             d = command_element.data & 0b10000000;
-            checker = (byte) (DataStorage.regArray[f] & 0b00000001);
+            checker = (byte) (regArrayHandler.getRegArray(f) & 0b00000001);
             if (checker == 0)
             {
-                // C-Flag = 0
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] & 0b11111110;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] & 0b11111110;
+                regArrayHandler.setCarryFlag(false);
             }
             else
             {
-                // C-Flag = 1
-                DataStorage.regArray[0x03] = DataStorage.regArray[0x03] | 0b00000001;
-                DataStorage.regArray[0x83] = DataStorage.regArray[0x83] | 0b00000001;
+                regArrayHandler.setCarryFlag(true);
             }
 
-            regValue = (byte) (DataStorage.regArray[f]);
+            regValue = (byte) (regArrayHandler.getRegArray(f));
             regValue = (byte) (regValue >> 1);
             regValue = (byte) (regValue | statusbyte);
 
@@ -951,7 +835,7 @@ namespace microsim
             }
             else
             {
-                DataStorage.regArray[f] = regValue;
+                regArrayHandler.setRegArray(f, regValue);
             }
             DataStorage.addCycle(1);
         }
@@ -963,7 +847,7 @@ namespace microsim
             uint d;
             int result;
             d = command_element.data & 0b10000000;
-            result = (int)DataStorage.regArray[f];
+            result = (int)regArrayHandler.getRegArray(f);
 
             if ((result - 1) == 0)
             {
@@ -987,7 +871,7 @@ namespace microsim
             }
             else
             {
-                DataStorage.regArray[f] = (uint)result;
+                regArrayHandler.setRegArray(f, (uint)result);
             }
             DataStorage.addCycle(1);
         }
@@ -999,7 +883,7 @@ namespace microsim
             uint d;
             uint result;
             d = command_element.data & 0b10000000;
-            result = DataStorage.regArray[f];
+            result = regArrayHandler.getRegArray(f);
             if ((result + 1) == 256)
             {
                 result = 0;
@@ -1021,7 +905,7 @@ namespace microsim
             }
             else
             {
-                DataStorage.regArray[f] = result;
+                regArrayHandler.setRegArray(f, result);
             }
         }
 
@@ -1034,7 +918,7 @@ namespace microsim
             b = command_element.data & 0b1110000000;
             b = b >> 7;
 
-            DataStorage.regArray[f] = DataStorage.regArray[f] | (uint)(Math.Pow((double)2, (double)b));
+            regArrayHandler.setRegArray(f, regArrayHandler.getRegArray(f) | (uint)(Math.Pow((double)2, (double)b)));
             DataStorage.addCycle(1);
         }
 
@@ -1047,7 +931,7 @@ namespace microsim
             b = command_element.data & 0b1110000000;
             b = b >> 7;
 
-            DataStorage.regArray[f] = DataStorage.regArray[f] ^ (uint)(Math.Pow((double)2, (double)b));
+            regArrayHandler.setRegArray(f, regArrayHandler.getRegArray(f) ^ (uint)(Math.Pow((double)2, (double)b)));
             DataStorage.addCycle(1);
         }
 
@@ -1060,7 +944,7 @@ namespace microsim
             uint bCalc;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
-            result = DataStorage.regArray[f];
+            result = regArrayHandler.getRegArray(f);
             bCalc = (uint) (Math.Pow((double) 2, (double) b));
 
             if ((result & bCalc) == bCalc)
@@ -1086,7 +970,7 @@ namespace microsim
             uint bCalc;
             b = command_element.data & 0b1110000000;
             b = b >> 7;
-            result = DataStorage.regArray[f];
+            result = regArrayHandler.getRegArray(f);
             bCalc = (uint)(Math.Pow((double)2, (double)b));
 
             if ((result & bCalc) == 0)
@@ -1112,16 +996,18 @@ namespace microsim
             // reset prescaler -> TODO
 
             // set TO-bit [4]
-            DataStorage.regArray[0x03] &= 0x10;
+            //DataStorage.regArray[0x03] &= 0x10;
+            regArrayHandler.setRegArray(0x03, regArrayHandler.getRegArray(0x03) & 0x10);
 
             // reset PD-bit [3]
-            DataStorage.regArray[0x03] ^= 0x08;
+            //DataStorage.regArray[0x03] ^= 0x08;
+            regArrayHandler.setRegArray(0x03, regArrayHandler.getRegArray(0x03) ^ 0x08);
 
             // set i/o pins to active -> TODO
 
             // sleep ended?
             /* POWER ON RESET: pd = 1 && to = 1 */
-            if(((DataStorage.regArray[0x03] & 0x08) == 0x08) && ((DataStorage.regArray[0x03] & 0x10) == 0x10))
+            if (((regArrayHandler.getRegArray(0x03) & 0x08) == 0x08) && ((regArrayHandler.getRegArray(0x03) & 0x10) == 0x10))
             {
                 // reset (status) register -> TODO
 
@@ -1130,14 +1016,14 @@ namespace microsim
             }
 
             /* MCLR (master reset): pd = 0 && to = 1 */
-            else if (((DataStorage.regArray[0x03] & 0x08) == 0) && ((DataStorage.regArray[0x03] & 0x10) == 0x10))
+            else if (((regArrayHandler.getRegArray(0x03) & 0x08) == 0) && ((regArrayHandler.getRegArray(0x03) & 0x10) == 0x10))
             {
                 // stop SLEEP
                 return;
             }
 
             /* TIMEOUT OF WATCHDOG: pd = 0 && to = 0 */
-            else if (((DataStorage.regArray[0x03] & 0x08) == 0) && ((DataStorage.regArray[0x03] & 0x10) == 0))
+            else if (((regArrayHandler.getRegArray(0x03) & 0x08) == 0) && ((regArrayHandler.getRegArray(0x03) & 0x10) == 0))
             {
                 // stop SLEEP
                 return;
@@ -1149,7 +1035,7 @@ namespace microsim
         {
             Console.WriteLine("CLRWDT gefunden");
             DataStorage.watchdogCounter = 0;
-            if ((DataStorage.regArray[0x81] | 0x08) == 0x08)
+            if ((regArrayHandler.getRegArray(0x81) | 0x08) == 0x08)
             {
                 // PSA is set for watchdog -> reset PSA bit
                 DataStorage.tim0.SelectClockSource(0);
@@ -1161,7 +1047,13 @@ namespace microsim
             uint f = data & 0b01111111;
             if (f == 0)
             {
-                f = DataStorage.regArray[0x04];
+                f = regArrayHandler.getRegArray(0x04);
+            }
+
+            uint status_bit = regArrayHandler.getRegArray(0x03) & 0b00100000;
+            if (status_bit != 0)
+            {
+                f = f + 128;
             }
 
             return f;
