@@ -138,6 +138,12 @@ namespace microsim
                 case "BTFSS":
                     BTFSS();
                     break;
+                case "SLEEP":
+                    SLEEP();
+                    break;
+                case "CLRWDT":
+                    CLRWDT();
+                    break;
                 default:
                     Console.WriteLine("Unbekannter Befehl");
                     break;
@@ -1093,6 +1099,60 @@ namespace microsim
                 // result[b] = 0
                 PCL.addtoPCL();
                 NOP();
+            }
+        }
+
+        private void SLEEP()
+        {
+            Console.WriteLine("SLEEP gefunden");
+            
+            // reset watchdog counter
+            DataStorage.watchdogCounter = 0;
+
+            // reset prescaler -> TODO
+
+            // set TO-bit [4]
+            DataStorage.regArray[0x03] &= 0x10;
+
+            // reset PD-bit [3]
+            DataStorage.regArray[0x03] ^= 0x08;
+
+            // set i/o pins to active -> TODO
+
+            // sleep ended?
+            /* POWER ON RESET: pd = 1 && to = 1 */
+            if(((DataStorage.regArray[0x03] & 0x08) == 0x08) && ((DataStorage.regArray[0x03] & 0x10) == 0x10))
+            {
+                // reset (status) register -> TODO
+
+                // stop SLEEP
+                return;
+            }
+
+            /* MCLR (master reset): pd = 0 && to = 1 */
+            else if (((DataStorage.regArray[0x03] & 0x08) == 0) && ((DataStorage.regArray[0x03] & 0x10) == 0x10))
+            {
+                // stop SLEEP
+                return;
+            }
+
+            /* TIMEOUT OF WATCHDOG: pd = 0 && to = 0 */
+            else if (((DataStorage.regArray[0x03] & 0x08) == 0) && ((DataStorage.regArray[0x03] & 0x10) == 0))
+            {
+                // stop SLEEP
+                return;
+            }
+
+        }
+
+        private void CLRWDT()
+        {
+            Console.WriteLine("CLRWDT gefunden");
+            DataStorage.watchdogCounter = 0;
+            if ((DataStorage.regArray[0x81] | 0x08) == 0x08)
+            {
+                // PSA is set for watchdog -> reset PSA bit
+                DataStorage.tim0.SelectClockSource(0);
             }
         }
 

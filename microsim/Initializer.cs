@@ -64,6 +64,15 @@ namespace microsim
             DataStorage.cycleCount = 0;
         }
 
+        private static void InitTimer0()
+        {
+            DataStorage.tim0 = new Timer0(); 
+        }
+
+        private static void InitWatchdog()
+        {
+            DataStorage.watchdog1 = new Watchdog();
+        }
 
         public static void fullReset()
         {
@@ -73,6 +82,8 @@ namespace microsim
             initWReg();
             initStack();
             initCycle();
+            InitTimer0();
+            InitWatchdog();
         }
     }
 }

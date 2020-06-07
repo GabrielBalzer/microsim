@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -48,6 +49,24 @@ namespace microsim
         {
             DataStorage.cycleCount = DataStorage.cycleCount + (uint)cycle;
         }
+
+        // timer0
+        public static Timer0 tim0 = new Timer0();
+
+        public static uint timer0 = 0;
+        public static List<Prescaler> PrescTimer0 = new List<Prescaler>(8);
+
+        public class Prescaler
+        {
+            public uint Timer0Value;
+            public uint prescalerValue;
+        }
+
+        // watchdog
+        public static Watchdog watchdog1 = new Watchdog();
+
+        public static uint watchdogCounter = 0;
+        public static List<Prescaler> PrescWatchdog = new List<Prescaler>();
 
     }
 }
