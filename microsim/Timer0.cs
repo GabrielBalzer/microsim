@@ -87,6 +87,7 @@ namespace microsim
                 case 2:
                     break;
                 default:
+                    Console.WriteLine("asd");
                     break;
             }
         }
