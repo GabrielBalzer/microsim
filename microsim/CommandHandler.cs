@@ -25,6 +25,7 @@ namespace microsim
                 Console.WriteLine(DataStorage.commandList.ElementAt((int) PCL.getPCL()).command);
                 handleCommand();
             }
+            regArrayHandler.setRegArray(0x02, PCL.getPCL());
         }
 
         private void handleCommand()

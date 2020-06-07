@@ -8,13 +8,39 @@ namespace microsim
 {
     class RegArrayHandler
     {
+        private PCL pcl = new PCL();
         public void setRegArray(uint adress, uint value)
         {
-            //Status Register
-            if ((adress == 0x03) | (adress == 0x83) )
+            
+            if ((adress == 0x03) | (adress == 0x83))
             {
+                //Status Register
                 DataStorage.regArray[0x03] = value;
                 DataStorage.regArray[0x83] = value;
+            }
+            else if ((adress == 0x02) | (adress == 0x82))
+            {
+                //PCL
+                DataStorage.regArray[0x02] = value;
+                DataStorage.regArray[0x82] = value;
+            }
+            else if ((adress == 0x04) | (adress == 0x84))
+            {
+                //FSR
+                DataStorage.regArray[0x04] = value;
+                DataStorage.regArray[0x84] = value;
+            }
+            else if ((adress == 0x0A) | (adress == 0x8A))
+            {
+                //PCLLATH
+                DataStorage.regArray[0x0A] = value;
+                DataStorage.regArray[0x8A] = value;
+            }
+            else if ((adress == 0x0B) | (adress == 0x8B))
+            {
+                //INTCON
+                DataStorage.regArray[0x0B] = value;
+                DataStorage.regArray[0x8B] = value;
             }
             else
             {

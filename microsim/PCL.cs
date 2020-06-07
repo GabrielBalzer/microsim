@@ -32,9 +32,15 @@ namespace microsim
 
         public uint getPCL()
         {
-
-        uint value = DataStorage.programCounter &0b0000011111111;
-        return value;
+            uint value = DataStorage.programCounter &0b0000011111111;
+            return value;
         }
+        
+        public uint getPCLLath()
+        {
+            uint value = DataStorage.programCounter & 0b1111100000000;
+            return value;
+        }
+
     }
 }
