@@ -14,6 +14,8 @@
         ShowTitleBar="True"
         ShowIconOnTitleBar="True"
         Title="MicroSim" Height="720" Width="1280" MinHeight="720" MinWidth="1280">
+
+
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <Button Click="File_Open_Click" ToolTip="Open up an .LST File" Content="Open File">
@@ -137,69 +139,411 @@
             </DataGrid>
         </GroupBox>
         <GroupBox Header="Bedienung" Grid.Row="1" Grid.Column="34" Grid.RowSpan="12" Grid.ColumnSpan="3" Style="{x:Null}">
-            <StackPanel>
-                <Button Name="step_button" Content="Schritt" Click="step_button_Click"/>
-                <ToggleButton Name="start_stop_button" Content="START" Checked="start_stop_button_Checked" Unchecked="start_stop_button_Unchecked"/>
-                <Button Content="Reset" Click="reset_button_clicked"/>
-            </StackPanel>
+
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+
+
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Button Name="step_button" Content="Schritt" Click="step_button_Click" Grid.Row="0" Grid.Column="0" />
+            <ToggleButton Name="start_stop_button" Content="START" Checked="start_stop_button_Checked" Unchecked="start_stop_button_Unchecked" Grid.Row="1" Grid.Column="0"/>
+            <Button Content="Reset" Click="reset_button_clicked" Grid.Row="2" Grid.Column="0"/>
+        </Grid>
         </GroupBox>
-        <GroupBox Header="Timing" Grid.Row="1" Grid.Column="38" Grid.RowSpan="12" Grid.ColumnSpan="5" Style="{x:Null}">
-            
+
+            <GroupBox Header="Timing" Grid.Row="1" Grid.Column="38" Grid.RowSpan="12" Grid.ColumnSpan="5" Style="{x:Null}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+   
+
+
+                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+                <Label Name="Laufzeit" Content="Laufzeit:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"></Label>
+                <Label Name="Laufzeitvalue" Content="0 µ" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" ></Label>
+
+                <Label Name="Quarz" Content="Quarz:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ></Label>
+                <ComboBox Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4">
+                    <ComboBox.LayoutTransform>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
+                    </ComboBox.LayoutTransform>
+                    <ComboBoxItem>32 kHz</ComboBoxItem>
+                    <ComboBoxItem>64 kHz</ComboBoxItem>
+                    <ComboBoxItem>4  MHz</ComboBoxItem>
+                </ComboBox>
+                <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                    </CheckBox.LayoutTransform>
+                    <TextBlock>Freigabe Watchdog</TextBlock>
+                </CheckBox>
+
+                <Label Name="Watchdog" Content="Watchdog:" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"></Label>
+                <Label Name="Watchdogvalue" Content="00" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3"></Label>
+            </Grid>
         </GroupBox>
         <GroupBox Header="Stack" Grid.Row="1" Grid.Column="44" Grid.RowSpan="12" Grid.ColumnSpan="5" Style="{x:Null}">
-            <StackPanel Width="Auto" Height="Auto" CanVerticallyScroll="True"  Orientation="Vertical">
-
-                <TextBlock Name ="Stack0" Text="{Binding Path=StackUI[0]}" Width="Auto" Height="Auto"></TextBlock>
 
 
-                <TextBlock Name ="Stack1" Text="{Binding Path=StackUI[1]}" Width="Auto" Height="Auto"></TextBlock>
+
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
 
 
-                <TextBlock Name ="Stack2" Text="{Binding Path=StackUI[2]}" Width="Auto" Height="Auto"></TextBlock>
+
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextAlignment" Value="Center"></Setter>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </Grid.Resources>
+                <TextBlock Name ="Stack0" Text="{Binding Path=StackUI[0]}" Width="Auto" Height="Auto" Grid.Row="0" Grid.Column="0"></TextBlock>
 
 
-                <TextBlock Name ="Stack3" Text="{Binding Path=StackUI[3]}" Width="Auto" Height="Auto"></TextBlock>
+                <TextBlock Name ="Stack1" Text="{Binding Path=StackUI[1]}" Width="Auto" Height="Auto" Grid.Row="1" Grid.Column="0"></TextBlock>
 
 
-                <TextBlock Name ="Stack4" Text="{Binding Path=StackUI[4]}" Width="Auto" Height="Auto"></TextBlock>
+                <TextBlock Name ="Stack2" Text="{Binding Path=StackUI[2]}" Width="Auto" Height="Auto" Grid.Row="2" Grid.Column="0"></TextBlock>
 
 
-                <TextBlock Name ="Stack5" Text="{Binding Path=StackUI[5]}" Width="Auto" Height="Auto"></TextBlock>
+                <TextBlock Name ="Stack3" Text="{Binding Path=StackUI[3]}" Width="Auto" Height="Auto" Grid.Row="3" Grid.Column="0"></TextBlock>
 
 
-                <TextBlock Name ="Stack6" Text="{Binding Path=StackUI[6]}" Width="Auto" Height="Auto"></TextBlock>
+                <TextBlock Name ="Stack4" Text="{Binding Path=StackUI[4]}" Width="Auto" Height="Auto" Grid.Row="4" Grid.Column="0"></TextBlock>
 
+
+                <TextBlock Name ="Stack5" Text="{Binding Path=StackUI[5]}" Width="Auto" Height="Auto" Grid.Row="5" Grid.Column="0"></TextBlock>
+
+
+                <TextBlock Name ="Stack6" Text="{Binding Path=StackUI[6]}" Width="Auto" Height="Auto" Grid.Row="6" Grid.Column="0"></TextBlock>
+
+
+                <TextBlock Name ="Stack7" Text="{Binding Path=StackUI[7]}" Width="Auto" Height="Auto" Grid.Row="7" Grid.Column="0"></TextBlock>
  
-                <TextBlock Name ="Stack7" Text="{Binding Path=StackUI[7]}" Width="Auto" Height="Auto"></TextBlock>
-
-            </StackPanel>
+            </Grid>
         </GroupBox>
 
         <GroupBox Header="Port A" Grid.Row="14" Grid.RowSpan="6" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
-            <WrapPanel>
-                <Label Content="Tris" />
-                <CheckBox Content="7" />
-                <CheckBox Content="6"/>
-                <CheckBox Content="5"/>
-                <CheckBox Content="4"/>
-                <CheckBox Content="3"/>
-                <CheckBox Content="2"/>
-                <CheckBox Content="1"/>
-                <CheckBox Content="0"/>
-            </WrapPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+
+
+                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Label Name="Tris" Content="Tris" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
+            <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3">
+                <TextBlock>7</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+                    <TextBlock>6</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="0" Grid.Column="3" Grid.RowSpan="3">
+                    <TextBlock>5</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="0" Grid.Column="4" Grid.RowSpan="3">
+                    <TextBlock>4</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="0" Grid.Column="5" Grid.RowSpan="3">
+                    <TextBlock>3</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="0" Grid.Column="6" Grid.RowSpan="3">
+                    <TextBlock>2</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="0" Grid.Column="7" Grid.RowSpan="3">
+                    <TextBlock>1</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="0" Grid.Column="8" Grid.RowSpan="3">
+                    <TextBlock>0</TextBlock>
+            </CheckBox>
+
+            <Label Name="Pin" Content="Pin" Grid.Row="3" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
+            <CheckBox Grid.Row="3" Grid.Column="1" Grid.RowSpan="3">
+                <TextBlock>7</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="3" Grid.Column="2" Grid.RowSpan="3">
+                <TextBlock>6</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="3" Grid.Column="3" Grid.RowSpan="3">
+                <TextBlock>5</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="3" Grid.Column="4" Grid.RowSpan="3">
+                <TextBlock>4</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="3" Grid.Column="5" Grid.RowSpan="3">
+                <TextBlock>3</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="3" Grid.Column="6" Grid.RowSpan="3">
+                <TextBlock>2</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="3" Grid.Column="7" Grid.RowSpan="3">
+                <TextBlock>1</TextBlock>
+            </CheckBox>
+            <CheckBox Grid.Row="3" Grid.Column="8" Grid.RowSpan="3">
+                <TextBlock>0</TextBlock>
+            </CheckBox>
+            </Grid>
 
         </GroupBox>
         <GroupBox Header="Port B" Grid.Row="20" Grid.RowSpan="6" Grid.Column="34" Grid.ColumnSpan="15" Style="{x:Null}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
 
+
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Label Name="TrisB" Content="Tris" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
+                <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3">
+                    <TextBlock>7</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+                    <TextBlock>6</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="0" Grid.Column="3" Grid.RowSpan="3">
+                    <TextBlock>5</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="0" Grid.Column="4" Grid.RowSpan="3">
+                    <TextBlock>4</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="0" Grid.Column="5" Grid.RowSpan="3">
+                    <TextBlock>3</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="0" Grid.Column="6" Grid.RowSpan="3">
+                    <TextBlock>2</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="0" Grid.Column="7" Grid.RowSpan="3">
+                    <TextBlock>1</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="0" Grid.Column="8" Grid.RowSpan="3">
+                    <TextBlock>0</TextBlock>
+                </CheckBox>
+
+                <Label Name="PinB" Content="Pin" Grid.Row="3" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
+                <CheckBox Grid.Row="3" Grid.Column="1" Grid.RowSpan="3">
+                    <TextBlock>7</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="3" Grid.Column="2" Grid.RowSpan="3">
+                    <TextBlock>6</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="3" Grid.Column="3" Grid.RowSpan="3">
+                    <TextBlock>5</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="3" Grid.Column="4" Grid.RowSpan="3">
+                    <TextBlock>4</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="3" Grid.Column="5" Grid.RowSpan="3">
+                    <TextBlock>3</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="3" Grid.Column="6" Grid.RowSpan="3">
+                    <TextBlock>2</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="3" Grid.Column="7" Grid.RowSpan="3">
+                    <TextBlock>1</TextBlock>
+                </CheckBox>
+                <CheckBox Grid.Row="3" Grid.Column="8" Grid.RowSpan="3">
+                    <TextBlock>0</TextBlock>
+                </CheckBox>
+            </Grid>
 
         </GroupBox>
         <GroupBox Header="SFR + W-Register" Grid.Row="33" Grid.RowSpan="15" Grid.Column="1" Grid.ColumnSpan="16" Style="{x:Null}">
-            <Label Name = "WReg" Content="{Binding WReg}"></Label>
-            
+            <Grid Name="SfrandWGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+
+
+
+
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Label Name="WRegName" Content="W-Register:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "WReg" Content="{Binding WReg}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+
+                <Label Name="PCLGUI" Content="PCL:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "PCLvalue" Content="{Binding PCL}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+
+                <Label Name="PCLath" Content="PCLATH:" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "pclath" Content="{Binding PCLATH}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+
+                <Label Name="PCintern" Content="PC intern:" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "pcintern" Content="00" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+
+                <Label Name="Status" Content="Status:" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "status" Content="{Binding STATUS}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+
+                <Label Name="Fsr" Content="FSR:" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "fsr" Content="{Binding FSR}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+
+                <Label Name="Option" Content="Option:" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "option" Content="{Binding OPTION}" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+
+                <Label Name="Vorteiler" Content="Vorteiler:" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "vorteiler" Content="1:1" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+
+                <Label Name="Timer0" Content="Timer0:" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name = "timer0" Content="00" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+            </Grid>
         </GroupBox>
 
         <GroupBox Header="SFR (Bit)" Grid.Row="33" Grid.RowSpan="15" Grid.Column="17" Grid.ColumnSpan="16" Style="{x:Null}">
-            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+
+
+
+
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+
+                </Grid.RowDefinitions>
+                <Label Name="Statussfr" Content="Status:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+
+                <Label Name="IRP" Content="IRP" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RP1" Content="RP1" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RP0" Content="RP0" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="T0" Content="T0" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PD" Content="PD" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="Z" Content="Z" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="DC" Content="DC" Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="C" Content="C" Grid.Row="0" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+
+                <Label Name="IRPvalue" Content="0" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" ></Label>
+                <Label Name="RP1value" Content="0" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RP0value" Content="0" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="T0value" Content="0" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PDvalue" Content="0" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="Zvalue" Content="0" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="DCvalue" Content="0" Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="Cvalue" Content="0" Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+
+                <Label Name="Optionfsr" Content="Option:" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+
+                <Label Name="RPU" Content="RPU" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IEg" Content="IEg" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TCs" Content="TCs" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TSe" Content="TSe" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PSA" Content="PSA" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS2" Content="PS2" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS1" Content="PS1" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS0" Content="PS0" Grid.Row="2" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+
+                <Label Name="RPUvalue" Content="0" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IEgvalue" Content="0" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TCsvalue" Content="0" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TSevalue" Content="0" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PSAvalue" Content="0" Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS2value" Content="0" Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS1value" Content="0" Grid.Row="3" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS0value" Content="0" Grid.Row="3" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+
+                <Label Name="Intcon" Content="Intcon:" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+
+                <Label Name="GIE" Content="GIE" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="EIE" Content="EIE" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TIE" Content="TIE" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IE" Content="IE" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RIE" Content="RIE" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TIF" Content="TIF" Grid.Row="4" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IF" Content="IF" Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RIF" Content="RIF" Grid.Row="4" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+
+                <Label Name="GIEvalue" Content="0" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="EIEvalue" Content="0" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TIEvalue" Content="0" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IEvalue" Content="0" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RIEvalue" Content="0" Grid.Row="5" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TIFvalue" Content="0" Grid.Row="5" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IFvalue" Content="0" Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RIFvalue" Content="0" Grid.Row="5" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+            </Grid>
             
         </GroupBox>
 

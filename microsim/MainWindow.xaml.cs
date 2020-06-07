@@ -28,6 +28,8 @@ namespace microsim
         CommandDecoder CommandDecoder = new CommandDecoder();
         CommandHandler CommandHandler = new CommandHandler();
         Initializer Initializer = new Initializer();
+        PCL PCL = new PCL();
+        RegArrayHandler regArrayHandler = new RegArrayHandler();
         MainWindowViewModel View = new MainWindowViewModel();
         private CancellationTokenSource _canceller;
 
@@ -55,7 +57,7 @@ namespace microsim
         {
             Console.WriteLine("Ein Schritt weiter!");
             CommandHandler.nextCommand();
-            UpdateWregUI();
+            UpdateSFR();
             UpdateFileRegisterUI();
             UpdateStackUI();
         }
@@ -73,7 +75,7 @@ namespace microsim
                 {
                     Console.WriteLine("Ein Schritt weiter!");
                     CommandHandler.nextCommand();
-                    UpdateWregUI();
+                    UpdateSFR();
                     UpdateFileRegisterUI();
                     UpdateStackUI();
 
@@ -110,12 +112,7 @@ namespace microsim
             View.FileRegisterData = data;
         }
 
-        private void UpdateWregUI()
-        {
-            string wreg;
-            wreg = DataStorage.w_register.ToString("X2");
-            View.WReg = wreg;
-        }
+        
 
         private void UpdateStackUI()
         {
@@ -126,6 +123,33 @@ namespace microsim
             }
 
             View.StackUI = data;
+        }
+
+        private void UpdateSFR()
+        {
+            string wreg;
+            wreg = DataStorage.w_register.ToString("X2");
+            View.WReg = wreg;
+
+            string pcl;
+            pcl = PCL.getPCL().ToString("X2");
+            View.PCL = pcl;
+
+            string pclath;
+            pclath = PCL.getPCLLath().ToString("X2");
+            View.PCLATH = pclath;
+
+            string status;
+            status = regArrayHandler.getRegArray(0x03).ToString("X2");
+            View.STATUS = status;
+
+            string fsr;
+            fsr = regArrayHandler.getRegArray(0x04).ToString("X2");
+            View.FSR = fsr;
+
+            string option;
+            option = regArrayHandler.getRegArray(0x81).ToString("X2");
+            View.OPTION = option;
         }
 
         private void FileRegister_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
@@ -165,7 +189,7 @@ namespace microsim
         {
             Initializer.fullReset();
             UpdateFileRegisterUI();
-            UpdateWregUI();
+            UpdateSFR();
             UpdateStackUI();
         }
     }
