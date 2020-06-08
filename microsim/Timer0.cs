@@ -14,8 +14,10 @@ namespace microsim
         public Timer0()
         {
             InitTimer0(); // init timer0 
-            SetInterrupt(); // enable interrupt setting
-            SelectClockSource(0); // enable clock source for timer0
+            //SetInterrupt(); // enable interrupt setting
+            //SelectClockSource(0); // enable clock source for timer0
+            //DataStorage.Timer0_Limit = 255;
+            //DataStorage.Timer0_Predef_Value = 7;
         }
 
         private void InitTimer0()
@@ -26,10 +28,12 @@ namespace microsim
             DataStorage.regArray[0x81] = DataStorage.regArray[0x81] ^ 0x20; // 32 as dec
 
             // reset prescaler to 1:2 rate
-            DataStorage.regArray[0x81] = DataStorage.regArray[0x81] & 0xF8;
+            //DataStorage.regArray[0x81] = DataStorage.regArray[0x81] & 0xF8;
+            
+            DataStorage.prescalerValue = 256;
 
             // reset timer0
-            ResetTimer();
+            DataStorage.timer0 = 0;
 
             // enable interrupts T0IE
             DataStorage.regArray[0x0B] = DataStorage.regArray[0x0B] | 0x20; //  32 as dec
@@ -48,12 +52,14 @@ namespace microsim
             switch (newSource)
             {
                 case 0: // PSA is set for Timer0 (= 0)
+                    DataStorage.prescalerValue = 2 ^ (DataStorage.regArray[0x81] & 0xF8) * 2;
                     DataStorage.regArray[0x81] ^= 0x08;
                     Console.WriteLine("PSA IS NOW SET FOR TIMER 0");
                     break;
                 case 1: // PSA is set for Watchdog (= 1)
                     DataStorage.regArray[0x81] |= 0x08;
                     Console.WriteLine("PSA IS NOW SET FOR WATCHDOG");
+                    Console.WriteLine("HIER IST DER FEHLER TIMER 0");
                     break;
                 default:
                     Console.WriteLine("PSA NOT SET CORRECTLY");
@@ -61,10 +67,10 @@ namespace microsim
             }
         }
 
-        private void ResetPrescaler()
-        {
-            //
-        }
+        //private void ResetPrescaler()
+        //{
+        //    //
+        //}
 
         private void SetPrescaler(DataStorage.Prescaler newPrescaler)
         {
@@ -83,17 +89,17 @@ namespace microsim
             }
         }
 
-        public void WriteTimer0()
+        public void WriteTimer0(uint newValue)
         {
-            //
+            DataStorage.timer0 = newValue;
         }
 
-        public void ReadTimer0()
+        public uint ReadTimer0()
         {
-            //
+            return DataStorage.timer0;
         }
 
-        private void SetInterrupt()
+        public void SetInterrupt()
         {
             uint localT0IF = 0x04;
             // if T0IF is set
@@ -113,7 +119,7 @@ namespace microsim
             return;
         }
 
-        private void ResetInterrupt()
+        public void ResetInterrupt()
         {
             // reset T01F
             uint localT0IF = 0x04;
@@ -151,6 +157,7 @@ namespace microsim
                 && ((DataStorage.regArray[0x0B] & 0x04) == 0x04)) // T0IF [2]
             {
                 /* CALL address 0x0004 */
+                /*  */
                 /* TODO */
             }
 
@@ -163,6 +170,22 @@ namespace microsim
             // SHORT: notification that interrupt was set to count either timer 0 or watchdog (depends on psa bit)
         }
 
+        public void DisableInterruptsAll()
+        {
+            /* disable all interrupts */
+            DataStorage.regArray[0x0B] ^= 0x80; /*  GIE [7] */
+            DataStorage.regArray[0x0B] ^= 0x20; /* T0IE [5] */
+            DataStorage.regArray[0x0B] ^= 0x04; /* T0IF [2] */
+        }
+
+        public void EnableInterruptsAll()
+        {
+            /* enable all interrupts */
+            DataStorage.regArray[0x0B] |= 0x80; /*  GIE [7] */
+            DataStorage.regArray[0x0B] |= 0x20; /* T0IE [5] */
+            DataStorage.regArray[0x0B] |= 0x04; /* T0IF [2] */
+        }
+
         public void ResetInterrupt()
         {
             // SHORT: reset interrupt 
@@ -171,14 +194,21 @@ namespace microsim
             DataStorage.regArray[0x0B] ^= 0x04; // T0IF [2]
         }
 
-        public void InterruptServiceRoutine() 
+        public void InterruptServiceRoutine(Timer0 tim0) 
         {
             // SHORT: "interrupt handler" after interrupt request
 
-            SetInterrupt(); // set private interrupt
+            //SetInterrupt(); // set private interrupt
+            DisableInterruptsAll(); // disable all interrupts // "cli" // first command 
+            /* user code here */
+            Console.WriteLine("HALLO ISR HIER\n");
+
+            tim0.WriteTimer0(DataStorage.Timer0_Predef_Value); /* Reset Timer0 with init value */
+
+            EnableInterruptsAll(); // enable all interrupts // "reti" // last command before leaving isr
 
             // loads timer0 with new init value (=0)
-            DataStorage.timer0 = 0;
+            //DataStorage.timer0 = 0;
 
         }
     }
@@ -195,6 +225,7 @@ namespace microsim
         public void InitWatchdog()
         {
             // SHORT: init watchdog
+            uint prescaler = 2 ^ (DataStorage.regArray[0x81] & 0xF8);
         }
 
         public void ResetWatchdog()
@@ -229,6 +260,7 @@ namespace microsim
                 case 1: // PSA is set for Watchdog (= 1)
                     DataStorage.regArray[0x81] |= 0x08;
                     Console.WriteLine("PSA IS NOW SET FOR WATCHDOG");
+                    Console.WriteLine("HIER IST DER FEHLER WATCHDOG");
                     break;
                 default:
                     Console.WriteLine("PSA NOT SET CORRECTLY");

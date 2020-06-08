@@ -1010,7 +1010,7 @@ namespace microsim
             /* POWER ON RESET: pd = 1 && to = 1 */
             if (((regArrayHandler.getRegArray(0x03) & 0x08) == 0x08) && ((regArrayHandler.getRegArray(0x03) & 0x10) == 0x10))
             {
-                // reset (status) register -> TODO
+                // reset (status) register -> TODO 
 
                 // stop SLEEP
                 return;

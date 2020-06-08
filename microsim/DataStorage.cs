@@ -56,17 +56,25 @@ namespace microsim
         public static uint timer0 = 0;
         public static List<Prescaler> PrescTimer0 = new List<Prescaler>(8);
 
+        public static int ichzaehlehoch = 0;
+        
+        public static uint Timer0_Limit;
+        public static uint Timer0_Predef_Value;
+
         public class Prescaler
         {
             public uint Timer0Value;
             public uint prescalerValue;
         }
+        public static uint prescalerValue;
+        //uint static prescaler;
 
         // watchdog
-        public static Watchdog watchdog1 = new Watchdog();
+        //public static Watchdog watchdog1 = new Watchdog();
 
         public static uint watchdogCounter = 0;
         public static List<Prescaler> PrescWatchdog = new List<Prescaler>();
+
 
     }
 }

@@ -46,7 +46,20 @@ namespace microsim
             {
                 DataStorage.regArray[adress] = value;
             }
-            
+            if (adress == 0x81)
+            {
+                if ((DataStorage.regArray[0x81] & 0x08) == 0x08)
+                {
+                    DataStorage.prescalerValue =
+                        2 ^ (DataStorage.regArray[0x81] & 0xF8);  
+                }
+                else
+                {
+                    DataStorage.prescalerValue =
+                        2 ^ (DataStorage.regArray[0x81] & 0xF8) * 2; /* *2 da Timer 0 */ 
+                }
+            }
+
         }
 
         public uint getRegArray(uint adress)
