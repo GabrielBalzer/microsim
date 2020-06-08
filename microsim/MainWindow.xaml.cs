@@ -38,7 +38,7 @@ namespace microsim
             DataContext = View;
             InitializeComponent();
             Initializer.fullReset();
-            UpdateFileRegisterUI();
+            completeUpdate();
         }
 
         private void File_Open_Click(object sender, RoutedEventArgs e)
@@ -60,6 +60,7 @@ namespace microsim
             UpdateSFR();
             UpdateFileRegisterUI();
             UpdateStackUI();
+            UpdatePin();
         }
 
         private async void start_stop_button_Checked(object sender, RoutedEventArgs e)
@@ -150,6 +151,37 @@ namespace microsim
             string option;
             option = regArrayHandler.getRegArray(0x81).ToString("X2");
             View.OPTION = option;
+
+            char[] statusarray;
+            statusarray = Convert.ToString(regArrayHandler.getRegArray(0x03), 2).PadLeft(8, '0').ToCharArray();
+            View.StatusRegisterData = statusarray;
+
+            char[] optionarray;
+            optionarray = Convert.ToString(regArrayHandler.getRegArray(0x81), 2).PadLeft(8, '0').ToCharArray();
+            View.OptionRegisterData = optionarray;
+
+            char[] intconarray;
+            intconarray = Convert.ToString(regArrayHandler.getRegArray(0x0B), 2).PadLeft(8, '0').ToCharArray();
+            View.IntconRegisterData = intconarray;
+        }
+
+        private void UpdatePin()
+        {
+            var pinavalue = (int)regArrayHandler.getRegArray(0x05);
+            var pinaarray = Int32Extensions.ToBooleanArray(pinavalue);
+            View.Pina = pinaarray;
+
+            var pinbvalue = (int)regArrayHandler.getRegArray(0x06);
+            var pinbarray = Int32Extensions.ToBooleanArray(pinbvalue);
+            View.Pinb = pinbarray;
+
+            var trisavalue = (int)regArrayHandler.getRegArray(0x85);
+            var trisaarray = Int32Extensions.ToBooleanArray(trisavalue);
+            View.Trisa = trisaarray;
+
+            var trisbvalue = (int)regArrayHandler.getRegArray(0x86);
+            var trisbarray = Int32Extensions.ToBooleanArray(trisbvalue);
+            View.Trisb = trisbarray;
         }
 
         private void FileRegister_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
@@ -166,8 +198,7 @@ namespace microsim
                         byte b = (byte)int.Parse(newValue, System.Globalization.NumberStyles.HexNumber);
                         editingTextBox.Text = b.ToString("X2");
                         DataStorage.regArray[e.Row.GetIndex() * 8 + e.Column.DisplayIndex] = b;
-                        UpdateFileRegisterUI();
-                        MessageBox.Show(DataStorage.regArray[0].ToString());
+                        completeUpdate();
                     }
                     catch
                     {
@@ -191,6 +222,160 @@ namespace microsim
             UpdateFileRegisterUI();
             UpdateSFR();
             UpdateStackUI();
+        }
+
+        private void completeUpdate()
+        {
+            UpdateFileRegisterUI();
+            UpdateStackUI();
+            UpdateSFR();
+            UpdatePin();
+        }
+
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var checkboxname = (sender as CheckBox).Name;
+            var isChecked = (bool)((sender as CheckBox).IsChecked);
+
+
+            switch (checkboxname)
+            {
+                case "Pina4":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) | 0b00010000);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) & 0b11101111);
+                    }
+                    break;
+                case "Pina3":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) | 0b00001000);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) & 0b11110111);
+                    }
+                    break;
+                case "Pina2":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) | 0b00000100);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) & 0b11111011);
+                    }
+                    break;
+                case "Pina1":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) | 0b00000010);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) & 0b11111101);
+                    }
+                    break;
+                case "Pina0":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) | 0b00000001);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x05, regArrayHandler.getRegArray(0x05) & 0b11111110);
+                    }
+                    break;
+
+                case "Pinb7":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) | 0b10000000);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) & 0b01111111);
+                    }
+                    break;
+                case "Pinb6":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) | 0b01000000);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) & 0b10111111);
+                    }
+                    break;
+                case "Pinb5":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) | 0b00100000);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) & 0b11011111);
+                    }
+                    break;
+                case "Pinb4":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) | 0b00010000);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) & 0b11101111);
+                    }
+                    break;
+                case "Pinb3":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) | 0b00001000);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) & 0b11110111);
+                    }
+                    break;
+                case "Pinb2":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) | 0b00000100);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) & 0b11111011);
+                    }
+                    break;
+                case "Pinb1":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) | 0b00000010);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) & 0b11111101);
+                    }
+                    break;
+                case "Pinb0":
+                    if (isChecked)
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) | 0b00000001);
+                    }
+                    else
+                    {
+                        regArrayHandler.setRegArray(0x06, regArrayHandler.getRegArray(0x06) & 0b11111110);
+                    }
+                    break;
+
+
+            }
+            completeUpdate();
         }
     }
 }

@@ -48,6 +48,70 @@ namespace microsim
         }
         #endregion
 
+        #region SFR
+
+        private char[] statusRegisterData;
+
+        public char[] StatusRegisterData
+        {
+            get { return this.statusRegisterData; }
+            set { this.SetAndNotify(ref this.statusRegisterData, value, () => this.statusRegisterData); }
+        }
+
+        private char[] optionRegisterData;
+
+        public char[] OptionRegisterData
+        {
+            get { return this.optionRegisterData; }
+            set { this.SetAndNotify(ref this.optionRegisterData, value, () => this.optionRegisterData); }
+        }
+
+        private char[] intconRegisterData;
+
+        public char[] IntconRegisterData
+        {
+            get { return this.intconRegisterData; }
+            set { this.SetAndNotify(ref this.intconRegisterData, value, () => this.intconRegisterData); }
+        }
+
+        #endregion
+
+        #region Pins
+
+        private bool[] pina;
+
+        public bool[] Pina
+        {
+            get { return this.pina; }
+            set { this.SetAndNotify(ref this.pina, value, () => this.pina); }
+        }
+
+        private bool[] pinb;
+
+        public bool[] Pinb
+        {
+            get { return this.pinb; }
+            set { this.SetAndNotify(ref this.pinb, value, () => this.pinb); }
+        }
+
+        private bool[] trisa;
+
+        public bool[] Trisa
+        {
+            get { return this.trisa; }
+            set { this.SetAndNotify(ref this.trisa, value, () => this.trisa); }
+        }
+
+        private bool[] trisb;
+
+        public bool[] Trisb
+        {
+            get { return this.trisb; }
+            set { this.SetAndNotify(ref this.trisb, value, () => this.trisb); }
+        }
+
+        #endregion
+
         #region PCLATH
 
         private string pclath;
@@ -99,6 +163,13 @@ namespace microsim
             this.FileRegisterColumns = new string[] { "+0", "+1", "+2", "+3", "+4", "+5", "+6", "+7" };
             this.FileRegisterRows = new string[] { "00", "08", "10", "18", "20", "28", "30", "38", "40", "48", "50", "58", "60", "68", "70", "78", "80", "88", "90", "98", "A0", "A8", "B0", "B8", "C0", "C8", "D0", "D8", "E0", "E8", "F0", "F8" };
             this.FileRegisterData = new string[32, 8];
+            this.StatusRegisterData = new char[8];
+            this.OptionRegisterData = new char[8];
+            this.IntconRegisterData = new char[8];
+            this.Pina = new bool[8];
+            this.Pinb = new bool[8];
+            this.Trisa = new bool[8];
+            this.Trisb = new bool[8];
             this.WReg = "00";
             this.PCL = "00";
             this.PCLATH = "00";

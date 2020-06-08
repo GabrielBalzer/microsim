@@ -187,7 +187,7 @@
                     </ComboBox.LayoutTransform>
                     <ComboBoxItem>32 kHz</ComboBoxItem>
                     <ComboBoxItem>64 kHz</ComboBoxItem>
-                    <ComboBoxItem>4  MHz</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">4  MHz</ComboBoxItem>
                 </ComboBox>
                 <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
                     <CheckBox.LayoutTransform>
@@ -277,32 +277,33 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
             <Label Name="Tris" Content="Tris" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
-            <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisa[0]}">
                 <TextBlock>7</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisa[1]}">
                     <TextBlock>6</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="0" Grid.Column="3" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisa[2]}">
                     <TextBlock>5</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="0" Grid.Column="4" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisa[3]}">
                     <TextBlock>4</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="0" Grid.Column="5" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisa[4]}">
                     <TextBlock>3</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="0" Grid.Column="6" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="6" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisa[5]}">
                     <TextBlock>2</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="0" Grid.Column="7" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="7" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisa[6]}">
                     <TextBlock>1</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="0" Grid.Column="8" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="8" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisa[7]}">
                     <TextBlock>0</TextBlock>
             </CheckBox>
 
             <Label Name="Pin" Content="Pin" Grid.Row="3" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
+            <!--
             <CheckBox Grid.Row="3" Grid.Column="1" Grid.RowSpan="3">
                 <TextBlock>7</TextBlock>
             </CheckBox>
@@ -312,20 +313,21 @@
             <CheckBox Grid.Row="3" Grid.Column="3" Grid.RowSpan="3">
                 <TextBlock>5</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="3" Grid.Column="4" Grid.RowSpan="3">
-                <TextBlock>4</TextBlock>
+            -->
+            <CheckBox Name="Pina4" Grid.Row="3" Grid.Column="4" Grid.RowSpan="3" IsChecked="{Binding Path=Pina[3]}" Click="ButtonBase_OnClick">
+                    <TextBlock>4</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="3" Grid.Column="5" Grid.RowSpan="3">
-                <TextBlock>3</TextBlock>
+                <CheckBox Name="Pina3" Grid.Row="3" Grid.Column="5" Grid.RowSpan="3" IsChecked="{Binding Path=Pina[4]}" Click="ButtonBase_OnClick">
+                    <TextBlock>3</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="3" Grid.Column="6" Grid.RowSpan="3">
-                <TextBlock>2</TextBlock>
+                <CheckBox Name="Pina2" Grid.Row="3" Grid.Column="6" Grid.RowSpan="3" IsChecked="{Binding Path=Pina[5]}" Click="ButtonBase_OnClick">
+                    <TextBlock>2</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="3" Grid.Column="7" Grid.RowSpan="3">
-                <TextBlock>1</TextBlock>
+                <CheckBox Name="Pina1" Grid.Row="3" Grid.Column="7" Grid.RowSpan="3" IsChecked="{Binding Path=Pina[6]}" Click="ButtonBase_OnClick">
+                    <TextBlock>1</TextBlock>
             </CheckBox>
-            <CheckBox Grid.Row="3" Grid.Column="8" Grid.RowSpan="3">
-                <TextBlock>0</TextBlock>
+                <CheckBox Name="Pina0" Grid.Row="3" Grid.Column="8" Grid.RowSpan="3" IsChecked="{Binding Path=Pina[7]}" Click="ButtonBase_OnClick">
+                    <TextBlock>0</TextBlock>
             </CheckBox>
             </Grid>
 
@@ -354,54 +356,54 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <Label Name="TrisB" Content="Tris" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
-                <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisb[0]}">
                     <TextBlock>7</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisb[1]}">
                     <TextBlock>6</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="0" Grid.Column="3" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisb[2]}">
                     <TextBlock>5</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="0" Grid.Column="4" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="4" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisb[3]}">
                     <TextBlock>4</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="0" Grid.Column="5" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="5" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisb[4]}">
                     <TextBlock>3</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="0" Grid.Column="6" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="6" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisb[5]}">
                     <TextBlock>2</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="0" Grid.Column="7" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="7" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisb[6]}">
                     <TextBlock>1</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="0" Grid.Column="8" Grid.RowSpan="3">
+                <CheckBox Grid.Row="0" Grid.Column="8" Grid.RowSpan="3" IsHitTestVisible="False" Focusable="False" Opacity="0.5" IsChecked="{Binding Path=Trisb[7]}">
                     <TextBlock>0</TextBlock>
                 </CheckBox>
 
                 <Label Name="PinB" Content="Pin" Grid.Row="3" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
-                <CheckBox Grid.Row="3" Grid.Column="1" Grid.RowSpan="3">
+                <CheckBox Name="Pinb7" Grid.Row="3" Grid.Column="1" Grid.RowSpan="3" IsChecked="{Binding Path=Pinb[0]}" Click="ButtonBase_OnClick">
                     <TextBlock>7</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="2" Grid.RowSpan="3">
+                <CheckBox Name="Pinb6" Grid.Row="3" Grid.Column="2" Grid.RowSpan="3" IsChecked="{Binding Path=Pinb[1]}" Click="ButtonBase_OnClick">
                     <TextBlock>6</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="3" Grid.RowSpan="3">
+                <CheckBox Name="Pinb5" Grid.Row="3" Grid.Column="3" Grid.RowSpan="3" IsChecked="{Binding Path=Pinb[2]}" Click="ButtonBase_OnClick">
                     <TextBlock>5</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="4" Grid.RowSpan="3">
+                <CheckBox Name="Pinb4" Grid.Row="3" Grid.Column="4" Grid.RowSpan="3" IsChecked="{Binding Path=Pinb[3]}" Click="ButtonBase_OnClick">
                     <TextBlock>4</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="5" Grid.RowSpan="3">
+                <CheckBox Name="Pinb3" Grid.Row="3" Grid.Column="5" Grid.RowSpan="3" IsChecked="{Binding Path=Pinb[4]}" Click="ButtonBase_OnClick">
                     <TextBlock>3</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="6" Grid.RowSpan="3">
+                <CheckBox Name="Pinb2" Grid.Row="3" Grid.Column="6" Grid.RowSpan="3" IsChecked="{Binding Path=Pinb[5]}" Click="ButtonBase_OnClick">
                     <TextBlock>2</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="7" Grid.RowSpan="3">
+                <CheckBox Name="Pinb1" Grid.Row="3" Grid.Column="7" Grid.RowSpan="3" IsChecked="{Binding Path=Pinb[6]}" Click="ButtonBase_OnClick">
                     <TextBlock>1</TextBlock>
                 </CheckBox>
-                <CheckBox Grid.Row="3" Grid.Column="8" Grid.RowSpan="3">
+                <CheckBox Name="Pinb0" Grid.Row="3" Grid.Column="8" Grid.RowSpan="3" IsChecked="{Binding Path=Pinb[7]}" Click="ButtonBase_OnClick">
                     <TextBlock>0</TextBlock>
                 </CheckBox>
             </Grid>
@@ -495,14 +497,14 @@
                 <Label Name="DC" Content="DC" Grid.Row="0" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
                 <Label Name="C" Content="C" Grid.Row="0" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
-                <Label Name="IRPvalue" Content="0" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" ></Label>
-                <Label Name="RP1value" Content="0" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="RP0value" Content="0" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="T0value" Content="0" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="PDvalue" Content="0" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="Zvalue" Content="0" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="DCvalue" Content="0" Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="Cvalue" Content="0" Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IRPvalue" Content="{Binding Path=StatusRegisterData[0]}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2" ></Label>
+                <Label Name="RP1value" Content="{Binding Path=StatusRegisterData[1]}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RP0value" Content="{Binding Path=StatusRegisterData[2]}" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="T0value" Content="{Binding Path=StatusRegisterData[3]}" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PDvalue" Content="{Binding Path=StatusRegisterData[4]}" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="Zvalue" Content="{Binding Path=StatusRegisterData[5]}" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="DCvalue" Content="{Binding Path=StatusRegisterData[6]}" Grid.Row="1" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="Cvalue" Content="{Binding Path=StatusRegisterData[7]}" Grid.Row="1" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
                 <Label Name="Optionfsr" Content="Option:" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
@@ -515,14 +517,14 @@
                 <Label Name="PS1" Content="PS1" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
                 <Label Name="PS0" Content="PS0" Grid.Row="2" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
-                <Label Name="RPUvalue" Content="0" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="IEgvalue" Content="0" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="TCsvalue" Content="0" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="TSevalue" Content="0" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="PSAvalue" Content="0" Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="PS2value" Content="0" Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="PS1value" Content="0" Grid.Row="3" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="PS0value" Content="0" Grid.Row="3" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RPUvalue" Content="{Binding Path=OptionRegisterData[0]}" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IEgvalue" Content="{Binding Path=OptionRegisterData[1]}" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TCsvalue" Content="{Binding Path=OptionRegisterData[2]}" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TSevalue" Content="{Binding Path=OptionRegisterData[3]}" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PSAvalue" Content="{Binding Path=OptionRegisterData[4]}" Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS2value" Content="{Binding Path=OptionRegisterData[5]}" Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS1value" Content="{Binding Path=OptionRegisterData[6]}" Grid.Row="3" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="PS0value" Content="{Binding Path=OptionRegisterData[7]}" Grid.Row="3" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
                 <Label Name="Intcon" Content="Intcon:" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
@@ -535,14 +537,14 @@
                 <Label Name="IF" Content="IF" Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
                 <Label Name="RIF" Content="RIF" Grid.Row="4" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
-                <Label Name="GIEvalue" Content="0" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="EIEvalue" Content="0" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="TIEvalue" Content="0" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="IEvalue" Content="0" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="RIEvalue" Content="0" Grid.Row="5" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="TIFvalue" Content="0" Grid.Row="5" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="IFvalue" Content="0" Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="RIFvalue" Content="0" Grid.Row="5" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="GIEvalue" Content="{Binding Path=IntconRegisterData[0]}" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="EIEvalue" Content="{Binding Path=IntconRegisterData[1]}" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TIEvalue" Content="{Binding Path=IntconRegisterData[2]}" Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IEvalue" Content="{Binding Path=IntconRegisterData[3]}" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RIEvalue" Content="{Binding Path=IntconRegisterData[4]}" Grid.Row="5" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TIFvalue" Content="{Binding Path=IntconRegisterData[5]}" Grid.Row="5" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IFvalue" Content="{Binding Path=IntconRegisterData[6]}" Grid.Row="5" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RIFvalue" Content="{Binding Path=IntconRegisterData[7]}" Grid.Row="5" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
             </Grid>
             
         </GroupBox>
