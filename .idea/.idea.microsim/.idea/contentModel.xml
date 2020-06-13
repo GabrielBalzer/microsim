@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\gabri\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\gabri\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_microsim.-2023202204.00" t="ExcludeRecursive" />
+    <e p="D:\Coding\microsim" t="IncludeFlat">
+      <e p="microsim" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="App.xaml" t="Include" />
+        <e p="App.xaml.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="CommandDecoder.cs" t="Include" />
+        <e p="CommandHandler.cs" t="Include" />
+        <e p="DataStorage.cs" t="Include" />
+        <e p="FileHandling.cs" t="Include" />
+        <e p="Initializer.cs" t="Include" />
+        <e p="MainWindow.xaml" t="Include" />
+        <e p="MainWindow.xaml.cs" t="Include" />
+        <e p="MainWindowViewModel.cs" t="Include" />
+        <e p="microsim.csproj" t="IncludeRecursive" />
+        <e p="microsim_TemporaryKey.pfx" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="ObservableObject.cs" t="Include" />
+        <e p="packages.config" t="Include" />
+        <e p="PCL.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="DataSources" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+        <e p="Register.cs" t="Include" />
+        <e p="Stack.cs" t="Include" />
+      </e>
+      <e p="microsim.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
