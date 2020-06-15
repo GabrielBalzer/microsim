@@ -31,6 +31,7 @@ namespace microsim
             public string command { get; set; }
             public string program { get; set; }
             public int linenumber { get; set; }
+            public bool breakpoint { get; set; }
 
         }
 
@@ -52,29 +53,26 @@ namespace microsim
         }
 
         // timer0
-        public static Timer0 tim0 = new Timer0();
 
-        public static uint timer0 = 0;
-        public static List<Prescaler> PrescTimer0 = new List<Prescaler>(8);
+        public static uint timervalue = 0;
 
-        public static int ichzaehlehoch = 0;
         
         public static uint Timer0_Limit;
         public static uint Timer0_Predef_Value;
 
-        public class Prescaler
-        {
-            public uint Timer0Value;
-            public uint prescalerValue;
-        }
+       
         public static uint prescalerValue;
+
+        public static int prescalerCount = 0;
+
+        public static bool lowHighFlank;
+        public static bool highLowFlank;
         //uint static prescaler;
 
         // watchdog
         //public static Watchdog watchdog1 = new Watchdog();
 
         public static uint watchdogCounter = 0;
-        public static List<Prescaler> PrescWatchdog = new List<Prescaler>();
 
 
     }

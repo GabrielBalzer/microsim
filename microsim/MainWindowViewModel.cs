@@ -28,6 +28,18 @@ namespace microsim
         }
         #endregion
 
+        #region PCintern
+
+        private string pcintern;
+
+        public string Pcintern
+        {
+            get { return this.pcintern; }
+            set { this.SetAndNotify(ref this.pcintern, value, () => this.pcintern); }
+        }
+
+        #endregion
+
         #region STACK
         private string[] stackUI;
         public string[] StackUI
@@ -170,6 +182,29 @@ namespace microsim
         }
 
         #endregion
+
+        #region Timer
+
+        private string timer;
+        public string Timer
+        {
+            get { return this.timer; }
+            set { this.SetAndNotify(ref this.timer, value, () => this.timer); }
+        }
+
+        #endregion
+
+        #region Prescaler
+
+        private string prescaler;
+
+        public string Prescaler
+        {
+            get { return this.prescaler; }
+            set { this.SetAndNotify(ref this.prescaler, value, () => this.prescaler); }
+        }
+
+        #endregion
         public MainWindowViewModel()
         {
             this.FileRegisterColumns = new string[] { "+0", "+1", "+2", "+3", "+4", "+5", "+6", "+7" };
@@ -183,9 +218,12 @@ namespace microsim
             this.Trisa = new bool[8];
             this.Trisb = new bool[8];
             this.Timespent = "0 µ";
+            this.Timer = "00";
+            this.Prescaler = "1:1";
             this.WReg = "00";
             this.PCL = "00";
             this.PCLATH = "00";
+            this.Pcintern = "00";
             this.STATUS = "00";
             this.FSR = "00";
             this.OPTION = "00";

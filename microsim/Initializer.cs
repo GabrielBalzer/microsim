@@ -75,12 +75,7 @@ namespace microsim
         //    DataStorage.watchdog1 = new Watchdog();
         //}
 
-        public static void InitInterrupt()
-        {
-            Interrupt irq = new Interrupt();
-            irq.DisableInterruptsAll();
-            Console.WriteLine(DataStorage.tim0.ReadTimer0());
-        }
+
 
         public static void InitTimer0()
         {
@@ -95,7 +90,7 @@ namespace microsim
             DataStorage.prescalerValue = 256;
 
             // reset timer0
-            DataStorage.timer0 = 0;
+            //DataStorage.timer0 = 0;
 
             //// enable interrupts T0IE
             //DataStorage.regArray[0x0B] = DataStorage.regArray[0x0B] | 0x20; //  32 as dec
@@ -118,7 +113,7 @@ namespace microsim
             initCycle();
             InitTimer0();
             //InitWatchdog();
-            InitInterrupt();
+            //InitInterrupt();
         }
     }
 }

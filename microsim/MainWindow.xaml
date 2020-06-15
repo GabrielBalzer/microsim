@@ -127,14 +127,29 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
+<Grid.Resources>
+    
+
+        </Grid.Resources>
 
         <GroupBox Header=".LST Datei" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="32" Grid.RowSpan="31" Style="{x:Null}">
-            <DataGrid Name="programdata" HorizontalAlignment="Left" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False" HeadersVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" BorderThickness="0">
+
+
+            <DataGrid Name="programdata" HorizontalAlignment="Left" AutoGenerateColumns="False" IsReadOnly="False" CanUserSortColumns="False" HeadersVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" BorderThickness="0">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn  ></DataGridCheckBoxColumn>
-                    <DataGridTextColumn Binding="{Binding counter}" Width="*"/>
-                    <DataGridTextColumn Binding="{Binding command}" Width="*"/>
-                    <DataGridTextColumn Binding="{Binding program}" Width="8*"/>
+
+                    <DataGridCheckBoxColumn Binding="{Binding breakpoint}">
+                        <DataGridCheckBoxColumn.CellStyle>
+                            <Style>
+                                <EventSetter Event="CheckBox.Checked" Handler="EventSetter_OnHandler"/>
+                            </Style>
+                        </DataGridCheckBoxColumn.CellStyle>
+
+
+                    </DataGridCheckBoxColumn>
+                    <DataGridTextColumn Binding="{Binding counter}" Width="*" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding command}" Width="*" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding program}" Width="8*" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -444,7 +459,7 @@
                 <Label Name = "pclath" Content="{Binding PCLATH}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
 
                 <Label Name="PCintern" Content="PC intern:" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name = "pcintern" Content="00" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+                <Label Name = "pcintern" Content="{Binding Pcintern}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
 
                 <Label Name="Status" Content="Status:" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
                 <Label Name = "status" Content="{Binding STATUS}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
@@ -456,10 +471,10 @@
                 <Label Name = "option" Content="{Binding OPTION}" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
 
                 <Label Name="Vorteiler" Content="Vorteiler:" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name = "vorteiler" Content="1:1" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+                <Label Name = "vorteiler" Content="{Binding Prescaler}" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
 
                 <Label Name="Timer0" Content="Timer0:" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name = "timer0" Content="00" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
+                <Label Name = "timer0" Content="{Binding Timer}" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="2"></Label>
             </Grid>
         </GroupBox>
 

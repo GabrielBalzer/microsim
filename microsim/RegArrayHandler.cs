@@ -11,12 +11,19 @@ namespace microsim
         private PCL pcl = new PCL();
         public void setRegArray(uint adress, uint value)
         {
+            uint before;
+            uint after;
             
             if ((adress == 0x03) | (adress == 0x83))
             {
                 //Status Register
                 DataStorage.regArray[0x03] = value;
                 DataStorage.regArray[0x83] = value;
+            }
+            else if (adress == 0x01)
+            {
+                DataStorage.regArray[0x01] = value;
+                DataStorage.prescalerCount = 0;
             }
             else if ((adress == 0x02) | (adress == 0x82))
             {
@@ -29,6 +36,20 @@ namespace microsim
                 //FSR
                 DataStorage.regArray[0x04] = value;
                 DataStorage.regArray[0x84] = value;
+            }
+            else if (adress == 0x05)
+            {
+                before = DataStorage.regArray[0x05] & 0b00010000;
+                after = value & 0b00010000;
+                if ((before == 0) && (after > 0))
+                {
+                    DataStorage.lowHighFlank = true;
+                }
+                else if ((after == 0) && (before > 0))
+                {
+                    DataStorage.highLowFlank = true;
+                }
+                DataStorage.regArray[0x05] = value;
             }
             else if ((adress == 0x0A) | (adress == 0x8A))
             {
@@ -43,21 +64,22 @@ namespace microsim
                 DataStorage.regArray[0x8B] = value;
             }
             else
-            {
+            { 
                 DataStorage.regArray[adress] = value;
             }
             if (adress == 0x81)
             {
                 if ((DataStorage.regArray[0x81] & 0x08) == 0x08)
                 {
-                    DataStorage.prescalerValue =
-                        2 ^ (DataStorage.regArray[0x81] & 0xF8);  
+                    DataStorage.prescalerValue = (uint) Math.Pow(2, (DataStorage.regArray[0x81] & 0b00000111));
                 }
                 else
                 {
-                    DataStorage.prescalerValue =
-                        2 ^ (DataStorage.regArray[0x81] & 0xF8) * 2; /* *2 da Timer 0 */ 
+                    DataStorage.prescalerValue = (uint) Math.Pow(2, (DataStorage.regArray[0x81] & 0b00000111)) * 2;
+
                 }
+
+                DataStorage.prescalerCount = -1;
             }
 
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -17,13 +18,21 @@ namespace microsim
         private DataStorage.Command command_element;
         private PCL PCL = new PCL();
         private RegArrayHandler regArrayHandler = new RegArrayHandler();
+        private Timer0 timer0 = new Timer0();
 
         public void nextCommand()
         {
+            
+            uint oldCycles;
+            uint cycleDiff;
             if (PCL.getPCL() < DataStorage.commandList.Count)
             {
+
                 Console.WriteLine(DataStorage.commandList.ElementAt((int) PCL.getPCL()).command);
+                oldCycles = DataStorage.cycleCount;
                 handleCommand();
+                cycleDiff = DataStorage.cycleCount - oldCycles;
+                timer0.timerCount(cycleDiff);
             }
             regArrayHandler.setRegArray(0x02, PCL.getPCL());
         }
@@ -40,6 +49,12 @@ namespace microsim
             }
 
             command_element = DataStorage.commandList.ElementAt((int) DataStorage.programCounter);
+            checkBreakpoint();
+
+
+
+ 
+   
 
             Console.WriteLine("Handler :" + command_element.command);
             switch (command_element.command)
@@ -986,6 +1001,7 @@ namespace microsim
             {
                 // result[b] = 1
                 // do nothing
+                
             }
             else
             {
@@ -993,6 +1009,7 @@ namespace microsim
                 PCL.addtoPCL();
                 NOP();
             }
+            DataStorage.addCycle(1);
         }
 
         private void SLEEP()
@@ -1047,7 +1064,7 @@ namespace microsim
             if ((regArrayHandler.getRegArray(0x81) | 0x08) == 0x08)
             {
                 // PSA is set for watchdog -> reset PSA bit
-                DataStorage.tim0.SelectClockSource(0);
+                //DataStorage.tim0.SelectClockSource(0);
             }
         }
 
@@ -1066,6 +1083,29 @@ namespace microsim
             }
 
             return f;
+        }
+
+        private bool checkBreakpoint()
+        {
+            var linenumberdata = command_element.linenumber;
+            bool filelistelementfound = false;
+            foreach (var filelistelement in DataStorage.fileList)
+            {
+                if ((filelistelement.linenumber == linenumberdata) && filelistelement.breakpoint)
+                {
+                    filelistelementfound = true;
+                }
+            }
+
+            if (filelistelementfound)
+            {
+                MainWindow.breakpointOccured(PCL.getPCL().ToString("X4"));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

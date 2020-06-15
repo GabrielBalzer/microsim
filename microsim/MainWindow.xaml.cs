@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace microsim
         PCL PCL = new PCL();
         RegArrayHandler regArrayHandler = new RegArrayHandler();
         MainWindowViewModel View = new MainWindowViewModel();
-        private CancellationTokenSource _canceller;
+        public static CancellationTokenSource _canceller;
 
         public MainWindow()
         {
@@ -67,7 +68,7 @@ namespace microsim
 
         private async void start_stop_button_Checked(object sender, RoutedEventArgs e)
         {
-            if(start_stop_button.Content.ToString() == "START")
+            if (start_stop_button.Content.ToString() == "START")
             {
                 start_stop_button.Content = "STOP";
             }
@@ -82,10 +83,13 @@ namespace microsim
                     UpdateFileRegisterUI();
                     UpdateStackUI();
 
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5);
 
                     if (_canceller.Token.IsCancellationRequested)
+                    {
                         break;
+                    }
+                        
 
                 } while (true);
             });
@@ -165,6 +169,18 @@ namespace microsim
             char[] intconarray;
             intconarray = Convert.ToString(regArrayHandler.getRegArray(0x0B), 2).PadLeft(8, '0').ToCharArray();
             View.IntconRegisterData = intconarray;
+
+            string timer;
+            timer = regArrayHandler.getRegArray(0x01).ToString("X2");
+            View.Timer = timer;
+
+            string prescaler;
+            prescaler = ("1:" + DataStorage.prescalerValue.ToString());
+            View.Prescaler = prescaler;
+
+            string pcintern;
+            pcintern = DataStorage.programCounter.ToString("X4");
+            View.Pcintern = pcintern;
         }
 
         private void UpdatePin()
@@ -199,7 +215,8 @@ namespace microsim
                     {
                         byte b = (byte)int.Parse(newValue, System.Globalization.NumberStyles.HexNumber);
                         editingTextBox.Text = b.ToString("X2");
-                        DataStorage.regArray[e.Row.GetIndex() * 8 + e.Column.DisplayIndex] = b;
+                        //DataStorage.regArray[e.Row.GetIndex() * 8 + e.Column.DisplayIndex] = b;
+                        regArrayHandler.setRegArray((uint)(e.Row.GetIndex() * 8 + e.Column.DisplayIndex), b);
                         completeUpdate();
                     }
                     catch
@@ -428,5 +445,25 @@ namespace microsim
             updateTime();
             Console.WriteLine("Quarz set to: {0}", DataStorage.quarzfreq);
         }
+
+        private void EventSetter_OnHandler(object sender, RoutedEventArgs e)
+        {
+            var zeile = (sender as DataGridCheckBoxColumn);
+            Console.WriteLine("Display Index : {0}", zeile);
+        }
+
+
+        public static void breakpointOccured(string line)
+        {
+
+            if (_canceller != null)
+            {
+                _canceller.Cancel();
+            }
+            MessageBox.Show("Breakpoint ausgelöst bei PCL: " + line, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
+        }
+
     }
 }

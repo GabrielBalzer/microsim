@@ -30,6 +30,13 @@ namespace microsim
 
         }
 
+        public void subtractPCL(uint value)
+        {
+            uint currentlath = DataStorage.programCounter & 0b1111100000000;
+            uint currentcounter = (DataStorage.programCounter & 0b0000011111111) - value;
+            DataStorage.programCounter = currentlath | currentcounter;
+        }
+
         public uint getPCL()
         {
             uint value = DataStorage.programCounter &0b0000011111111;
