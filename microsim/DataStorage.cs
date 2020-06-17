@@ -32,6 +32,7 @@ namespace microsim
             public string program { get; set; }
             public int linenumber { get; set; }
             public bool breakpoint { get; set; }
+            public bool isActive { get; set; }
 
         }
 

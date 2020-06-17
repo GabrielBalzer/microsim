@@ -32,7 +32,8 @@ namespace microsim
                         command = line.Substring(5, 4),
                         program = line.Substring(21),
                         linenumber = linenumber,
-                        breakpoint = false
+                        breakpoint = false,
+                        isActive = false
 
                     }
                         ) ;

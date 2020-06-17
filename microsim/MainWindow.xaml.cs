@@ -53,6 +53,7 @@ namespace microsim
                 Console.WriteLine(item);
             }
             programdata.ItemsSource = DataStorage.fileList;
+            updateActiveRow();
         }
 
         private void step_button_Click(object sender, RoutedEventArgs e)
@@ -64,6 +65,7 @@ namespace microsim
             UpdateStackUI();
             UpdatePin();
             updateTime();
+            updateActiveRow();
         }
 
         private async void start_stop_button_Checked(object sender, RoutedEventArgs e)
@@ -82,6 +84,7 @@ namespace microsim
                     UpdateSFR();
                     UpdateFileRegisterUI();
                     UpdateStackUI();
+                    updateActiveRow();
 
                     Thread.Sleep(5);
 
@@ -250,6 +253,7 @@ namespace microsim
             UpdateSFR();
             UpdatePin();
             updateTime();
+            //updateActiveRow();
         }
 
 
@@ -462,6 +466,34 @@ namespace microsim
             }
             MessageBox.Show("Breakpoint ausgelöst bei PCL: " + line, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
+
+        }
+
+        private void updateActiveRow()
+        {
+            var pcl = (PCL.getPCL() + 1).ToString("X4");
+            if (DataStorage.startCounter != 0)
+            {
+                pcl = (PCL.getPCL() + 1).ToString("X4");
+            }
+            else
+            {
+                pcl = "0000";
+            }
+            for (int y = 0; y < DataStorage.fileList.Count; y++)
+            {
+                DataStorage.fileList[y].isActive = false;
+            }
+            for (int i = 0; i < DataStorage.fileList.Count; i++)
+            {
+                var element = DataStorage.fileList[i];
+                DataStorage.fileList[i].isActive = false;
+                if (element.counter == pcl)
+                {
+                    DataStorage.fileList[i].isActive = true;
+                }
+            }
+            CollectionViewSource.GetDefaultView(DataStorage.fileList).Refresh();
 
         }
 

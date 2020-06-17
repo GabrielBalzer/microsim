@@ -15,6 +15,34 @@
         ShowIconOnTitleBar="True"
         Title="MicroSim" Height="720" Width="1280" MinHeight="720" MinWidth="1280">
 
+    <Window.Resources>
+        <Style x:Key="CellStyleStandard" TargetType="DataGridCell">
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{x:Null}" />
+                    <Setter Property="BorderBrush" Value="{x:Null}" />
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CellStyleClick" TargetType="DataGridCell" BasedOn="{StaticResource CellStyleStandard}">
+            <Setter Property="IsHitTestVisible" Value="True"/>
+        </Style>
+
+        <Style x:Key="CellStyleActive" TargetType="DataGridCell" BasedOn="{StaticResource CellStyleStandard}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding isActive, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                    <Setter Property="BorderBrush" Value="Aqua"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
@@ -136,20 +164,31 @@
 
 
             <DataGrid Name="programdata" HorizontalAlignment="Left" AutoGenerateColumns="False" IsReadOnly="False" CanUserSortColumns="False" HeadersVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" BorderThickness="0">
-                <DataGrid.Columns>
-
-                    <DataGridCheckBoxColumn Binding="{Binding breakpoint}">
-                        <DataGridCheckBoxColumn.CellStyle>
-                            <Style>
-                                <EventSetter Event="CheckBox.Checked" Handler="EventSetter_OnHandler"/>
-                            </Style>
-                        </DataGridCheckBoxColumn.CellStyle>
-
-
-                    </DataGridCheckBoxColumn>
-                    <DataGridTextColumn Binding="{Binding counter}" Width="*" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding command}" Width="*" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding program}" Width="8*" IsReadOnly="True"/>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding isActive}" Value="True">
+                                <Setter Property="Background" Value="Green" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns >
+                    <DataGridTemplateColumn CellStyle="{StaticResource CellStyleClick}" Width="20pt">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding breakpoint, UpdateSourceTrigger=PropertyChanged}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding counter}" Width="*" IsReadOnly="True" CellStyle="{StaticResource CellStyleStandard}"/>
+                    <DataGridTextColumn Binding="{Binding command}" Width="*" IsReadOnly="True" CellStyle="{StaticResource CellStyleStandard}"/>
+                    <DataGridTextColumn Binding="{Binding program}" Width="8*" IsReadOnly="True" CellStyle="{StaticResource CellStyleStandard}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
