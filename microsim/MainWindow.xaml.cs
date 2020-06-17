@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -34,6 +38,8 @@ namespace microsim
         RegArrayHandler regArrayHandler = new RegArrayHandler();
         MainWindowViewModel View = new MainWindowViewModel();
         public static CancellationTokenSource _canceller;
+        private static System.Timers.Timer aTimer;
+        public int index;
 
         public MainWindow()
         {
@@ -81,14 +87,12 @@ namespace microsim
                 {
                     Console.WriteLine("Ein Schritt weiter!");
                     CommandHandler.nextCommand();
-                    UpdateSFR();
-                    UpdateFileRegisterUI();
-                    UpdateStackUI();
-                    updateActiveRow();
 
-                    Thread.Sleep(5);
+                    UpdatewithDispatcher();
 
-                    if (_canceller.Token.IsCancellationRequested)
+                Task.Delay(10).Wait();
+
+                if (_canceller.Token.IsCancellationRequested)
                     {
                         break;
                     }
@@ -97,6 +101,35 @@ namespace microsim
                 } while (true);
             });
         }
+
+        private async void waitFunction()
+        {
+            await Task.Delay(2000);
+        }
+
+        private void UpdatewithDispatcher()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    UpdateSFR();
+                    UpdateFileRegisterUI();
+                    UpdateStackUI();
+                    UpdatePin();
+                    updateTime();
+                    updateActiveRow();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    throw;
+                }
+
+            });
+        }
+
+
 
         private void start_stop_button_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -484,6 +517,7 @@ namespace microsim
             {
                 DataStorage.fileList[y].isActive = false;
             }
+
             for (int i = 0; i < DataStorage.fileList.Count; i++)
             {
                 var element = DataStorage.fileList[i];
@@ -491,9 +525,23 @@ namespace microsim
                 if (element.counter == pcl)
                 {
                     DataStorage.fileList[i].isActive = true;
+                    index = i;
                 }
             }
             CollectionViewSource.GetDefaultView(DataStorage.fileList).Refresh();
+            /*if (programdata.Items.Count > 0)
+            {
+                var border = VisualTreeHelper.GetChild(programdata, 0) as Decorator;
+                if (border != null)
+                {
+                    var scroll = border.Child as ScrollViewer;
+                    if (scroll != null) scroll.ScrollToEnd();
+                }
+            }*/
+            if ((index + 2) < (programdata.Items.Count - 1))
+            {
+                programdata.ScrollIntoView(programdata.Items.GetItemAt(index + 2));
+            }
 
         }
 
