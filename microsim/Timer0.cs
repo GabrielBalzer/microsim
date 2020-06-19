@@ -69,8 +69,8 @@ namespace microsim
                         if (regArrayHandler.getRegArray(0x01) == 255)
                         {
                             regArrayHandler.setRegArray(0x0B, regArrayHandler.getRegArray(0x0B) | 0b00000100);
-                            //triggerInterrupt();
                             regArrayHandler.setRegArray(0x01, 0);
+                            regArrayHandler.setRegArray(0x0B, (regArrayHandler.getRegArray(0x0B) | 0x04));
                         }
                         else
                         {
@@ -100,15 +100,15 @@ namespace microsim
         public bool isRightFlank()
         {
             bool flank;
-            if ((((regArrayHandler.getRegArray(0x081) & 0b00010000) > 0) && DataStorage.highLowFlank))
+            if ((((regArrayHandler.getRegArray(0x081) & 0b00010000) > 0) && DataStorage.highLowFlankRA4))
             {
                 flank = true;
-                DataStorage.highLowFlank = false;
+                DataStorage.highLowFlankRA4 = false;
             }
-            else if ((((regArrayHandler.getRegArray(0x081) & 0b00010000) == 0) && DataStorage.lowHighFlank))
+            else if ((((regArrayHandler.getRegArray(0x081) & 0b00010000) == 0) && DataStorage.lowHighFlankRA4))
             {
                 flank = true;
-                DataStorage.lowHighFlank = false;
+                DataStorage.lowHighFlankRA4 = false;
             }
             else
             {

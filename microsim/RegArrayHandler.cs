@@ -11,9 +11,7 @@ namespace microsim
         private PCL pcl = new PCL();
         public void setRegArray(uint adress, uint value)
         {
-            uint before;
-            uint after;
-            
+
             if ((adress == 0x03) | (adress == 0x83))
             {
                 //Status Register
@@ -39,17 +37,72 @@ namespace microsim
             }
             else if (adress == 0x05)
             {
-                before = DataStorage.regArray[0x05] & 0b00010000;
-                after = value & 0b00010000;
-                if ((before == 0) && (after > 0))
+                uint beforeRA4 = DataStorage.regArray[0x05] & 0b00010000;
+                uint afterRA4 = value & 0b00010000;
+                if ((beforeRA4 == 0) && (afterRA4 > 0))
                 {
-                    DataStorage.lowHighFlank = true;
+                    DataStorage.lowHighFlankRA4 = true;
                 }
-                else if ((after == 0) && (before > 0))
+                else if ((afterRA4 == 0) && (beforeRA4 > 0))
                 {
-                    DataStorage.highLowFlank = true;
+                    DataStorage.highLowFlankRA4 = true;
                 }
                 DataStorage.regArray[0x05] = value;
+            }
+            else if (adress == 0x06)
+            {
+                uint beforeRB0 = DataStorage.regArray[0x06] & 0b00000001;
+                uint afterRB0 = value & 0b00000001;
+                //low high
+                if ((beforeRB0 == 0) && (afterRB0 > 0))
+                {
+                    if (((DataStorage.regArray[0x81] & 0b01000000) == 0b01000000))
+                    {
+                        setRegArray(0x0B, (getRegArray(0x0B) | 0b00000010));
+                    }
+                }
+                //high low
+                else if ((afterRB0 == 0) && (beforeRB0 > 0))
+                {
+                    if ((DataStorage.regArray[0x81] & 0b01000000) != 0b01000000)
+                    {
+                        setRegArray(0x0B, (getRegArray(0x0B) | 0b00000010));
+                    }
+                }
+
+                uint beforeRB7 = DataStorage.regArray[0x06] & 0b10000000;
+                uint afterRB7 = value & 0b10000000;
+                if ((((beforeRB7 == 0) && (afterRB7 > 0)) || (afterRB7 == 0) && (beforeRB7 > 0)) &&
+                    ((getRegArray(0x86) & 0b10000000) == 0b10000000))
+                {
+                    setRegArray(0x0B, (getRegArray(0x0B) | 0b00000001));
+                }
+
+                uint beforeRB6 = DataStorage.regArray[0x06] & 0b01000000;
+                uint afterRB6 = value & 0b01000000;
+                if ((((beforeRB6 == 0) && (afterRB6 > 0)) || (afterRB6 == 0) && (beforeRB6 > 0)) &&
+                    ((getRegArray(0x86) & 0b01000000) == 0b01000000))
+                {
+                    setRegArray(0x0B, (getRegArray(0x0B) | 0b00000001));
+                }
+
+                uint beforeRB5 = DataStorage.regArray[0x06] & 0b00100000;
+                uint afterRB5 = value & 0b00100000;
+                if ((((beforeRB5 == 0) && (afterRB5 > 0)) || (afterRB5 == 0) && (beforeRB5 > 0)) &&
+                    ((getRegArray(0x86) & 0b00100000) == 0b00100000))
+                {
+                    setRegArray(0x0B, (getRegArray(0x0B) | 0b00000001));
+                }
+
+                uint beforeRB4 = DataStorage.regArray[0x06] & 0b00010000;
+                uint afterRB4 = value & 0b00010000;
+                if ((((beforeRB4 == 0) && (afterRB4 > 0)) || (afterRB4 == 0) && (beforeRB4 > 0)) &&
+                    ((getRegArray(0x86) & 0b00010000) == 0b00010000))
+                {
+                    setRegArray(0x0B, (getRegArray(0x0B) | 0b00000001));
+                }
+
+                DataStorage.regArray[0x06] = value;
             }
             else if ((adress == 0x0A) | (adress == 0x8A))
             {

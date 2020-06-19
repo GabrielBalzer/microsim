@@ -19,6 +19,7 @@ namespace microsim
         private PCL PCL = new PCL();
         private RegArrayHandler regArrayHandler = new RegArrayHandler();
         private Timer0 timer0 = new Timer0();
+        private Interrupts interrupts = new Interrupts();
 
         public void nextCommand()
         {
@@ -33,6 +34,7 @@ namespace microsim
                 handleCommand();
                 cycleDiff = DataStorage.cycleCount - oldCycles;
                 timer0.timerCount(cycleDiff);
+                interrupts.checkInterrupt();
             }
             regArrayHandler.setRegArray(0x02, PCL.getPCL());
         }
@@ -160,6 +162,9 @@ namespace microsim
                     break;
                 case "CLRWDT":
                     CLRWDT();
+                    break;
+                case "RETFIE":
+                    RETFIE();
                     break;
                 default:
                     Console.WriteLine("Unbekannter Befehl");
@@ -1066,6 +1071,14 @@ namespace microsim
                 // PSA is set for watchdog -> reset PSA bit
                 //DataStorage.tim0.SelectClockSource(0);
             }
+        }
+
+        private void RETFIE()
+        {
+            var topofstack = DataStorage.stack1.GetValueFromStck();
+            PCL.setPCL(topofstack);
+            regArrayHandler.setRegArray(0x0B, (regArrayHandler.getRegArray(0x0B) | 0b10000000));
+            DataStorage.addCycle(2);
         }
 
         private uint getFAddr(uint data)

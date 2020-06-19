@@ -66,8 +66,11 @@ namespace microsim
 
         public static int prescalerCount = 0;
 
-        public static bool lowHighFlank;
-        public static bool highLowFlank;
+        public static bool lowHighFlankRA4;
+        public static bool highLowFlankRA4;
+
+        public static bool lowHighFlankRB0;
+        public static bool highLowFlankRB0;
         //uint static prescaler;
 
         // watchdog

@@ -13,7 +13,7 @@
         SaveWindowPosition="True"
         ShowTitleBar="True"
         ShowIconOnTitleBar="True"
-        Title="MicroSim" Height="720" Width="1280" MinHeight="720" MinWidth="1280">
+        Title="MicroSim" MinHeight="720" MinWidth="1280">
 
     <Window.Resources>
 
@@ -233,7 +233,7 @@
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
                 <Label Name="Laufzeit" Content="Laufzeit:" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"></Label>
-                <Label Name="Laufzeitvalue" Content="{Binding Timespent}" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" ></Label>
+                <Label Name="Laufzeitvalue" Content="{Binding Timespent}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" ></Label>
 
                 <Label Name="Quarz" Content="Quarz:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ></Label>
                 <ComboBox Name="QuarzCombo" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" SelectionChanged="Selector_OnSelectionChanged">
@@ -567,10 +567,10 @@
 
                 <Label Name="Optionfsr" Content="Option:" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
-                <Label Name="RPU" Content="RPU" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="IEg" Content="IEg" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="TCs" Content="TCs" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="TSe" Content="TSe" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RPU" Content="RBPU" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IEg" Content="INTEDG" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TCs" Content="T0CS" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TSe" Content="T0SE" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
                 <Label Name="PSA" Content="PSA" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
                 <Label Name="PS2" Content="PS2" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
                 <Label Name="PS1" Content="PS1" Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
@@ -588,13 +588,13 @@
                 <Label Name="Intcon" Content="Intcon:" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
                 <Label Name="GIE" Content="GIE" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="EIE" Content="EIE" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="TIE" Content="TIE" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="IE" Content="IE" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="RIE" Content="RIE" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="TIF" Content="TIF" Grid.Row="4" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="IF" Content="IF" Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
-                <Label Name="RIF" Content="RIF" Grid.Row="4" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="EIE" Content="EEIE" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TIE" Content="T0IE" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IE" Content="INTE" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RIE" Content="RBIE" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="TIF" Content="T0IF" Grid.Row="4" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="IF" Content="INTF" Grid.Row="4" Grid.Column="8" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
+                <Label Name="RIF" Content="RBIF" Grid.Row="4" Grid.Column="9" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
 
                 <Label Name="GIEvalue" Content="{Binding Path=IntconRegisterData[0]}" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>
                 <Label Name="EIEvalue" Content="{Binding Path=IntconRegisterData[1]}" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="3" Grid.RowSpan="2"></Label>

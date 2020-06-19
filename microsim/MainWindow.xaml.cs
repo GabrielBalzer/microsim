@@ -38,7 +38,6 @@ namespace microsim
         RegArrayHandler regArrayHandler = new RegArrayHandler();
         MainWindowViewModel View = new MainWindowViewModel();
         public static CancellationTokenSource _canceller;
-        private static System.Timers.Timer aTimer;
         public int index;
 
         public MainWindow()
@@ -90,7 +89,7 @@ namespace microsim
 
                     UpdatewithDispatcher();
 
-                Task.Delay(10).Wait();
+                Task.Delay(75).Wait();
 
                 if (_canceller.Token.IsCancellationRequested)
                     {
@@ -102,10 +101,6 @@ namespace microsim
             });
         }
 
-        private async void waitFunction()
-        {
-            await Task.Delay(2000);
-        }
 
         private void UpdatewithDispatcher()
         {
@@ -529,18 +524,9 @@ namespace microsim
                 }
             }
             CollectionViewSource.GetDefaultView(DataStorage.fileList).Refresh();
-            /*if (programdata.Items.Count > 0)
+            if ((index + 7) < (programdata.Items.Count - 1))
             {
-                var border = VisualTreeHelper.GetChild(programdata, 0) as Decorator;
-                if (border != null)
-                {
-                    var scroll = border.Child as ScrollViewer;
-                    if (scroll != null) scroll.ScrollToEnd();
-                }
-            }*/
-            if ((index + 2) < (programdata.Items.Count - 1))
-            {
-                programdata.ScrollIntoView(programdata.Items.GetItemAt(index + 2));
+                programdata.ScrollIntoView(programdata.Items.GetItemAt(index + 7));
             }
 
         }
