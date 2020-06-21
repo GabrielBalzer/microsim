@@ -76,6 +76,8 @@ namespace microsim
         public static bool watchdogEnabled;
 
         public static double timeSpent;
+
+        public static double watchdogValue;
         //uint static prescaler;
 
         // watchdog

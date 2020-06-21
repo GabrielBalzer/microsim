@@ -12,11 +12,12 @@ namespace microsim
     {
         static RegArrayHandler regArrayHandler = new RegArrayHandler();
         private static double timeNeeded = 0.018;
-        public static void checkWatchdog()
+        public static void checkWatchdog(uint cycles)
         {
             timeNeeded = 0.018;
             if (DataStorage.watchdogEnabled)
             {
+                
                 //watchdog hat prescaler
                 if ((regArrayHandler.getRegArray(0x81) & 0b00001000) != 0)
                 {
@@ -24,11 +25,13 @@ namespace microsim
                 }
 
 
-                if (DataStorage.timeSpent > timeNeeded)
+                if (DataStorage.watchdogValue >= timeNeeded)
                 {
-                    MainWindow.WatchdogReset();
                     Initializer.otherReset();
+                    MainWindow.WatchdogReset();
                 }
+                DataStorage.watchdogValue = DataStorage.watchdogValue + (4.0 / ((double)DataStorage.quarzfreq)) * (double)cycles;
+
 
             }
         }

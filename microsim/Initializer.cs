@@ -67,6 +67,11 @@ namespace microsim
             DataStorage.cycleCount = 0;
         }
 
+        private static void initWatchdog()
+        {
+            DataStorage.watchdogValue = 0;
+        }
+
         //private static void InitTimer0()
         //{
         //    DataStorage.tim0 = new Timer0(); 
@@ -114,6 +119,7 @@ namespace microsim
             initStack();
             initCycle();
             InitTimer0();
+            initWatchdog();
             //InitWatchdog();
             //InitInterrupt();
         }
@@ -146,6 +152,8 @@ namespace microsim
             regArrayHandler.setRegArray(0x81, 0b11111111);
             regArrayHandler.setRegArray(0x85,0b00011111);
             regArrayHandler.setRegArray(0x86,0b11111111);
+            initStartCounter();
+            initWatchdog();
 
         }
     }

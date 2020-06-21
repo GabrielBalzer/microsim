@@ -35,7 +35,7 @@ namespace microsim
                 cycleDiff = DataStorage.cycleCount - oldCycles;
                 timer0.timerCount(cycleDiff);
                 interrupts.checkInterrupt();
-                Watchdog.checkWatchdog();
+                Watchdog.checkWatchdog(cycleDiff);
             }
             regArrayHandler.setRegArray(0x02, PCL.getPCL());
         }
@@ -938,6 +938,7 @@ namespace microsim
             {
                 regArrayHandler.setRegArray(f, result);
             }
+            DataStorage.addCycle(1);
         }
 
         private void BSF()

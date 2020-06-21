@@ -239,7 +239,7 @@ namespace microsim
             this.STATUS = "00";
             this.FSR = "00";
             this.OPTION = "00";
-            this.Watchdog = "00";
+            this.Watchdog = "0 µ";
             this.StackUI = new string[8]
                 {"00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000"};
         }

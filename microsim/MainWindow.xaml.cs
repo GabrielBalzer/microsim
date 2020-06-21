@@ -104,6 +104,7 @@ namespace microsim
                 } while (true);
             });
             updateActiveRow();
+            completeUpdatewithoutRow();
         }
 
 
@@ -212,6 +213,18 @@ namespace microsim
             string pcintern;
             pcintern = DataStorage.programCounter.ToString("X4");
             View.Pcintern = pcintern;
+
+            double time;
+            time = (double) DataStorage.watchdogValue * 1000000;
+            if (time <= 1000)
+            {
+                View.Watchdog = time.ToString("n0") + " µs";
+            }
+            else
+            {
+                time = time / 1000.0;
+                View.Watchdog = time.ToString("n3") + " ms";
+            }
         }
 
         private void UpdatePin()
@@ -270,6 +283,7 @@ namespace microsim
 
         private void reset_button_clicked(object sender, RoutedEventArgs e)
         {
+            DataStorage.fileList[DataStorage.commandLines[pclold + 1]].isActive = false;
             Initializer.fullReset();
             completeUpdate();
         
@@ -444,17 +458,18 @@ namespace microsim
         {
             double timespent;
             timespent = (4.0 / ((double) DataStorage.quarzfreq)) * ((double) DataStorage.cycleCount) * 1000000;
+            DataStorage.timeSpent = (4.0 / ((double)DataStorage.quarzfreq)) * ((double)DataStorage.cycleCount);
             if (timespent <= 1000)
             {
-                View.Timespent = timespent.ToString() + " µs";
+                View.Timespent = timespent.ToString("0.###") + " µs";
             }
             else
             {
                 timespent = timespent / 1000.0;
-                View.Timespent = timespent.ToString() + " ms";
+                View.Timespent = timespent.ToString("0.###") + " ms";
             }
 
-            DataStorage.timeSpent = timespent / 1000000;
+            
         }
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

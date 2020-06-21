@@ -256,7 +256,7 @@
                 </CheckBox>
 
                 <Label Name="Watchdog" Content="Watchdog:" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"></Label>
-                <Label Name="Watchdogvalue" Content="00" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3"></Label>
+                <Label Name="Watchdogvalue" Content="{Binding Watchdog}" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3"></Label>
             </Grid>
         </GroupBox>
         <GroupBox Header="Stack" Grid.Row="1" Grid.Column="44" Grid.RowSpan="12" Grid.ColumnSpan="5" Style="{x:Null}">
