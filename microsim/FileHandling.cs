@@ -20,6 +20,7 @@ namespace microsim
             int linenumber = 0;
             DataStorage.fileList = new ObservableCollection<DataStorage.FileList>();
             DataStorage.commandList = new List<DataStorage.Command>();
+            DataStorage.commandLines = new List<int>();
 
             foreach(string line in File.ReadAllLines(openFileDialog.FileName, Encoding.Default))
             {

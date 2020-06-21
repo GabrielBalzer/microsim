@@ -58,12 +58,10 @@ namespace microsim
 
             FileHandlingLocal.Filehandlingfunc();
             CommandDecoder.decodeCommands();
-            foreach(uint item in DataStorage.regArray)
-            {
-                Console.WriteLine(item);
-            }
             programdata.ItemsSource = DataStorage.fileList;
-            updateActiveRow();
+            pclold = 0;
+            Initializer.fullReset();
+            completeUpdate();
         }
 
         private void step_button_Click(object sender, RoutedEventArgs e)
@@ -294,7 +292,6 @@ namespace microsim
             UpdateSFR();
             UpdatePin();
             updateTime();
-            //updateActiveRow();
         }
 
 
@@ -524,6 +521,7 @@ namespace microsim
             var pclnew = (int)PCL.getPCL();
             var currentlinenumber = DataStorage.commandLines[pclnew];
             
+            //Markieren der nächsten Code-Zeile
             if (DataStorage.startCounter != 0)
             {
                 //DataStorage.fileList[DataStorage.commandLines[ + 1]].isActive = false;
@@ -540,6 +538,7 @@ namespace microsim
 
             pclold = pclnew;
             CollectionViewSource.GetDefaultView(DataStorage.fileList).Refresh();
+            //Springen zur nächsten Code-Zeile
             if ((currentlinenumber + 7) < (programdata.Items.Count - 1))
             {
                 programdata.ScrollIntoView(programdata.Items.GetItemAt(currentlinenumber + 7));
@@ -559,15 +558,5 @@ namespace microsim
                 DataStorage.watchdogEnabled = false;
             }
         }
-
-        private void checkTime()
-        {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            UpdatewithDispatcher();
-            watch.Stop();
-            Console.WriteLine("Time spent completeUpdate: " + watch.ElapsedMilliseconds);
-        }
-
     }
 }
