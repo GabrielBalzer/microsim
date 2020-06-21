@@ -205,6 +205,18 @@ namespace microsim
         }
 
         #endregion
+
+        #region Watchdog
+
+        private string watchdog;
+
+        public string Watchdog
+        {
+            get { return this.watchdog; }
+            set { this.SetAndNotify(ref this.watchdog, value, () => this.watchdog); }
+        }
+
+        #endregion
         public MainWindowViewModel()
         {
             this.FileRegisterColumns = new string[] { "+0", "+1", "+2", "+3", "+4", "+5", "+6", "+7" };
@@ -227,6 +239,7 @@ namespace microsim
             this.STATUS = "00";
             this.FSR = "00";
             this.OPTION = "00";
+            this.Watchdog = "00";
             this.StackUI = new string[8]
                 {"00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000"};
         }

@@ -46,6 +46,7 @@ namespace microsim
                             data = 0,
                             linenumber = linenumber
                         }) ;
+                        DataStorage.commandLines.Add(linenumber);
                     }
                 }
                 linenumber++;

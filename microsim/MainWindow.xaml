@@ -248,7 +248,7 @@
                     <ComboBoxItem Name="Item8">8 MHz</ComboBoxItem>
                     <ComboBoxItem Name="Item16">16 MHz</ComboBoxItem>
                 </ComboBox>
-                <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6">
+                <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Click="watchdogOnClick">
                     <CheckBox.LayoutTransform>
                         <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
                     </CheckBox.LayoutTransform>

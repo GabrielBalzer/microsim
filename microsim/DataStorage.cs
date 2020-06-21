@@ -18,6 +18,7 @@ namespace microsim
         public static ObservableCollection<FileList> fileList = new ObservableCollection<FileList>();
         public static uint[] regArray = new uint[256];
         public static uint cycleCount;
+        public static List<int> commandLines = new List<int>();
         public class Command
         {
             public string command { get; set; }
@@ -71,6 +72,10 @@ namespace microsim
 
         public static bool lowHighFlankRB0;
         public static bool highLowFlankRB0;
+
+        public static bool watchdogEnabled;
+
+        public static double timeSpent;
         //uint static prescaler;
 
         // watchdog

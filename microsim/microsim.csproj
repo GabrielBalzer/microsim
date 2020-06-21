@@ -105,6 +105,7 @@
     <Compile Include="Register.cs" />
     <Compile Include="Stack.cs" />
     <Compile Include="Timer0.cs" />
+    <Compile Include="Watchdog.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

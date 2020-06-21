@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Emit;
@@ -38,14 +39,18 @@ namespace microsim
         RegArrayHandler regArrayHandler = new RegArrayHandler();
         MainWindowViewModel View = new MainWindowViewModel();
         public static CancellationTokenSource _canceller;
-        public int index;
+        public int pclold = 0;
 
         public MainWindow()
         {
             DataContext = View;
             InitializeComponent();
             Initializer.fullReset();
-            completeUpdate();
+            UpdateFileRegisterUI();
+            UpdateStackUI();
+            UpdateSFR();
+            UpdatePin();
+            updateTime();
         }
 
         private void File_Open_Click(object sender, RoutedEventArgs e)
@@ -65,16 +70,12 @@ namespace microsim
         {
             Console.WriteLine("Ein Schritt weiter!");
             CommandHandler.nextCommand();
-            UpdateSFR();
-            UpdateFileRegisterUI();
-            UpdateStackUI();
-            UpdatePin();
-            updateTime();
-            updateActiveRow();
+            completeUpdate();
         }
 
         private async void start_stop_button_Checked(object sender, RoutedEventArgs e)
         {
+            var test = 0;
             if (start_stop_button.Content.ToString() == "START")
             {
                 start_stop_button.Content = "STOP";
@@ -87,18 +88,24 @@ namespace microsim
                     Console.WriteLine("Ein Schritt weiter!");
                     CommandHandler.nextCommand();
 
-                    UpdatewithDispatcher();
+                    if ((test % 4) == 0)
+                    {
+                        UpdatewithDispatcher();
+                    }
+                    test++;
 
-                Task.Delay(75).Wait();
+                    Thread.Sleep(5);
 
                 if (_canceller.Token.IsCancellationRequested)
                     {
+                        
                         break;
                     }
                         
 
                 } while (true);
             });
+            updateActiveRow();
         }
 
 
@@ -108,12 +115,7 @@ namespace microsim
             {
                 try
                 {
-                    UpdateSFR();
-                    UpdateFileRegisterUI();
-                    UpdateStackUI();
-                    UpdatePin();
-                    updateTime();
-                    updateActiveRow();
+                    completeUpdate();
                 }
                 catch (Exception exception)
                 {
@@ -248,7 +250,9 @@ namespace microsim
                         editingTextBox.Text = b.ToString("X2");
                         //DataStorage.regArray[e.Row.GetIndex() * 8 + e.Column.DisplayIndex] = b;
                         regArrayHandler.setRegArray((uint)(e.Row.GetIndex() * 8 + e.Column.DisplayIndex), b);
-                        completeUpdate();
+                        UpdateSFR();
+                        UpdateFileRegisterUI();
+                        UpdatePin();
                     }
                     catch
                     {
@@ -269,9 +273,8 @@ namespace microsim
         private void reset_button_clicked(object sender, RoutedEventArgs e)
         {
             Initializer.fullReset();
-            UpdateFileRegisterUI();
-            UpdateSFR();
-            UpdateStackUI();
+            completeUpdate();
+        
         }
 
         private void completeUpdate()
@@ -281,7 +284,7 @@ namespace microsim
             UpdateSFR();
             UpdatePin();
             updateTime();
-            //updateActiveRow();
+            updateActiveRow();
         }
 
 
@@ -427,7 +430,7 @@ namespace microsim
 
 
             }
-            completeUpdate();
+            UpdateFileRegisterUI();
         }
 
         private void updateTime()
@@ -443,7 +446,8 @@ namespace microsim
                 timespent = timespent / 1000.0;
                 View.Timespent = timespent.ToString() + " ms";
             }
-            Console.WriteLine("Time spent {0}", timespent);
+
+            DataStorage.timeSpent = timespent / 1000000;
         }
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -478,12 +482,6 @@ namespace microsim
             Console.WriteLine("Quarz set to: {0}", DataStorage.quarzfreq);
         }
 
-        private void EventSetter_OnHandler(object sender, RoutedEventArgs e)
-        {
-            var zeile = (sender as DataGridCheckBoxColumn);
-            Console.WriteLine("Display Index : {0}", zeile);
-        }
-
 
         public static void breakpointOccured(string line)
         {
@@ -492,43 +490,73 @@ namespace microsim
             {
                 _canceller.Cancel();
             }
+            
             MessageBox.Show("Breakpoint ausgelöst bei PCL: " + line, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+
+        }
+
+        public static void WatchdogReset()
+        {
+
+            if (_canceller != null)
+            {
+                _canceller.Cancel();
+            }
+            MessageBox.Show("Watchdog Timer hat Reset ausgelöst!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
 
         }
 
         private void updateActiveRow()
         {
-            var pcl = (PCL.getPCL() + 1).ToString("X4");
+
+            var pclnew = (int)PCL.getPCL();
+            var currentlinenumber = DataStorage.commandLines[pclnew];
+            
             if (DataStorage.startCounter != 0)
             {
-                pcl = (PCL.getPCL() + 1).ToString("X4");
+                //DataStorage.fileList[DataStorage.commandLines[ + 1]].isActive = false;
+                DataStorage.fileList[DataStorage.commandLines[pclold]].isActive = false;
+                DataStorage.fileList[DataStorage.commandLines[pclold + 1]].isActive = false;
+                DataStorage.fileList[DataStorage.commandLines[pclnew + 1]].isActive = true;
             }
             else
             {
-                pcl = "0000";
+                DataStorage.fileList[DataStorage.commandLines[pclold]].isActive = false;
+                DataStorage.fileList[DataStorage.commandLines[pclnew]].isActive = true;
             }
-            for (int y = 0; y < DataStorage.fileList.Count; y++)
-            {
-                DataStorage.fileList[y].isActive = false;
-            }
+            
 
-            for (int i = 0; i < DataStorage.fileList.Count; i++)
-            {
-                var element = DataStorage.fileList[i];
-                DataStorage.fileList[i].isActive = false;
-                if (element.counter == pcl)
-                {
-                    DataStorage.fileList[i].isActive = true;
-                    index = i;
-                }
-            }
+            pclold = pclnew;
             CollectionViewSource.GetDefaultView(DataStorage.fileList).Refresh();
-            if ((index + 7) < (programdata.Items.Count - 1))
+            /*if ((currentlinenumber + 7) < (programdata.Items.Count - 1))
             {
-                programdata.ScrollIntoView(programdata.Items.GetItemAt(index + 7));
-            }
+                programdata.ScrollIntoView(programdata.Items.GetItemAt(currentlinenumber + 7));
+            }*/
 
+        }
+
+        private void watchdogOnClick(object sender, RoutedEventArgs e)
+        {
+            var isChecked = (bool)(sender as CheckBox).IsChecked;
+            if (isChecked)
+            {
+                DataStorage.watchdogEnabled = true;
+            }
+            else
+            {
+                DataStorage.watchdogEnabled = false;
+            }
+        }
+
+        private void checkTime()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            UpdatewithDispatcher();
+            watch.Stop();
+            Console.WriteLine("Time spent completeUpdate: " + watch.ElapsedMilliseconds);
         }
 
     }
