@@ -115,7 +115,7 @@ namespace microsim
             {
                 try
                 {
-                    completeUpdate();
+                    completeUpdatewithoutRow();
                 }
                 catch (Exception exception)
                 {
@@ -285,6 +285,16 @@ namespace microsim
             UpdatePin();
             updateTime();
             updateActiveRow();
+        }
+
+        private void completeUpdatewithoutRow()
+        {
+            UpdateFileRegisterUI();
+            UpdateStackUI();
+            UpdateSFR();
+            UpdatePin();
+            updateTime();
+            //updateActiveRow();
         }
 
 
@@ -530,10 +540,10 @@ namespace microsim
 
             pclold = pclnew;
             CollectionViewSource.GetDefaultView(DataStorage.fileList).Refresh();
-            /*if ((currentlinenumber + 7) < (programdata.Items.Count - 1))
+            if ((currentlinenumber + 7) < (programdata.Items.Count - 1))
             {
                 programdata.ScrollIntoView(programdata.Items.GetItemAt(currentlinenumber + 7));
-            }*/
+            }
 
         }
 
