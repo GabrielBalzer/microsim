@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="using:MahApps.Metro.IconPacks"
         xmlns:dataGrid2D="http://gu.se/DataGrid2D"
         xmlns:local="clr-namespace:microsim"
+        xmlns:iconPacks1="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         BorderThickness="0" 
         GlowBrush="Black"
@@ -51,6 +53,13 @@
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Click="Open_Documentation" ToolTip="Open Help">
+                <iconPacks1:PackIconBoxIcons Width="24" Height="24" Kind="SolidHelpCircle" />
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid Name="MasterGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -174,7 +183,7 @@
                                 <Setter Property="Foreground" Value="Black"/>
                             </Trigger>
                             <DataTrigger Binding="{Binding isActive}" Value="True">
-                                <Setter Property="Background" Value="Green" />
+                                <Setter Property="Background" Value="#41B1E1" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

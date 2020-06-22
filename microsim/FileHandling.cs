@@ -22,35 +22,42 @@ namespace microsim
             DataStorage.commandList = new List<DataStorage.Command>();
             DataStorage.commandLines = new List<int>();
 
-            foreach(string line in File.ReadAllLines(openFileDialog.FileName, Encoding.Default))
+            try
             {
-                if (!string.IsNullOrEmpty(line))
+                foreach(string line in File.ReadAllLines(openFileDialog.FileName, Encoding.Default))
                 {
-
-                    DataStorage.fileList.Add(new DataStorage.FileList
+                    if (!string.IsNullOrEmpty(line))
                     {
-                        counter = line.Substring(0, 4),
-                        command = line.Substring(5, 4),
-                        program = line.Substring(21),
-                        linenumber = linenumber,
-                        breakpoint = false,
-                        isActive = false
 
-                    }
+                        DataStorage.fileList.Add(new DataStorage.FileList
+                            {
+                                counter = line.Substring(0, 4),
+                                command = line.Substring(5, 4),
+                                program = line.Substring(21),
+                                linenumber = linenumber,
+                                breakpoint = false,
+                                isActive = false
+
+                            }
                         ) ;
                  
-                    if(!string.IsNullOrWhiteSpace(line.Substring(5, 4)))
-                    {
-                        DataStorage.commandList.Add(new DataStorage.Command
+                        if(!string.IsNullOrWhiteSpace(line.Substring(5, 4)))
                         {
-                            command = line.Substring(5, 4),
-                            data = 0,
-                            linenumber = linenumber
-                        }) ;
-                        DataStorage.commandLines.Add(linenumber);
+                            DataStorage.commandList.Add(new DataStorage.Command
+                            {
+                                command = line.Substring(5, 4),
+                                data = 0,
+                                linenumber = linenumber
+                            }) ;
+                            DataStorage.commandLines.Add(linenumber);
+                        }
                     }
+                    linenumber++;
                 }
-                linenumber++;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
 
 

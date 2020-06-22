@@ -72,42 +72,9 @@ namespace microsim
             DataStorage.watchdogValue = 0;
         }
 
-        //private static void InitTimer0()
-        //{
-        //    DataStorage.tim0 = new Timer0(); 
-        //}
-
-        //private static void InitWatchdog()
-        //{
-        //    DataStorage.watchdog1 = new Watchdog();
-        //}
-
-
-
         public static void InitTimer0()
         {
-            //Console.WriteLine("HIER HALLO: " + DataStorage.regArray[0x81]);
-
-            // clear T0CS in OPTION[5] bit
-            //DataStorage.regArray[0x81] = DataStorage.regArray[0x81] ^ 0x20; // 32 as dec
-
-            // reset prescaler to 1:2 rate
-            //DataStorage.regArray[0x81] = DataStorage.regArray[0x81] & 0xF8;
-
             DataStorage.prescalerValue = 256;
-
-            // reset timer0
-            //DataStorage.timer0 = 0;
-
-            //// enable interrupts T0IE
-            //DataStorage.regArray[0x0B] = DataStorage.regArray[0x0B] | 0x20; //  32 as dec
-            //DataStorage.regArray[0x8B] = DataStorage.regArray[0x8B] | 0x20; //  32 as dec
-            //
-            //// enable global interrupt GIE
-            //DataStorage.regArray[0x0B] = DataStorage.regArray[0x0B] | 0x80; // 128 as dec
-            //DataStorage.regArray[0x8B] = DataStorage.regArray[0x8B] | 0x80; // 128 as dec
-
-            //DataStorage.tim0 = new Timer0();
         }
 
         public static void fullReset()

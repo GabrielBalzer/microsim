@@ -23,20 +23,21 @@ namespace microsim
 
         public void nextCommand()
         {
-            
             uint oldCycles;
             uint cycleDiff;
             if (PCL.getPCL() < DataStorage.commandList.Count)
             {
-
                 Console.WriteLine(DataStorage.commandList.ElementAt((int) PCL.getPCL()).command);
                 oldCycles = DataStorage.cycleCount;
+
                 handleCommand();
+
                 cycleDiff = DataStorage.cycleCount - oldCycles;
                 timer0.timerCount(cycleDiff);
                 interrupts.checkInterrupt();
                 Watchdog.checkWatchdog(cycleDiff);
             }
+
             regArrayHandler.setRegArray(0x02, PCL.getPCL());
         }
 
@@ -51,7 +52,7 @@ namespace microsim
                 DataStorage.startCounter = 1;
             }
 
-            command_element = DataStorage.commandList.ElementAt((int) DataStorage.programCounter);
+            command_element = DataStorage.commandList.ElementAt((int)PCL.getPCL());
             checkBreakpoint();
             
 
@@ -1025,7 +1026,7 @@ namespace microsim
             Console.WriteLine("SLEEP gefunden");
             
             // reset watchdog counter
-            DataStorage.watchdogCounter = 0;
+            DataStorage.watchdogValue = 0;
 
             // reset prescaler -> TODO
 
@@ -1068,7 +1069,7 @@ namespace microsim
         private void CLRWDT()
         {
             Console.WriteLine("CLRWDT gefunden");
-            DataStorage.watchdogCounter = 0;
+            DataStorage.watchdogValue = 0;
             if ((regArrayHandler.getRegArray(0x81) | 0x08) == 0x08)
             {
                 // PSA is set for watchdog -> reset PSA bit

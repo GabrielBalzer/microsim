@@ -259,7 +259,6 @@ namespace microsim
                     {
                         byte b = (byte)int.Parse(newValue, System.Globalization.NumberStyles.HexNumber);
                         editingTextBox.Text = b.ToString("X2");
-                        //DataStorage.regArray[e.Row.GetIndex() * 8 + e.Column.DisplayIndex] = b;
                         regArrayHandler.setRegArray((uint)(e.Row.GetIndex() * 8 + e.Column.DisplayIndex), b);
                         UpdateSFR();
                         UpdateFileRegisterUI();
@@ -534,29 +533,36 @@ namespace microsim
         {
 
             var pclnew = (int)PCL.getPCL();
-            var currentlinenumber = DataStorage.commandLines[pclnew];
+            try
+            {
+                var currentlinenumber = DataStorage.commandLines[pclnew];
             
-            //Markieren der nächsten Code-Zeile
-            if (DataStorage.startCounter != 0)
-            {
-                //DataStorage.fileList[DataStorage.commandLines[ + 1]].isActive = false;
-                DataStorage.fileList[DataStorage.commandLines[pclold]].isActive = false;
-                DataStorage.fileList[DataStorage.commandLines[pclold + 1]].isActive = false;
-                DataStorage.fileList[DataStorage.commandLines[pclnew + 1]].isActive = true;
-            }
-            else
-            {
-                DataStorage.fileList[DataStorage.commandLines[pclold]].isActive = false;
-                DataStorage.fileList[DataStorage.commandLines[pclnew]].isActive = true;
-            }
+                //Markieren der nächsten Code-Zeile
+                if (DataStorage.startCounter != 0)
+                {
+                    //DataStorage.fileList[DataStorage.commandLines[ + 1]].isActive = false;
+                    DataStorage.fileList[DataStorage.commandLines[pclold]].isActive = false;
+                    DataStorage.fileList[DataStorage.commandLines[pclold + 1]].isActive = false;
+                    DataStorage.fileList[DataStorage.commandLines[pclnew + 1]].isActive = true;
+                }
+                else
+                {
+                    DataStorage.fileList[DataStorage.commandLines[pclold]].isActive = false;
+                    DataStorage.fileList[DataStorage.commandLines[pclnew]].isActive = true;
+                }
             
 
-            pclold = pclnew;
-            CollectionViewSource.GetDefaultView(DataStorage.fileList).Refresh();
-            //Springen zur nächsten Code-Zeile
-            if ((currentlinenumber + 7) < (programdata.Items.Count - 1))
+                pclold = pclnew;
+                CollectionViewSource.GetDefaultView(DataStorage.fileList).Refresh();
+                //Springen zur nächsten Code-Zeile
+                if ((currentlinenumber + 7) < (programdata.Items.Count - 1))
+                {
+                    programdata.ScrollIntoView(programdata.Items.GetItemAt(currentlinenumber + 7));
+                }
+            }
+            catch (Exception e)
             {
-                programdata.ScrollIntoView(programdata.Items.GetItemAt(currentlinenumber + 7));
+                Console.WriteLine(e);
             }
 
         }
@@ -564,14 +570,12 @@ namespace microsim
         private void watchdogOnClick(object sender, RoutedEventArgs e)
         {
             var isChecked = (bool)(sender as CheckBox).IsChecked;
-            if (isChecked)
-            {
-                DataStorage.watchdogEnabled = true;
-            }
-            else
-            {
-                DataStorage.watchdogEnabled = false;
-            }
+            DataStorage.watchdogEnabled = isChecked;
+        }
+
+        private void Open_Documentation(object sender, RoutedEventArgs e)
+        {
+            Process.Start("https://github.com/GabrielBalzer/microsim");
         }
     }
 }

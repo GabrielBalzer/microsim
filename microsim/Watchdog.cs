@@ -15,25 +15,20 @@ namespace microsim
         public static void checkWatchdog(uint cycles)
         {
             timeNeeded = 0.018;
-            if (DataStorage.watchdogEnabled)
+            if (!DataStorage.watchdogEnabled) return;
+            //watchdog hat prescaler
+            if ((regArrayHandler.getRegArray(0x81) & 0b00001000) != 0)
             {
-                
-                //watchdog hat prescaler
-                if ((regArrayHandler.getRegArray(0x81) & 0b00001000) != 0)
-                {
-                    timeNeeded = timeNeeded * DataStorage.prescalerValue;
-                }
-
-
-                if (DataStorage.watchdogValue >= timeNeeded)
-                {
-                    Initializer.otherReset();
-                    MainWindow.WatchdogReset();
-                }
-                DataStorage.watchdogValue = DataStorage.watchdogValue + (4.0 / ((double)DataStorage.quarzfreq)) * (double)cycles;
-
-
+                timeNeeded = timeNeeded * DataStorage.prescalerValue;
             }
+
+
+            if (DataStorage.watchdogValue >= timeNeeded)
+            {
+                Initializer.otherReset();
+                MainWindow.WatchdogReset();
+            }
+            DataStorage.watchdogValue = DataStorage.watchdogValue + (4.0 / ((double)DataStorage.quarzfreq)) * (double)cycles;
         }
     }
 }
